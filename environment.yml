@@ -1,0 +1,24 @@
+name: example-environment
+
+dependencies:
+  - python=3.6
+  - numpy
+  - matplotlib
+  - cython
+  - cymem
+  - matplotlib
+  - pyparsing
+  - sphinx
+  - jupyter
+  - notebook
+  - numpy
+  - scipy
+  - nose
+  - pandas
+  - sympy
+  - dask
+  - dill
+  - distributed
+  - xarray
+  - pip:
+    - git+https://github.com/pycalphad/pycalphad.git@develop
