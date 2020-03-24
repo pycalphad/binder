@@ -2,3 +2,7 @@
 
 # Import the workspace into JupyterLab
 jupyter lab workspaces import binder/workspace.json
+
+# jupyter-offlinenotebook is automatically installed by repo2docker.
+# Uninstall to avoid conflicts
+jupyter labextension uninstall --no-build jupyter-offlinenotebook
