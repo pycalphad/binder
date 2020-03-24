@@ -7,7 +7,3 @@ dependencies:
   - pycalphad==0.8.2
   - scheil
   - espei
-  - pip
-  - pip:
-    - jupyter_offlinenotebook
-
