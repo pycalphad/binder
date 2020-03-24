@@ -1,0 +1,3273 @@
+$
+$ Database for high entropy alloys version 2.0, January 2017
+$
+$ Database created 2016.11.13 by Bengt Hallstedt.
+$ Version 2 created 2017.01.17
+$ Version 2b created 2017.07.24
+$
+$ Version 2b contains ternary parameters for Al-Fe-Ni from L. Zhang et al. 2009
+$ instead of L. Zhang and Y. Du 2007. The older assessment results in far too
+$ high liquidus temperatures in the Al-poor part (including the AlFe-AlNi
+$ section) of the system.
+$
+$ Version 1 contains the elements Co, Cr, Fe, Mn and Ni (i.e. the "classical"
+$ Cantor system). It contains evaluations for all ten binary and ten ternary
+$ systems. However, Co-Cr-Fe, Co-Cr-Mn and Co-Mn-Ni are simply extrapolations
+$ from their respective binaries. For Co-Cr-Mn and Co-Mn-Ni there is an almost
+$ complete lack of experimental data. For Co-Cr-Fe there are experimental data,
+$ but the system has not yet been assessed.
+$
+$ Version two additionally contains the elements Al and C. Important new
+$ phases are (Co,Ni)Al-B2 and kappa (Co,Fe,Mn,Ni)3AlC.
+$
+$ The following section applies only to version 1 of the database:
+$ There is a 4-sublattice model for fcc and a 2-sublattice model for bcc.
+$ These models are excluded by default, but can be included for calculations
+$ at low temperature and/or close the binaries where they are stable.
+$ L1_2 is stable as FeNi3 and MnNi3, L1_0 as MnNi-LT and B2 as CoFe and MnNi-HT.
+$ At low temperature in some ternaries there are regions of ordered fcc (L1_2)
+$ which are questionable. When FCC_4SL is included calculations can be rather
+$ slow.
+$
+$ ------------------------------------------------------------------------------
+ TEMP-LIM 298.15 6000.00 !
+$
+$ELEMENT NAME  REF. STATE               ATOMIC MASS H298-H0    S298    !
+$
+ ELEMENT VA   VACUUM                      0.0          0.0      0.0    ! 
+ ELEMENT AL   FCC_A1                     26.98154   4540.      28.30   ! 
+ ELEMENT C    GRAPHITE                   12.011     1054.0      5.7423 ! 
+ ELEMENT CO   HCP_A3                     58.9332    4765.567   30.0400 ! 
+ ELEMENT CR   BCC_A2                     51.996     4050.0     23.5429 ! 
+ ELEMENT FE   BCC_A2                     55.847     4489.0     27.2797 ! 
+ ELEMENT MN   CBCC_A12                   54.9380    4995.696   32.2206 ! 
+ ELEMENT NI   FCC_A1                     58.69      4787.0     29.7955 ! 
+$ ------------------------------------------------------------------------------
+$ Phase definitions
+$
+ PHASE LIQUID:L % 1 1 !
+ CONST LIQUID:L : AL C CO CR FE MN NI : !
+$
+$ Fcc (cF4, Fm-3m) and MeX (cF8, Fm-3m)
+$
+ PHASE FCC_A1 %A 2 1 1 !
+ CONST FCC_A1 : AL% CO% CR FE% MN% NI% : C VA% : !
+$
+$ Disordered part of FCC_4SL, identical to FCC_A1
+$
+ PHASE A1_FCC %A 2 1 1 !
+ CONST A1_FCC : AL CO CR FE MN NI : C VA% : !
+$
+$ Prototype AuCu3 (cP4, Pm-3m, L1_2) and AuCu (tP4, P4/mmm, L1_0)
+$
+ PHASE FCC_4SL:F %AY 5 0.25 0.25 0.25 0.25 1 !
+ CONST FCC_4SL:F : AL CO CR FE MN NI : AL CO CR FE MN NI 
+                 : AL CO CR FE MN NI : AL CO CR FE MN NI : C VA% :  !
+$
+$ Bcc (cI2, Im-3m)
+$
+ PHASE BCC_A2 %B 2 1 3 !
+ CONST BCC_A2 : AL CO CR% FE% MN% NI : C VA% : !
+$
+$ Disordered part of B2_BCC, identical to BCC_A2 (except Va)
+$
+ PHASE A2_BCC %B 2 1 3 !
+ CONST A2_BCC : AL CO CR FE MN NI VA : C VA% : !
+$
+$ Prototype CsCl (cP2, Pm-3m)
+$
+ PHASE B2_BCC %BO 3 0.5 0.5 3 !
+ CONST B2_BCC : AL CO CR FE MN% NI VA : AL CO CR FE MN NI% VA : C VA% : !
+$
+$ Hcp (hP2, P6_3/mmc) and Me2X (NiAs-type, hP4, P6_3/mmc, B8_1)
+$
+ PHASE HCP_A3 %A 2 1 0.5 !
+ CONST HCP_A3 : AL CO% CR FE MN NI : C VA% : !
+$
+$ Prototype C (cF8, Fd-3m)
+$
+ PHASE DIAMOND_A4 % 1 1 !
+ CONST DIAMOND_A4 : C : !
+$
+$ Prototype C (hP4, P6_3/mmc)
+$
+ PHASE GRAPHITE_A9 % 1 1 !
+ CONST GRAPHITE_A9 : C : !
+$
+$ Prototype alpha-Mn (cI58, I-43m)
+$
+ PHASE CBCC_A12 %A 2 1 1 !
+ CONST CBCC_A12 : AL CO CR FE MN% NI : C VA% : !
+$
+$ Prototype beta-Mn (cP20, P4_132)
+$
+ PHASE CUB_A13 % 2 1 1 !
+ CONST CUB_A13 : AL CO CR FE MN% NI : C VA% : !
+$
+$ Prototype Al4C3 (hR7, R-3m)
+$
+ PHASE AL4C3_D71 % 2 4 3 !
+ CONST AL4C3_D71 : AL : C : !
+$
+$ Prototype Al5Co2 (hP28, P6_3/mmc), also Al10Fe3Ni
+$
+ PHASE AL5CO2_D811 % 2 5 2 !
+ CONST AL5CO2_D811 : AL : CO FE NI : !
+$
+$ Unknown structure
+$
+ PHASE AL3CO % 2 3 1 !
+ CONST AL3CO : AL : CO : !
+$
+$ Prototype Al19Co6 (mC100, C2/m)
+$
+ PHASE AL13CO4 % 2 13 4 !
+ CONST AL13CO4 : AL : CO : !
+$
+$ Prototype Al9Co2 (mP22, P2_1/c), also Al9FeNi
+$
+ PHASE AL9CO2 % 2 9 2 !
+ CONST AL9CO2 : AL : CO FE NI : !
+$
+$ Prototype Al45V7 (mC104, C2/m)
+$
+ PHASE AL13CR2 % 2 13 2 !
+ CONST AL13CR2 : AL : CR : !
+$
+$ Prototype Al5Cr (mC732, C2/c)
+$
+ PHASE AL11CR2 % 3 10 1 2 !
+ CONST AL11CR2 : AL : AL : CR :  !
+$
+$ Prototype Al4Mn-mu (hP574, P6_3/mmc)
+$
+ PHASE AL4CR % 2 4 1 !
+ CONST AL4CR : AL : CR : !
+$
+$ Unknown structure
+$
+ PHASE AL9CR4_H % 2 9 4 !
+ CONST AL9CR4_H : AL : CR : !
+$
+$ Prototype Al9Cr4 (cI52, I-43m ?)
+$
+ PHASE AL9CR4_L % 2 9 4 !
+ CONST AL9CR4_L : AL : CR : !
+$
+$ Prototype Cu5Zn8 (cI52, I-43m)
+$
+ PHASE AL8CR5_D82 % 2 8 5 !
+ CONST AL8CR5_D82 : AL : CR : !
+$
+$ Prototype Al8Cr5 (hR26, R3m)
+$
+ PHASE AL8CR5_D810 % 2 8 5 !
+ CONST AL8CR5_D810 : AL : CR : !
+$
+$ Prototype MoSi2 (tI6, I4/mmm)
+$
+ PHASE ALCR2_C11B % 2 1 2 !
+ CONST ALCR2_C11B : AL : CR : !
+$
+$ Prototype Al13Fe4 (mC102, C2/m)
+$
+ PHASE AL13FE4 % 3 0.6275 0.235 0.1375 !
+ CONST AL13FE4 : AL : FE% MN NI : AL VA : !
+$
+$ Prototype Al5Fe2 (oC24, Cmcm)
+$ Al5Fe2 does not have the Al5Co2 (D8_11) structure
+$
+ PHASE AL5FE2 % 2 5 2 !
+ CONST AL5FE2 : AL : FE% NI : !
+$
+$ Prototype Al2Fe (aP18, P1)
+$
+ PHASE AL2FE % 2 2 1 !
+ CONST AL2FE : AL : FE% NI : !
+$
+$ Prototype Cu8Zn5 (cI52, I-43m)
+$
+ PHASE AL8FE5_D82 % 2 8 5 !
+ CONST AL8FE5_D82 : AL FE : AL FE : !
+$
+$ Decagonal (quasicrystal)
+$
+ PHASE AL71FE5NI24 % 3 0.71 0.05 0.24 !
+ CONST AL71FE5NI24 : AL : FE : NI : !
+$
+$ Prototype Al12W (cI26, Im-3)
+$
+ PHASE AL12MN % 2 12 1 !
+ CONST AL12MN : AL : MN : !
+$
+$ Prototype Al6Mn (oC28, Cmcm)
+$
+ PHASE AL6MN_D2H % 2 6 1 !
+ CONST AL6MN_D2H : AL : FE MN% : !
+$
+$ Prototype lambda-Al4Mn (hP586, P6_3/m)
+$
+ PHASE AL4MN_LAMBDA % 2 0.81162 0.18838 !
+ CONST AL4MN_LAMBDA : AL : MN : !
+$
+$ Prototype mu-Al4Mn (hP574, P6_3/mmc)
+$
+ PHASE AL4MN_MU % 2 4 1 !
+ CONST AL4MN_MU : AL : FE MN% : !
+$
+$ Prototype Al11Mn4 (aP15, P-1)
+$
+ PHASE AL11MN4_LT % 2 11 4 !
+ CONST AL11MN4_LT : AL : MN : !
+$
+$ Prototype Al3Mn (oP156, Pnma)
+$
+ PHASE AL11MN4_HT % 3 9 2 2 !
+ CONST AL11MN4_HT : AL : AL MN : MN : !
+$
+$ Prototype Al8Cr5 (hR26, R3m)
+$
+ PHASE AL8MN5_D810 % 3 12 5 9 !
+ CONST AL8MN5_D810 : AL : MN : AL FE MN : !
+$
+$ Prototype Fe3C (oP16, Pnma)
+$
+ PHASE AL3NI_D011 % 2 0.75 0.25 !
+ CONST AL3NI_D011 : AL : FE NI% : !
+$
+$ Prototype Al3Ni2 (hP5, P-3m1)
+$
+ PHASE AL3NI2_D513 % 3 3 2 1 !
+ CONST AL3NI2_D513 : AL : AL FE NI% : NI VA% : !
+$
+$ Prototype Ga4Ni3 (cI112, Ia-3d)
+$
+ PHASE AL4NI3 % 2 4 3 !
+ CONST AL4NI3 : AL : NI : !
+$
+$ Prototype Ga3Pt5 (oC16, Cmmm)
+$
+ PHASE AL3NI5 % 2 0.375 0.625 !
+ CONST AL3NI5 : AL : NI : !
+$
+$ Prototype Cr3C2 (oP20, Pnma)
+$
+ PHASE CR3C2_D510 % 2 3 2 !
+ CONST CR3C2_D510 : CO CR% : C : !
+$
+$ Similar to alpha-Mn (cI58)
+$
+ PHASE CR3MN5 % 2 3 5 !
+ CONST CR3MN5 : CR : MN : !
+$
+$ Prototype MoPt2 (oP6, Immm)
+$
+ PHASE CRNI2 % 2 1 2 !
+ CONST CRNI2 : CR : NI : !
+$
+$ Prototype Cr23C6 (cF116, Fm-3m)
+$
+ PHASE M23C6_D84 % 3 20 3 6 !
+ CONST M23C6_D84 : CO CR FE MN NI : CO CR FE MN NI : C : !
+$
+$ Prototype Fe3C (oP16, Pnma)
+$
+ PHASE CEMENTITE_D011 % 2 3 1 !
+ CONST CEMENTITE_D011 : CO CR FE MN NI : C : !
+$
+$ Prototype Mn5C2 (mC28, C2/c), Haegg carbide, chi
+$
+ PHASE M5C2 % 2 5 2 !
+ CONST M5C2 : FE MN : C : !
+$
+$ Prototype Cr7C3 (oP40, Pnma)
+$
+ PHASE M7C3_D101 % 2 7 3 !
+ CONST M7C3_D101 : CO CR FE MN NI : C : !
+$
+$ Prototype CaTiO3 (cP5, Pm-3m)
+$
+ PHASE KAPPA_E21 % 3 1 3 1 !
+ CONST KAPPA_E21 : AL : CO FE MN NI : C% VA : !
+$
+$ Prototype Cr2AlC (hP8, P6_3/mmc)
+$
+ PHASE MAX_PHASE % 3 2 1 1 !
+ CONST MAX_PHASE : AL CR% : AL : C : !
+$
+$ Prototype CrFe (tP30, P4_2/mnm)
+$
+ PHASE SIGMA_D8B % 3 10 4 16 !
+ CONST SIGMA_D8B : AL CO FE MN NI : CR : AL CO CR FE MN NI : !
+$
+$ Prototype CrFe (tP30, P4_2/mnm, D8b)
+$
+ PHASE HIGH_SIGMA % 3 10 4 16 !
+ CONST HIGH_SIGMA : AL CO FE MN NI : CR : AL CO FE CR MN NI : !
+$ ------------------------------------------------------------------------------
+$ Defaults
+$
+ DEFINE-SYSTEM-DEFAULT ELEMENT 2 !
+ DEFAULT-COM DEFINE_SYSTEM_ELEMENT VA !
+ DEFAULT-COM REJECT_PHASE FCC_A1 BCC_A2 !
+$DEFAULT-COM REJECT_PHASE A1_FCC FCC_4SL A2_BCC B2_BCC !
+ TYPE-DEF % SEQ * !
+ TYPE-DEF A GES AMEND_PHASE_DESCRIPTION @ MAGNETIC -3 0.28 !
+ TYPE-DEF B GES AMEND_PHASE_DESCRIPTION @ MAGNETIC -1 0.4 !
+ TYPE-DEF O GES AMEND_PHASE_DESCRIPTION B2_BCC DIS_PART A2_BCC !
+ TYPE-DEF Y GES AMEND_PHASE_DESCRIPTION FCC_4SL DIS_PART A1_FCC !
+ FUNCTION ZERO      298.15  0;                                         6000 N !
+ FUNCTION UN_ASS    298.15  0;                                         6000 N !
+ FUNCTION R         298.15  +8.31451;                                  6000 N !
+$ ------------------------------------------------------------------------------
+$ Element data
+$ ------------------------------------------------------------------------------
+$ Al
+$
+$ BCT_A5 and DIAMOND_A4 added in unary 3.0
+$
+ PAR  G(FCC_A1,AL:VA),,                 +GHSERAL;                2900 N 91Din !
+ PAR  G(A1_FCC,AL:VA),,                 +GHSERAL;                2900 N 91Din !
+ PAR  G(BCC_A2,AL:VA),,                 +GHSERAL+10083-4.813*T;  2900 N 91Din !
+ PAR  G(A2_BCC,AL:VA),,                 +GHSERAL+10083-4.813*T;  2900 N 91Din !
+ PAR  G(HCP_A3,AL:VA),,                 +GHSERAL+5481-1.8*T;     2900 N 91Din !
+ PAR  G(CBCC_A12,AL:VA),,               +GHSERAL
+             +10083.4-4.813*T;                                   2900 N 91Din !
+ PAR  G(CUB_A13,AL:VA),,                +GHSERAL
+             +10920.44-4.8116*T;                                 2900 N 91Din !
+ PAR  G(BCT_A5,AL),,                    +GHSERAL+10083-4.813*T;  2900 N SGCOST !
+ PAR  G(DIAMOND_A4,AL),,                +GHSERAL+30*T;           2900 N SGCOST !
+ PAR  G(LIQUID,AL),,                    +GLIQAL;                 2900 N 91Din !
+$
+ PAR  L(A2_BCC,AL,VA:VA;0),,            +GB2ALVA+LB2ALVA;,,           N 99Dup1 !
+ PAR  G(B2_BCC,VA:AL:VA),,              +0.5*GB2ALVA-0.5*LB2ALVA;,,   N 99Dup1 !
+ PAR  G(B2_BCC,AL:VA:VA),,              +0.5*GB2ALVA-0.5*LB2ALVA;,,   N 99Dup1 !
+$
+ PAR  G(AL8FE5_D82,AL:AL),,             +13*GBCCAL;,,                 N 09Sun !
+ PAR  G(AL3NI2_D513,AL:AL:VA),,         +5*GBCCAL+30000-3*T;,,        N 97Ans !
+$
+ FUNCTION GHSERAL   298.15  -7976.15+137.093038*T-24.3671976*T*LN(T)
+       -0.001884662*T**2-8.77664E-07*T**3+74092*T**(-1);
+       700.00  Y  -11276.24+223.048446*T-38.5844296*T*LN(T)
+       +0.018531982*T**2 -5.764227E-06*T**3+74092*T**(-1);
+       933.47  Y  -11278.378+188.684153*T-31.748192*T*LN(T)
+       -1.230524E+28*T**(-9);
+      2900.00  N !
+ FUNCTION GLIQAL    298.15  +11005.029-11.841867*T+GHSERAL+7.9337E-20*T**7;
+       933.47  Y  -795.996+177.430178*T-31.748192*T*LN(T);
+      2900.00  N !
+ FUNCTION GBCCAL    298.15  +GHSERAL+10083-4.813*T;                    2900 N !
+ FUNCTION GHCPAL    298.15  +GHSERAL+5481-1.8*T;                       2900 N !
+$
+$ In the original 99Dup publication GB2ALVA=10-0.001*T and LB2ALVA=100000.
+$ In 97Ans GB2ALVA=1000-T
+$ In LBall-v7+fun.tdb LB2ALVA=150000
+$ and in AlFeNiTi-bosse-0701.TDB LB2ALVA=200000
+$ With G(A2_BCC,VA:VA)=30*T the same amount must be subtracted from GB2ALVA.
+ FUNCTION GB2ALVA   298.15  +10000-T-30*T;                             6000 N !
+ FUNCTION LB2ALVA   298.15  +150000;                                   6000 N !
+$ ------------------------------------------------------------------------------
+$ C
+$
+$ B2_BCC with Va on the substitutional sites and 1/3 Va on the interstitial
+$ sites is more stable than liquid C. This only matters for metastable
+$ calculations (i.e. without graphite).
+$
+ PAR  G(GRAPHITE,C),,                   +GHSERCC;,,                   N 91Din !
+ PAR  G(DIAMOND_A4,C),,                 +GDIACC;,,                    N 91Din !
+ PAR  G(LIQUID,C),,                     +GHSERCC+117369-24.63*T;,,    N 91Din !
+$
+ PAR  G(A2_BCC,VA:C),,                  +30*T;,,                      N 09Sun !
+$
+ FUNCTION GHSERCC   298.15  -17368.441+170.73*T-24.3*T*LN(T)
+       -4.723E-04*T**2+2562600*T**(-1)-2.643E+08*T**(-2)+1.2E+10*T**(-3);
+      6000.00  N !
+ FUNCTION GDIACC    298.15  -16359.441+175.61*T-24.31*T*LN(T)
+       -4.723E-04*T**2+2698000*T**(-1)-2.61E+08*T**(-2)+1.11E+10*T**(-3);
+      6000.00  N !
+$ ------------------------------------------------------------------------------
+$ Co
+$
+ PAR  G(HCP_A3,CO:VA),,                 +GHSERCO;,,                   N 91Din !
+ PAR  TC(HCP_A3,CO:VA),,                 1396.00;,,                   N 91Din !
+ PAR  BM(HCP_A3,CO:VA),,                    1.35;,,                   N 91Din !
+ PAR  G(FCC_A1,CO:VA),,                 +GHSERCO
+             +427.591-0.615248*T;,,                                   N 91Din !
+ PAR  TC(FCC_A1,CO:VA),,                 1396.00;,,                   N 91Din !
+ PAR  BM(FCC_A1,CO:VA),,                    1.35;,,                   N 91Din !
+ PAR  G(A1_FCC,CO:VA),,                 +GHSERCO
+             +427.591-0.615248*T;,,                                   N 91Din !
+ PAR  TC(A1_FCC,CO:VA),,                 1396.00;,,                   N 91Din !
+ PAR  BM(A1_FCC,CO:VA),,                    1.35;,,                   N 91Din !
+ PAR  G(BCC_A2,CO:VA),,                 +GHSERCO+2938-0.7138*T;,,     N 91Din !
+ PAR  TC(BCC_A2,CO:VA),,                 1450.00;,,                   N 91Din !
+ PAR  BM(BCC_A2,CO:VA),,                    1.35;,,                   N 91Din !
+ PAR  G(A2_BCC,CO:VA),,                 +GHSERCO+2938-0.7138*T;,,     N 91Din !
+ PAR  TC(A2_BCC,CO:VA),,                 1450.00;,,                   N 91Din !
+ PAR  BM(A2_BCC,CO:VA),,                    1.35;,,                   N 91Din !
+ PAR  G(CBCC_A12,CO:VA),,               +GHSERCO+4155;,,              N 91Din !
+ PAR  G(CUB_A13,CO:VA),,                +GHSERCO+3155;,,              N 91Din !
+ PAR  G(LIQUID,CO),,                    +GLIQCO;,,                    N 91Din !
+$
+$PAR  L(A2_BCC,CO,VA:VA;0),,            +GB2COVA+LB2COVA;,,           N 15Liu !
+$PAR  G(B2_BCC,VA:CO:VA),,              +0.5*GB2COVA-0.5*LB2COVA;,,   N 15Liu !
+$PAR  G(B2_BCC,CO:VA:VA),,              +0.5*GB2COVA-0.5*LB2COVA;,,   N 15Liu !
+$ With G(A2_BCC,VA:VA)=30*T the parameters below have to be adjusted.
+ PAR  L(A2_BCC,CO,VA:VA;0),,            +135000-30*T;,,               N 99Dup2 !
+ PAR  G(B2_BCC,VA:CO:VA),,              +67500-15*T;,,                N 99Dup2 !
+ PAR  G(B2_BCC,CO:VA:VA),,              +67500-15*T;,,                N 99Dup2 !
+$
+ FUNCTION GHSERCO   298.15  +310.241+133.36601*T-25.0861*T*LN(T)
+       -0.002654739*T**2-1.7348E-07*T**3+72527*T**(-1);
+      1768.00  Y  -17197.666+253.28374*T-40.5*T*LN(T)+9.3488E+30*T**(-9);
+      6000.00  N !
+ FUNCTION GLIQCO    298.15  +15085.037-8.931932*T+GHSERCO-2.19801E-21*T**7;
+      1768.00  Y  -846.61+243.599944*T-40.5*T*LN(T);
+      6000.00  N !
+ FUNCTION GFCCCO    298.15  +GHSERCO+427.59-0.615248*T;                6000 N !
+ FUNCTION GBCCCO    298.15  +GHSERCO+2938-0.7138*T;                    6000 N !
+$
+$ With G(A2_BCC,VA:VA)=30*T the same amount must be subtracted from GB2COVA.
+$FUNCTION GB2COVA   298.15  +148500-35.62*T-30*T;                      6000 N !
+$FUNCTION LB2COVA   298.15  +45030-34.47*T;                            6000 N !
+$ ------------------------------------------------------------------------------
+$ Cr
+$
+ PAR  G(BCC_A2,CR:VA),,                 +GHSERCR;,,                   N 91Din !
+ PAR  TC(BCC_A2,CR:VA),,                 -311.50;,,                   N 91Din !
+ PAR  BM(BCC_A2,CR:VA),,                   -0.008;,,                  N 91Din !
+ PAR  G(A2_BCC,CR:VA),,                 +GHSERCR;,,                   N 91Din !
+ PAR  TC(A2_BCC,CR:VA),,                 -311.50;,,                   N 91Din !
+ PAR  BM(A2_BCC,CR:VA),,                   -0.008;,,                  N 91Din !
+ PAR  G(FCC_A1,CR:VA),,                 +GHSERCR+7284+0.163*T;,,      N 91Din !
+ PAR  TC(FCC_A1,CR:VA),,                -1109.00;,,                   N 91Din !
+ PAR  BM(FCC_A1,CR:VA),,                   -2.46;,,                   N 91Din !
+ PAR  G(A1_FCC,CR:VA),,                 +GHSERCR+7284+0.163*T;,,      N 91Din !
+ PAR  TC(A1_FCC,CR:VA),,                -1109.00;,,                   N 91Din !
+ PAR  BM(A1_FCC,CR:VA),,                   -2.46;,,                   N 91Din !
+ PAR  G(HCP_A3,CR:VA),,                 +GHSERCR+4438;,,              N 91Din !
+ PAR  TC(HCP_A3,CR:VA),,                -1109.00;,,                   N 91Din !
+ PAR  BM(HCP_A3,CR:VA),,                   -2.46;,,                   N 91Din !
+ PAR  G(CBCC_A12,CR:VA),,               +GHSERCR+11087+2.7196*T;,,    N 91Din !
+ PAR  G(CUB_A13,CR:VA),,                +GHSERCR+15899+0.6276*T;,,    N 91Din !
+ PAR  G(LIQUID,CR),,                    +GLIQCR;,,                    N 91Din !
+$
+$PAR  L(A2_BCC,CR,VA:VA;0),,            +120*T;,,                     N 02Sun !
+$PAR  G(B2_BCC,CR:VA:VA),,              +100000;,,                    N 16Hal2 !
+$PAR  G(B2_BCC,VA:CR:VA),,              +100000;,,                    N 16Hal2 !
+ PAR  L(A2_BCC,CR,VA:VA;0),,            +150000;,,                    N 09Sun !
+ PAR  G(B2_BCC,CR:VA:VA),,              +ZERO;,,                      N 09Sun !
+ PAR  G(B2_BCC,VA:CR:VA),,              +ZERO;,,                      N 09Sun !
+$
+ FUNCTION GHSERCR   298.15  -8856.94+157.48*T-26.908*T*LN(T)
+       +0.00189435*T**2-1.47721E-06*T**3+139250*T**(-1);
+      2180.00  Y  -34869.344+344.18*T-50*T*LN(T)-2.88526E+32*T**(-9);
+      6000.00  N !
+ FUNCTION GLIQCR    298.15  +24339.955-11.420225*T+GHSERCR+2.37615E-21*T**7;
+      2180.00  Y  -16459.984+335.616316*T-50*T*LN(T);
+      6000.00  N !
+ FUNCTION GFCCCR    298.15  +GHSERCR+7284+0.163*T;                     6000 N !
+$ ------------------------------------------------------------------------------
+$ Fe
+$
+$ ORTHORHOMBIC_A20 and TETRAGONAL_U added im unary 4.1
+$
+ PAR  G(BCC_A2,FE:VA),,                 +GHSERFE;,,                   N 91Din !
+ PAR  TC(BCC_A2,FE:VA),,                 1043.00;,,                   N 91Din !
+ PAR  BM(BCC_A2,FE:VA),,                    2.22;,,                   N 91Din !
+ PAR  G(A2_BCC,FE:VA),,                 +GHSERFE;,,                   N 91Din !
+ PAR  TC(A2_BCC,FE:VA),,                 1043.00;,,                   N 91Din !
+ PAR  BM(A2_BCC,FE:VA),,                    2.22;,,                   N 91Din !
+ PAR  G(FCC_A1,FE:VA),,                 +GFCCFE;,,                    N 91Din !
+ PAR  TC(FCC_A1,FE:VA),,                 -201.00;,,                   N 91Din !
+ PAR  BM(FCC_A1,FE:VA),,                   -2.10;,,                   N 91Din !
+ PAR  G(A1_FCC,FE:VA),,                 +GFCCFE;,,                    N 91Din !
+ PAR  TC(A1_FCC,FE:VA),,                 -201.00;,,                   N 91Din !
+ PAR  BM(A1_FCC,FE:VA),,                   -2.10;,,                   N 91Din !
+ PAR  G(HCP_A3,FE:VA),,                 +GHCPFE;,,                    N 91Din !
+ PAR  G(CBCC_A12,FE:VA),,               +GHSERFE+4745;,,              N 91Din !
+ PAR  G(CUB_A13,FE:VA),,                +GHSERFE+3745;,,              N 91Din !
+ PAR  G(ORTHORHOMBIC_A20,FE),,          +GHSERFE+5000;,,              N 99SGUN !
+ PAR  G(TETRAGONAL_U,FE),,              +GHSERFE+5000;,,              N 99SGUN !
+ PAR  G(LIQUID,FE),,                    +GLIQFE;,,                    N 91Din !
+$
+ PAR  L(A2_BCC,FE,VA:VA;0),,            +150000;,,                    N 09Sun !
+ PAR  G(B2_BCC,FE:VA:VA),,              +ZERO;,,                      N 09Sun !
+ PAR  G(B2_BCC,VA:FE:VA),,              +ZERO;,,                      N 09Sun !
+$
+ PAR  G(AL8FE5_D82,FE:FE),,             +13*GHSERFE+13000;,,          N 09Sun !
+$
+ FUNCTION GHSERFE   298.15  +1225.7+124.134*T-23.5143*T*LN(T)
+       -0.00439752*T**2-5.8927E-08*T**3+77359*T**(-1);
+      1811.00  Y  -25383.581+299.31255*T-46*T*LN(T)+2.29603E+31*T**(-9);
+      6000.00  N !
+ FUNCTION GFCCFE    298.15  -1462.4+8.282*T-1.15*T*LN(T)
+       +6.4E-04*T**2+GHSERFE;
+      1811.00  Y  -1713.815+0.940009*T+GHSERFE+4.9251E+30*T**(-9);
+      6000.00  N !
+ FUNCTION GHCPFE    298.15  -3705.78+12.591*T-1.15*T*LN(T)
+       +6.4E-04*T**2+GHSERFE;
+      1811.00  Y  -3957.195+5.249009*T+GHSERFE+4.9251E+30*T**(-9);
+      6000.00  N !
+ FUNCTION GLIQFE    298.15  +12040.17-6.55843*T+GHSERFE-3.67516E-21*T**7;
+      1811.00  Y  -10838.83+291.302*T-46*T*LN(T);
+      6000.00  N !
+$ ------------------------------------------------------------------------------
+$ Mn
+$
+ PAR  G(CBCC_A12,MN:VA),,               +GHSERMN;                2000 N 91Din !
+ PAR  TC(CBCC_A12,MN:VA),,               -285.00;                2000 N 91Din !
+ PAR  BM(CBCC_A12,MN:VA),,                 -0.66;                2000 N 91Din !
+ PAR  G(CUB_A13,MN:VA),,                +GCUBMN;                 2000 N 91Din !
+ PAR  G(FCC_A1,MN:VA),,                 +GFCCMN;                 2000 N 91Din !
+ PAR  TC(FCC_A1,MN:VA),,                -1620.00;                2000 N 91Din !
+ PAR  BM(FCC_A1,MN:VA),,                   -1.86;                2000 N 91Din !
+ PAR  G(A1_FCC,MN:VA),,                 +GFCCMN;                 2000 N 91Din !
+ PAR  TC(A1_FCC,MN:VA),,                -1620.00;                2000 N 91Din !
+ PAR  BM(A1_FCC,MN:VA),,                   -1.86;                2000 N 91Din !
+ PAR  G(BCC_A2,MN:VA),,                 +GBCCMN;                 2000 N 91Din !
+ PAR  TC(BCC_A2,MN:VA),,                 -580.00;                2000 N 91Din !
+ PAR  BM(BCC_A2,MN:VA),,                   -0.27;                2000 N 91Din !
+ PAR  G(A2_BCC,MN:VA),,                 +GBCCMN;                 2000 N 91Din !
+ PAR  TC(A2_BCC,MN:VA),,                 -580.00;                2000 N 91Din !
+ PAR  BM(A2_BCC,MN:VA),,                   -0.27;                2000 N 91Din !
+ PAR  G(HCP_A3,MN:VA),,                 +GHCPMN;                 2000 N 91Din !
+ PAR  TC(HCP_A3,MN:VA),,                -1620.00;                2000 N 91Din !
+ PAR  BM(HCP_A3,MN:VA),,                   -1.86;                2000 N 91Din !
+ PAR  G(LIQUID,MN),,                    +GLIQMN;                 2000 N 91Din !
+$
+$PAR  L(A2_BCC,MN,VA:VA;0),,            +120*T;,,                     N 02Sun !
+$PAR  G(B2_BCC,MN:VA:VA),,              +100000;,,                    N 16Hal2 !
+$PAR  G(B2_BCC,VA:MN:VA),,              +100000;,,                    N 16Hal2 !
+ PAR  L(A2_BCC,MN,VA:VA;0),,            +150000;,,                    N 09Sun !
+ PAR  G(B2_BCC,MN:VA:VA),,              +ZERO;,,                      N 09Sun !
+ PAR  G(B2_BCC,VA:MN:VA),,              +ZERO;,,                      N 09Sun !
+$
+ FUNCTION GHSERMN   298.15  -8115.28+130.059*T-23.4582*T*LN(T)
+       -0.00734768*T**2+69827*T**(-1);
+      1519.00  Y  -28733.41+312.2648*T-48*T*LN(T)+1.656847E+30*T**(-9);
+      2000.00  N !
+ FUNCTION GCUBMN    298.15  -5800.4+135.995*T-24.8785*T*LN(T)
+       -0.00583359*T**2+70269*T**(-1);
+      1519.00  Y  +442.65-0.9715*T+GHSERMN+2.310723E+30*T**(-9);
+      2000.00  N !
+ FUNCTION GFCCMN    298.15  -3439.3+131.884*T-24.5177*T*LN(T)
+       -0.006*T**2+69600*T**(-1);
+      1519.00  Y  +2663.31-2.5984*T+GHSERMN+2.205113E+30*T**(-9);
+      2000.00  N !
+ FUNCTION GBCCMN    298.15  -3235.3+127.85*T-23.7*T*LN(T)
+       -0.00744271*T**2+60000*T**(-1);
+      1519.00  Y  +5544.58-4.5605*T+GHSERMN-3.91695E+29*T**(-9);
+      2000.00  N !
+ FUNCTION GHCPMN    298.15  -4439.3+133.007*T-24.5177*T*LN(T)
+       -0.006*T**2+69600*T**(-1);
+      1519.00  Y  +1663.31-1.4754*T+GHSERMN+2.205113E+30*T**(-9);
+      2000.00  N !
+ FUNCTION GLIQMN    298.15  +17859.91-12.6208*T+GHSERMN-4.41929E-21*T**7;
+      1519.00  Y  -9993.9+299.036*T-48*T*LN(T);
+      2000.00  N !
+$ ------------------------------------------------------------------------------
+$ Ni
+$
+$ FCC_A1 and LIQUID modified in unary 5.0 (slight change in upper T interval)
+$ BCT_A5 added in unary 5.0
+$
+ PAR  G(FCC_A1,NI:VA),,                 +GHSERNI;                3000 N 91Din !
+ PAR  TC(FCC_A1,NI:VA),,                  633.00;                3000 N 91Din !
+ PAR  BM(FCC_A1,NI:VA),,                    0.52;                3000 N 91Din !
+ PAR  G(A1_FCC,NI:VA),,                 +GHSERNI;                3000 N 91Din !
+ PAR  TC(A1_FCC,NI:VA),,                  633.00;                3000 N 91Din !
+ PAR  BM(A1_FCC,NI:VA),,                    0.52;                3000 N 91Din !
+ PAR  G(BCC_A2,NI:VA),,                 +GHSERNI
+             +8715.084-3.556*T;                                  3000 N 91Din !
+ PAR  TC(BCC_A2,NI:VA),,                  575.00;                3000 N 91Din !
+ PAR  BM(BCC_A2,NI:VA),,                    0.85;                3000 N 91Din !
+ PAR  G(A2_BCC,NI:VA),,                 +GHSERNI
+             +8715.084-3.556*T;                                  3000 N 91Din !
+ PAR  TC(A2_BCC,NI:VA),,                  575.00;                3000 N 91Din !
+ PAR  BM(A2_BCC,NI:VA),,                    0.85;                3000 N 91Din !
+ PAR  G(HCP_A3,NI:VA),,                 +GHSERNI+1046+1.255*T;   3000 N 91Din !
+ PAR  TC(HCP_A3,NI:VA),,                  633.00;                3000 N 91Din !
+ PAR  BM(HCP_A3,NI:VA),,                    0.52;                3000 N 91Din !
+ PAR  G(BCT_A5,NI),,                    +GHSERNI+10023-4.556*T;  3000 N 99Gho !
+ PAR  G(CBCC_A12,NI:VA),,               +GHSERNI+3556;           3000 N 91Din !
+ PAR  G(CUB_A13,NI:VA),,                +GHSERNI+2092;           3000 N 91Din !
+ PAR  G(LIQUID,NI),,                    +GLIQNI;                 3000 N 91Din !
+$
+ PAR  L(A2_BCC,NI,VA:VA;0),,            +GB2NIVA+LB2NIVA;,,           N 99Dup1 !
+ PAR  G(B2_BCC,VA:NI:VA),,              +0.5*GB2NIVA-0.5*LB2NIVA;,,   N 99Dup1 !
+ PAR  G(B2_BCC,NI:VA:VA),,              +0.5*GB2NIVA-0.5*LB2NIVA;,,   N 99Dup1 !
+$
+ FUNCTION GHSERNI   298.15  -5179.159+117.854*T-22.096*T*LN(T)-0.0048407*T**2;
+      1728.00  Y  -27840.62+279.134977*T-43.1*T*LN(T)+1.12754E+31*T**(-9);
+      3000.00  N !
+ FUNCTION GLIQNI    298.15  +16414.686-9.397*T+GHSERNI-3.82318E-21*T**7;
+      1728.00  Y  -9549.817+268.597977*T-43.1*T*LN(T);
+      3000.00  N !
+ FUNCTION GBCCNI    298.15  +GHSERNI+8715.084-3.556*T;                 6000 N !
+$
+$ With G(A2_BCC,VA:VA)=30*T the same amount must be subtracted from GB2NIVA.
+ FUNCTION GB2NIVA   298.15  +162397.3-27.40575*T-30*T;                 6000 N !
+ FUNCTION LB2NIVA   298.15  -64024.38+26.49419*T;                      6000 N !
+$ ------------------------------------------------------------------------------
+$ Va
+$
+ PAR  G(A2_BCC,VA:VA),,                 +30*T;,,                      N 09Sun !
+$PAR  G(A2_BCC,VA:VA),,                 +ZERO;,,                      N 99Dup1 !
+$PAR  L(A2_BCC,VA,*:VA;0),,             +LB2VA;,,                     N 01Sun !
+$
+$FUNCTION LB2VA     298.15  +100*T;                                    6000 N !
+$ ------------------------------------------------------------------------------
+$ Binary systems
+$ ------------------------------------------------------------------------------
+$ Al-C
+$
+$ From J. Groebner et al. 1995 (included in LB Vol. 1).
+$
+$ J. Groebner, H.L. Lukas, F. Aldinger, J. Alloys Compd., 220, 8-14(1995)
+$ 
+$ A misprint in the parameter list was corrected in 96Gro.
+$ No parameters for fcc are included in 95Gro or 96Gro.
+$
+$ Reasonable parameters for fcc and bcc added by Connetable et al. 2008
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+ PAR  L(LIQUID,AL,C;0),,                +40861.02-33.21138*T;,,       N 95Gro !
+$
+$PAR  G(FCC_A1,AL:C),,                  +GHSERAL+GHSERCC+80*T;,,      N COST !
+$PAR  L(FCC_A1,AL:C,VA;0),,             +80*T;,,                      N COST !
+ PAR  G(FCC_A1,AL:C),,                  +GHSERAL+GHSERCC+81000;,,     N 08Con !
+ PAR  L(FCC_A1,AL:C,VA;0),,             -80000+8*T;,,                 N 08Con !
+$
+ PAR  G(A1_FCC,AL:C),,                  +GHSERAL+GHSERCC+81000;,,     N 08Con !
+ PAR  L(A1_FCC,AL:C,VA;0),,             -80000+8*T;,,                 N 08Con !
+$
+ PAR  G(AL4C3_D71,AL:C),,               +GAL4C3S;,,                   N 95Gro !
+$
+$ metastable
+$
+ PAR  G(BCC_A2,AL:C),,                  +GHSERAL+3*GHSERCC
+             +100000+80*T;,,                                          N 08Con !
+ PAR  L(BCC_A2,AL:C,VA;0),,             +130000+14*T;,,               N 08Con !
+$
+ PAR  G(A2_BCC,AL:C),,                  +GHSERAL+3*GHSERCC
+             +100000+80*T;,,                                          N 08Con !
+ PAR  L(A2_BCC,AL:C,VA;0),,             +130000+14*T;,,               N 08Con !
+$
+ PAR  G(B2_BCC,AL:AL:C),,               +ZERO;,,                      N 08Con !
+ PAR  G(B2_BCC,AL:VA:C),,               +ZERO;,,                      N 08Con !
+ PAR  G(B2_BCC,VA:AL:C),,               +ZERO;,,                      N 08Con !
+$
+ PAR  G(HCP_A3,AL:C),,                  +UN_ASS;,,                    N !
+ PAR  L(HCP_A3,AL:C,VA;0),,             +UN_ASS;,,                    N !
+$
+ PAR  L(DIAMOND_A4,AL,C;0),,            +80*T;,,                      N 96Gro !
+$
+ PAR  G(MAX_PHASE,AL:AL:C),,            +3*GHSERAL+GHSERCC+120000;,,  N 06Hal1 !
+$
+ FUNCTION GAL4C3S   298.15  -286001.52+1030.27302*T-161.709142*T*LN(T)
+       -0.01152276*T**2+2450000*T**(-1)+7E-07*T**3;
+      6000.00  N !
+$ ------------------------------------------------------------------------------
+$ Al-Co
+$
+$ X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu, Calphad, 52, 125-42(2016).
+$
+$ Checked against tdb from authors. Checked at 6000 K.
+$
+$ Based on the LB version of the dataset from  N. Dupin and I. Ansara,
+$ Rev. Metall. CIT, 95, 1121-29(1998), using a symmetric model for B2_BCC.
+$
+$ B2 and bcc were modified to remove an inverse stability range of B2 and
+$ to restore the melting temperature of B2 from the original 98Dup version.
+$
+$ Compared to the 15Liu version there is a change in LB2ALCO resulting in a 
+$ change in the Co-rich phase boundary of B2 and the fcc-Co solvus.
+$ Fcc ordering (from 98Dup) revised. Magnetic parameters (from 15Liu) for B2
+$ have been dropped (by mistake?).
+$
+$ With G(BCC_A2,VA:VA)=30*T the same amount must be subtracted from GB2ALVA
+$ and GB2COVA. Then the phase diagram is identical. Equilibria at high
+$ temperature (e.g. 6000 K) that used to fail can now be calculated.
+$ This revealed a huge inverse B2 region above 2900 K and a Co-rich disordered
+$ bcc region above 2800 K. Both phases have high Va contents, but are far
+$ from empty. This comes from GB2COVA and LB2COVA from 15Liu.
+$
+$ Instead the corresponding parameters from 99Dup2 are now used. The Al-rich
+$ side of B2 is now the same as with the LB version of 98Dup and the Co-rich
+$ side of B2 is the same as with 16Liu. The congruent melting temperature
+$ of B2 is similar to the LB version of 98Dup. This seems like a reasonable
+$ compromise for the time being. There is still an inverse B2 field above
+$ 3400 K, but with a low Va fraction.
+$
+$ The hcp interaction will need to be revised. Currently hcp is far less
+$ stable than fcc or bcc. L(HCP_A3,AL,CO:VA) will need to be in the order of
+$ -100000 J/mol instead of -1830 J/mol.
+$
+ PAR  L(LIQUID,AL,CO;0),,               -152470+40.259*T;,,           N 98Dup !
+ PAR  L(LIQUID,AL,CO;1),,               -57527.5+27.0453*T;,,         N 98Dup !
+ PAR  L(LIQUID,AL,CO;2),,               +30494-8.0518*T;,,            N 98Dup !
+ PAR  L(LIQUID,AL,CO;3),,               +24655-11.591*T;,,            N 98Dup !
+$
+ PAR  L(FCC_A1,AL,CO:VA;0),,            -122840+22.925*T;,,           N 98Dup !
+ PAR  L(FCC_A1,AL,CO:VA;2),,            +24568-4.585*T;,,             N 98Dup !
+ PAR  TC(FCC_A1,AL,CO:VA;0),,           -1830;,,                      N 98Dup !
+ PAR  TC(FCC_A1,AL,CO:VA;1),,            +970;,,                      N 98Dup !
+ PAR  BM(FCC_A1,AL,CO:VA;0),,             +10;,,                      N 98Dup !
+$
+ PAR  L(A1_FCC,AL,CO:VA;0),,            -122840+22.925*T;,,           N 98Dup !
+ PAR  L(A1_FCC,AL,CO:VA;2),,            +24568-4.585*T;,,             N 98Dup !
+ PAR  TC(A1_FCC,AL,CO:VA;0),,           -1830;,,                      N 98Dup !
+ PAR  TC(A1_FCC,AL,CO:VA;1),,            +970;,,                      N 98Dup !
+ PAR  BM(A1_FCC,AL,CO:VA;0),,             +10;,,                      N 98Dup !
+$
+ PAR  G(FCC_4SL,AL:AL:AL:CO:VA),,       +GFAL3CO;,,                   N 16Liu !
+ PAR  G(FCC_4SL,AL:AL:CO:CO:VA),,       +GFAL2CO2;,,                  N 16Liu !
+ PAR  G(FCC_4SL,AL:CO:CO:CO:VA),,       +GFALCO3;,,                   N 16Liu !
+ PAR  L(FCC_4SL,AL,CO:*:*:*:VA;1),,     +L1FALCO;,,                   N 16Liu !
+$
+ PAR  L(BCC_A2,AL,CO:VA;0),,            +GB2ALCO+LB2ALCO;,,           N 16Liu !
+ PAR  L(A2_BCC,AL,CO:VA;0),,            +GB2ALCO+LB2ALCO;,,           N 16Liu !
+$
+ PAR  G(B2_BCC,AL:CO:VA),,              +0.5*GB2ALCO-0.5*LB2ALCO;,,   N 16Liu !
+ PAR  G(B2_BCC,CO:AL:VA),,              +0.5*GB2ALCO-0.5*LB2ALCO;,,   N 16Liu !
+$ Dropped magnetic parameters below
+$PAR  TC(B2_BCC,AL:CO:VA),,             -1450;,,                      N 15Liu !
+$PAR  TC(B2_BCC,CO:AL:VA),,             -1450;,,                      N 15Liu !
+$PAR  BM(B2_BCC,AL:CO:VA),,                -1.35;,,                   N 15Liu !
+$PAR  BM(B2_BCC,CO:AL:VA),,                -1.35;,,                   N 15Liu !
+$
+ PAR  TC(HCP_A3,AL,CO:VA;0),,           -1830;,,                      N 98Dup !
+ PAR  TC(HCP_A3,AL,CO:VA;0),,            +970;,,                      N 98Dup !
+ PAR  BM(HCP_A3,AL,CO:VA;0),,             +10;,,                      N 98Dup !
+$
+ PAR  G(AL5CO2_D811,AL:CO),,            +5*GHSERAL+2*GHSERCO
+             -335100+81.65*T;,,                                       N 98Dup !
+ PAR  G(AL3CO,AL:CO),,                  +3*GHSERAL+GHSERCO
+             -174490+41.735*T;,,                                      N 98Dup !
+ PAR  G(AL13CO4,AL:CO),,                +13*GHSERAL+4*GHSERCO
+             -711760+170.4*T;,,                                       N 98Dup !
+ PAR  G(AL9CO2,AL:CO),,                 +9*GHSERAL+2*GHSERCO
+             -391800+103.77*T;,,                                      N 98Dup !
+$
+$ metastable
+$
+$PAR  G(KAPPA_E21,AL:CO:VA),,           +GHSERAL+3*GHSERCO-79600;,,   N 04Oht !
+ PAR  G(KAPPA_E21,AL:CO:VA),,           +GHSERAL+3*GHSERCO-69600;,,   N 17Hal1 !
+$
+ FUNCTION GB2ALCO   298.15  -138500+34.62*T;                           6000 N !
+ FUNCTION LB2ALCO   298.15  +56531-37.04*T;                            6000 N !
+$
+ FUNCTION U1FALCO   298.15  -4872;                                     6000 N !
+ FUNCTION GFALCO3   298.15  +3*U1FALCO;                                6000 N !
+ FUNCTION GFAL2CO2  298.15  +4*U1FALCO;                                6000 N !
+ FUNCTION GFAL3CO   298.15  +3*U1FALCO;                                6000 N !
+ FUNCTION L1FALCO   298.15  +3023;                                     6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Cr
+$
+$ From N. Saunders 1998 (included in LB Vol. 1).
+$
+$ N. Saunders, COST 507, Final report round 2, 1998
+$
+$ Checked against LB. Checked at 6000 K.
+$
+$ In the LBall-v7 database the high-temperature (instead of the low-temperature)
+$ Al8Cr5 phase has incorrectly been assigned the Strukturbericht D8_10.
+$
+$ The hcp interaction is only in the COST database, not in the book.
+$ In the NIST-Ni0209 database, the fcc interaction is used for hcp as well.
+$
+$ Helander and Tolochko (J. Phase Equilib., 20, 57-60(1999)) showed
+$ experimentally that there is a small region of B2 in the Al-Cr system.
+$ Ordering with a TC of 1260 K and 1300 K was added by Subasic and
+$ Dinsdale (COST), respectively. When adding this to the description by
+$ Saunders, the bcc phase becomes ordered at low T as well and gets a
+$ retrograde solvus and destabilisation of AlCr2 at low T. Dupin chose a
+$ smaller ordering energy (without a stable B2 region) to avoid this.
+$
+ PAR  L(LIQUID,AL,CR;0),,               -29000;,,                     N 98Sau1 !
+ PAR  L(LIQUID,AL,CR;1),,               -11000;,,                     N 98Sau1 !
+$
+ PAR  L(BCC_A2,AL,CR:VA;0),,            -54900+10*T;,,                N 98Sau1 !
+ PAR  L(A2_BCC,AL,CR:VA;0),,            -54900+10*T;,,                N 98Sau1 !
+$
+$PAR  G(B2_BCC,AL:CR:VA),,              -10481.27;,,                  N 00Sub !
+$PAR  G(B2_BCC,CR:AL:VA),,              -10481.27;,,                  N 00Sub !
+$PAR  G(B2_BCC,CR:AL:VA;0),,            -1300*R;,,                    N COST !
+$PAR  G(B2_BCC,AL:CR:VA;0),,            -1300*R;,,                    N COST !
+ PAR  G(B2_BCC,AL:CR:VA;0),,            -2000;,,                      N 01Dup !
+ PAR  G(B2_BCC,CR:AL:VA;0),,            -2000;,,                      N 01Dup !
+$
+ PAR  L(FCC_A1,AL,CR:VA;0),,            -45900+6*T;,,                 N 98Sau1 !
+ PAR  L(A1_FCC,AL,CR:VA;0),,            -45900+6*T;,,                 N 98Sau1 !
+$
+ PAR  G(FCC_4SL,AL:AL:AL:CR:VA),,       +GFAL3CR;,,                   N 01Dup !
+ PAR  G(FCC_4SL,AL:AL:CR:CR:VA),,       +GFAL2CR2;,,                  N 01Dup !
+ PAR  G(FCC_4SL,AL:CR:CR:CR:VA),,       +GFALCR3;,,                   N 01Dup !
+$
+ PAR  G(AL13CR2,AL:CR),,                +13*GHSERAL+2*GHSERCR
+             -174405+22.2*T;,,                                        N 98Sau1 !
+ PAR  G(AL11CR2,AL:AL:CR),,             +11*GHSERAL+2*GHSERCR
+             -175500+25.805*T;,,                                      N 98Sau1 !
+ PAR  G(AL4CR,AL:CR),,                  +4*GHSERAL+GHSERCR
+             -89025+19.05*T;,,                                        N 98Sau1 !
+ PAR  G(AL9CR4_H,AL:CR),,               +9*GHSERAL+4*GHSERCR
+             -134433-56.16*T;,,                                       N 98Sau1 !
+ PAR  G(AL9CR4_L,AL:CR),,               +9*GHSERAL+4*GHSERCR
+             -230750+16.094*T;,,                                      N 98Sau1 !
+ PAR  G(AL8CR5_D82,AL:CR),,             +8*GHSERAL+5*GHSERCR
+             -147732-58.5*T;,,                                        N 98Sau1 !
+ PAR  G(AL8CR5_D810,AL:CR),,            +8*GHSERAL+5*GHSERCR
+             -229515;,,                                               N 98Sau1 !
+ PAR  G(ALCR2_C11B,AL:CR),,             +GHSERAL+2*GHSERCR
+             -32700-8.79*T;,,                                         N 98Sau1 !
+$
+$ metastable
+$
+$PAR  L(HCP_A3,AL,CR:VA;0),,            -35000+6*T;,,                 N COST !
+ PAR  L(HCP_A3,AL,CR:VA;0),,            -45900+6*T;,,                 N 15Liu !
+$
+ PAR  G(SIGMA_D8B,AL:CR:AL),,           +10*GHSERAL+4*GHSERCR+16*GBCCAL
+             +161148;,,                                               N 15Liu !
+ PAR  G(SIGMA_D8B,AL:CR:CR),,           +10*GHSERAL+20*GHSERCR
+             +47886;,,                                                N 15Liu !
+$
+ FUNCTION U1FALCR   298.15  -830;                                      6000 N !
+ FUNCTION L1FALCR   298.15  0.0;                                       6000 N !
+ FUNCTION GFALCR3   298.15  +3*U1FALCR;                                6000 N !
+ FUNCTION GFAL2CR2  298.15  +4*U1FALCR;                                6000 N !
+ FUNCTION GFAL3CR   298.15  +3*U1FALCR;                                6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Fe
+$
+$ B. Sundman, I. Ohnuma, N. Dupin, U.R. Kattner, S.G. Fries,
+$ Acta Mater., 57, 2896-2908(2009).
+$
+$ Checked against paper. Checked at 6000 K.
+$
+$ This dataset gives the same results as the .tdb submitted with the paper.
+$
+$ The invariant equilibria involving B2 are at 1378 and 1495 K instead of
+$ 1362 and 1499 K as given in the paper.
+$
+$ The ordering parameters for the bcc-4SL and bcc-2SL phases in the paper
+$ are to some extent different from those in the accompanying .tdb and some
+$ are probably incorrect.
+$
+$ The metastable fcc description is much improved compared to previous datasets.
+$
+$ This datasets contains 4SL fcc (FCC_4SL + A1_FCC) and bcc (BCC_4SL + A2_4SL)
+$ and 2SL bcc with vacancies (B2_BCC + A2_BCC). Option F and B are used.
+$
+$ The B2_BCC interaction is written partially with wildcards in the tdb from
+$ 13Lin. This makes a difference in the Al-Fe-Mn ternary.
+$
+ PAR  L(LIQUID,AL,FE;0),,               -88090+19.8*T;,,              N 09Sun !
+ PAR  L(LIQUID,AL,FE;1),,               -3800+3*T;,,                  N 09Sun !
+ PAR  L(LIQUID,AL,FE;2),,               -2000;,,                      N 09Sun !
+$
+ PAR  L(FCC_A1,AL,FE:VA;0),,            -104700+30.65*T;,,            N 08Con !
+ PAR  L(FCC_A1,AL,FE:VA;1),,            +30000-7*T;,,                 N 09Sun !
+ PAR  L(FCC_A1,AL,FE:VA;2),,            +32200-17*T;,,                N 09Sun !
+$
+ PAR  L(A1_FCC,AL,FE:VA;0),,            -104700+30.65*T;,,            N 08Con !
+ PAR  L(A1_FCC,AL,FE:VA;1),,            +30000-7*T;,,                 N 09Sun !
+ PAR  L(A1_FCC,AL,FE:VA;2),,            +32200-17*T;,,                N 09Sun !
+$
+ PAR  G(FCC_4SL,FE:FE:FE:AL:VA),,       +GFALFE3;,,                   N 08Con !
+ PAR  G(FCC_4SL,FE:FE:AL:AL:VA),,       +GFAL2FE2;,,                  N 08Con !
+ PAR  G(FCC_4SL,FE:AL:AL:AL:VA),,       +GFAL3FE;,,                   N 08Con !
+ PAR  L(FCC_4SL,AL,FE:*:*:*:VA;0),,     +L0FALFE;,,                   N 08Con !
+ PAR  L(FCC_4SL,AL,FE:AL,FE:*:*:VA;0),, +SFALFE;,,                    N 08Con !
+$
+ PAR  L(BCC_A2,AL,FE:VA;0),,            -122960+32*T;,,               N 93Sei !
+ PAR  L(BCC_A2,AL,FE:VA;1),,            +2945.2;,,                    N 93Sei !
+ PAR  TC(BCC_A2,AL,FE:VA;0),,            -438;,,                      N 09Sun !
+ PAR  TC(BCC_A2,AL,FE:VA;1),,           -1720;,,                      N 09Sun !
+$
+ PAR  L(A2_BCC,AL,FE:VA;0),,            -122960+32*T;,,               N 93Sei !
+ PAR  L(A2_BCC,AL,FE:VA;1),,            +2945.2;,,                    N 93Sei !
+ PAR  TC(A2_BCC,AL,FE:VA;0),,            -438;,,                      N 09Sun !
+ PAR  TC(A2_BCC,AL,FE:VA;1),,           -1720;,,                      N 09Sun !
+$
+ PAR  G(B2_BCC,AL:FE:VA),,              +GB2ALFE;,,                   N 09Sun !
+ PAR  G(B2_BCC,FE:AL:VA),,              +GB2ALFE;,,                   N 09Sun !
+ PAR  L(B2_BCC,AL,FE:AL:VA;0),,         +5600;,,                      N 09Sun !
+ PAR  L(B2_BCC,AL:AL,FE:VA;0),,         +5600;,,                      N 09Sun !
+ PAR  L(B2_BCC,FE:AL,FE:VA;0),,         -1400+2.4*T;,,                N 09Sun !
+ PAR  L(B2_BCC,AL,FE:FE:VA;0),,         -1400+2.4*T;,,                N 09Sun !
+ PAR  L(B2_BCC,AL,FE:*:VA;0),,          +2*UB2ALFE;,,                 N 09Sun !
+ PAR  L(B2_BCC,*:AL,FE:VA;0),,          +2*UB2ALFE;,,                 N 09Sun !
+ PAR  L(B2_BCC,AL,FE:*:VA;1),,          -524;,,                       N 09Sun !
+ PAR  L(B2_BCC,*:AL,FE:VA;1),,          -524;,,                       N 09Sun !
+ PAR  L(B2_BCC,AL,FE:*:VA;2),,          -1560;,,                      N 09Sun !
+ PAR  L(B2_BCC,*:AL,FE:VA;2),,          -1560;,,                      N 09Sun !
+ PAR  L(B2_BCC,AL,FE:AL,FE:VA;0),,      -8400-4.8*T;,,                N 09Sun !
+ PAR  TC(B2_BCC,FE:AL:VA),,             +2*UTCBALFE;,,                N 09Sun !
+ PAR  TC(B2_BCC,AL:FE:VA),,             +2*UTCBALFE;,,                N 09Sun !
+ PAR  TC(B2_BCC,AL,FE:*:VA;0),,         -2*UTCBALFE;,,                N 09Sun !
+ PAR  TC(B2_BCC,*:AL,FE:VA;0),,         -2*UTCBALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,FE:AL:VA),,             +2*UBMBALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,AL:FE:VA),,             +2*UBMBALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,AL,FE:*:VA;0),,         +2*BM0BALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,*:AL,FE:VA;0),,         +2*BM0BALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,AL,FE:*:VA;1),,         +2*BM1BALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,*:AL,FE:VA;1),,         +2*BM1BALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,AL,FE:*:VA;2),,         +2*BM2BALFE;,,                N 09Sun !
+ PAR  BM(B2_BCC,*:AL,FE:VA;2),,         +2*BM2BALFE;,,                N 09Sun !
+$
+ PAR  G(AL13FE4,AL:FE:AL),,             +0.765*GHSERAL+0.235*GHSERFE
+             -30680+7.4*T;,,                                          N 09Sun !
+ PAR  G(AL13FE4,AL:FE:VA),,             +0.6275*GHSERAL+0.235*GHSERFE
+             -28100+7.4*T;,,                                          N 09Sun !
+$
+ PAR  G(AL5FE2,AL:FE),,                 +5*GHSERAL+2*GHSERFE
+             -235600+54*T;,,                                          N 09Sun !
+$
+ PAR  G(AL2FE,AL:FE),,                  +2*GHSERAL+GHSERFE
+             -104000+23*T;,,                                          N 09Sun !
+$
+ PAR  G(AL8FE5_D82,FE:AL),,             +8*GHSERFE+5*GBCCAL
+             +200000+36*T;,,                                          N 09Sun !
+ PAR  G(AL8FE5_D82,AL:FE),,             +8*GBCCAL+5*GHSERFE
+             -394000+36*T;,,                                          N 09Sun !
+ PAR  L(AL8FE5_D82,AL,FE:FE;0),,        -174000;,,                    N 09Sun !
+ PAR  L(AL8FE5_D82,AL:AL,FE;0),,        -100000;,,                    N 09Sun !
+$
+$ metastable
+$
+$PAR  L(HCP_A3,AL,FE:VA;0),,            -106903+20*T;,,               N 97Jan !
+ PAR  L(HCP_A3,AL,FE:VA;0),,            -100000+20*T;,,               N 13Lin !
+ PAR  L(CBCC_A12,AL,FE:VA;0),,          +ZERO;,,                      N 97Jan !
+ PAR  L(CUB_A13,AL,FE:VA;0),,           -117900+23.2*T;,,             N 13Lin !
+ PAR  L(CUB_A13,AL,FE:VA;1),,           +64700-44*T;,,                N 13Lin !
+$
+ PAR  G(AL9CO2,AL:FE),,                 +9*GHSERAL+2*GHSERFE
+             -226044.94+28.2601*T;,,                                  N 09Zha2 !
+ PAR  G(AL5CO2_D811,AL:FE),,            +5*GHSERAL+2*GHSERFE
+             -227973.9+50.2831*T;,,                                   N 09Zha2 !
+$
+$ The source of the Al6Mn and Al4Mn parameters in the tdb from 13Lin are given
+$ as the COST version of Ake's Al-Fe-Mn, but these are not the parameters that
+$ are in the COST database.
+$PAR  G(AL6MN_D2H,AL:FE),,              +6*GHSERAL+GHSERFE
+$            -130984+38.5*T;,,                                        N 98Jan2 !
+ PAR  G(AL6MN_D2H,AL:FE),,              +6*GHSERAL+GHSERFE
+             -105013+32.659298*T;,,                                   N 13Lin !
+$PAR  G(AL4MN_MU,AL:FE),,               +4*GHSERAL+GHSERFE
+$            -131445+50.0*T;,,                                        N 98Jan2 !
+ PAR  G(AL4MN_MU,AL:FE),,               +4*GHSERAL+GHSERFE
+             -105661+34.761*T;,,                                      N 13Lin !
+ PAR  G(AL3NI_D011,AL:FE),,             +0.75*GHSERAL+0.25*GHSERFE
+             -17925.66;,,                                             N 09Zha2 !
+ PAR  G(AL3NI2_D513,AL:FE:VA),,         +3*GHSERAL+2*GHSERFE
+             -64790.16;,,                                             N 09Zha2 !
+$
+ PAR  G(KAPPA_E21,AL:FE:VA),,           +GHSERAL+3*GFCCFE
+             -94000+17.6*T;,,                                         N 10Chi !
+$
+ FUNCTION U1FALFE   298.15  -4000+T;                                   6000 N !
+$ Function below from Connetable 2008
+$FUNCTION GFALFE3   298.15  +3*U1FALFE-4000;                           6000 N !
+$ Function below from Sundman 2009
+ FUNCTION GFALFE3   298.15  +3*U1FALFE-3500;                           6000 N !
+ FUNCTION GFAL2FE2  298.15  +4*U1FALFE;                                6000 N !
+ FUNCTION GFAL3FE   298.15  +3*U1FALFE+9000;                           6000 N !
+ FUNCTION SFALFE    298.15  +U1FALFE;                                  6000 N !
+ FUNCTION L0FALFE   298.15  +ZERO;                                     6000 N !
+$
+$ Note that UB2ALFE corresponds to 1.5 bonds
+ FUNCTION UB1ALFE   298.15  -4023-1.14*T;                              6000 N !
+ FUNCTION UB2ALFE   298.15  -1973-2*T;                                 6000 N !
+ FUNCTION GBAL3FE   298.15  +2*UB1ALFE+UB2ALFE+3900;                   6000 N !
+ FUNCTION GB2ALFE   298.15  +4*UB1ALFE;                                6000 N !
+ FUNCTION GB32ALFE  298.15  +2*UB1ALFE+2*UB2ALFE;                      6000 N !
+ FUNCTION GBALFE3   298.15  +2*UB1ALFE+UB2ALFE-70+0.5*T;               6000 N !
+ FUNCTION L0BALFE   298.15  0.0;                                       6000 N !
+ FUNCTION L1BALFE   298.15  -634+0.68*T;                               6000 N !
+ FUNCTION L2BALFE   298.15  -190;                                      6000 N !
+ FUNCTION UTCBALFE  298.15  -125;                                      6000 N !
+ FUNCTION TC0BALFE  298.15  -UTCBALFE;                                 6000 N !
+ FUNCTION UBMBALFE  298.15  -1.36;                                     6000 N !
+ FUNCTION BM0BALFE  298.15  -0.3;                                      6000 N !
+ FUNCTION BM1BALFE  298.15  -0.8;                                      6000 N !
+ FUNCTION BM2BALFE  298.15  +0.2;                                      6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Mn
+$
+$ D. Djurovic, unpublished work, 2012.
+$  
+$ Based on the description from 07Du with fcc and bcc ordering added.
+$ Disordered fcc and Al11Mn4-ht have been modified. 
+$
+$ The new fcc interactions for the disordered state were not included in
+$ Al-Fe-Mn from 13Lin, and therefore also not here.
+$
+$ There is an inverse miscibility gap with a minimum at 4277 K and x(Mn)=0.29.
+$
+$ A number of metastable phases have been observed in this system:
+$ pi-Al4Mn (oC152), Al10Mn3 (also phi-AlMn; hP26), L10. And some quasicryst.
+$ phases: T-AlMn (decagonal at Al4Mn), i-AlMn (icosahedral at Al4Mn).
+$ Phase with unknown status: Al78Mn22 (oC1233).
+$
+ PAR  L(LIQUID,AL,MN;0),,               -70584.9+28.22693*T;,,        N 07Du !
+ PAR  L(LIQUID,AL,MN;1),,               -13293.5+9.82551*T;,,         N 07Du !
+$
+ PAR  L(FCC_A1,AL,MN:VA;0),,            -69938+27.17958*T;,,          N 07Du !
+ PAR  L(FCC_A1,AL,MN:VA;1),,            +8248.9;,,                    N 07Du !
+$PAR  L(FCC_A1,AL,MN:VA;0),,            +LDF0ALMN;,,                  N 12Dju !
+$PAR  L(FCC_A1,AL,MN:VA;1),,            +LDF1ALMN;,,                  N 12Dju !
+$PAR  L(FCC_A1,AL,MN:VA;2),,            +LDF2ALMN;,,                  N 12Dju !
+$
+ PAR  L(A1_FCC,AL,MN:VA;0),,            -69938+27.17958*T;,,          N 07Du !
+ PAR  L(A1_FCC,AL,MN:VA;1),,            +8248.9;,,                    N 07Du !
+$PAR  L(A1_FCC,AL,MN:VA;0),,            +LDF0ALMN;,,                  N 12Dju !
+$PAR  L(A1_FCC,AL,MN:VA;1),,            +LDF1ALMN;,,                  N 12Dju !
+$PAR  L(A1_FCC,AL,MN:VA;2),,            +LDF2ALMN;,,                  N 12Dju !
+$
+ PAR  G(FCC_4SL,AL:AL:AL:MN:VA),,       +GFAL3MN;,,                   N 12Dju !
+ PAR  G(FCC_4SL,AL:AL:MN:MN:VA),,       +GFAL2MN2;,,                  N 12Dju !
+ PAR  G(FCC_4SL,AL:MN:MN:MN:VA),,       +GFALMN3;,,                   N 12Dju !
+ PAR  L(FCC_4SL,AL,MN:*:*:*:VA;0),,     +L0FALMN;,,                   N 12Dju !
+ PAR  L(FCC_4SL,AL,MN:*:*:*:VA;1),,     +L1FALMN;,,                   N 12Dju !
+ PAR  L(FCC_4SL,AL,MN:*:*:*:VA;2),,     +L2FALMN;,,                   N 12Dju !
+ PAR  L(FCC_4SL,AL,MN:AL,MN:*:*:VA;0),, +SFALMN;,,                    N 12Dju !
+$
+ PAR  L(BCC_A2,AL,MN:VA;0),,            -111336.2+44.48059*T;,,       N 07Du !
+ PAR  L(BCC_A2,AL,MN:VA;1),,            -68691.8+44.52653*T;,,        N 07Du !
+$
+ PAR  L(A2_BCC,AL,MN:VA;0),,            -111336.2+44.48059*T;,,       N 07Du !
+ PAR  L(A2_BCC,AL,MN:VA;1),,            -68691.8+44.52653*T;,,        N 07Du !
+$
+ PAR  G(B2_BCC,AL:MN:VA),,              +GB2ALMN;,,                   N 12Dju !
+ PAR  G(B2_BCC,MN:AL:VA),,              +GB2ALMN;,,                   N 12Dju !
+ PAR  L(B2_BCC,AL,MN:AL:VA;0),,         +LALMN0AL;,,                  N 12Dju !
+ PAR  L(B2_BCC,AL,MN:AL:VA;1),,         +L1BALMN;,,                   N 12Dju !
+ PAR  L(B2_BCC,AL,MN:MN:VA;0),,         +LALMN0MN;,,                  N 12Dju !
+ PAR  L(B2_BCC,AL,MN:MN:VA;1),,         +L1BALMN;,,                   N 12Dju !
+ PAR  L(B2_BCC,AL:AL,MN:VA;0),,         +LALMN0AL;,,                  N 12Dju !
+ PAR  L(B2_BCC,AL:AL,MN:VA;1),,         +L1BALMN;,,                   N 12Dju !
+ PAR  L(B2_BCC,MN:AL,MN:VA;0),,         +LALMN0MN;,,                  N 12Dju !
+ PAR  L(B2_BCC,MN:AL,MN:VA;1),,         +L1BALMN;,,                   N 12Dju !
+$
+ PAR  L(HCP_A3,AL,MN:VA;0),,            -95264.1+33.09659*T;,,        N 07Du !
+ PAR  L(HCP_A3,AL,MN:VA;1),,            -56880.6+43.14119*T;,,        N 07Du !
+ PAR  L(HCP_A3,AL,MN:VA;2),,            +14430.2;,,                   N 07Du !
+$
+ PAR  L(CBCC_A12,AL,MN:VA;0),,          -63000+21*T;,,                N 07Du !
+$
+ PAR  L(CUB_A13,AL,MN:VA;0),,           -118512.3+52.73979*T;,,       N 07Du !
+ PAR  L(CUB_A13,AL,MN:VA;1),,           -3174.9;,,                    N 07Du !
+$
+ PAR  G(AL12MN,AL:MN),,                 +12*GHSERAL+GHSERMN
+             -110389.5+36.7965*T;,,                                   N 07Du !
+ PAR  G(AL6MN_D2H,AL:MN),,              +6*GHSERAL+GHSERMN
+             -109090.8+35.21609*T;,,                                  N 07Du !
+ PAR  G(AL4MN_LAMBDA,AL:MN),,           +0.81162*GHSERAL
+             +0.18838*GHSERMN-20546.3+6.84875*T;,,                    N 07Du !
+ PAR  G(AL4MN_MU,AL:MN),,               +4*GHSERAL+GHSERMN
+             -109088.5+36.6647*T;,,                                   N 07Du !
+ PAR  G(AL11MN4_LT,AL:MN),,             +11*GHSERAL+4*GHSERMN
+             -350550+97.89915*T;,,                                    N 07Du !
+$
+ PAR  G(AL11MN4_HT,AL:AL:MN),,          +11*GHSERAL+2*GHSERMN
+             -188274+42.7085*T;,,                                     N 12Dju !
+ PAR  G(AL11MN4_HT,AL:MN:MN),,          +9*GHSERAL+4*GHSERMN
+             -267814+42.9040*T;,,                                     N 12Dju !
+ PAR  L(AL11MN4_HT,AL:AL,MN:MN;0),,     +20080;,,                     N 12Dju !
+$
+ PAR  G(AL8MN5_D810,AL:MN:AL),,         +21*GHSERAL+5*GHSERMN
+             -199851.6-60.66346*T;,,                                  N 07Du !
+ PAR  G(AL8MN5_D810,AL:MN:MN),,         +12*GHSERAL+14*GHSERMN
+             -791382.8+289.47854*T;,,                                 N 07Du !
+ PAR  L(AL8MN5_D810,AL:MN:AL,MN;0),,    -522189.2+244.34748*T;,,      N 07Du !
+ PAR  L(AL8MN5_D810,AL:MN:AL,MN;1),,    +38014.6;,,                   N 07Du !
+$
+$ Metastable
+$
+ PAR  G(AL13FE4,AL:MN:AL),,             +0.765*GHSERAL+0.235*GHSERMN
+             -20714.4+7.44*T;,,                                       N 13Lin !
+ PAR  G(AL13FE4,AL:MN:VA),,             +0.6275*GHSERAL+0.235*GHSERMN
+             -17781.3+7.2566*T;,,                                     N 13Lin !
+$
+ PAR  G(KAPPA_E21,AL:MN:VA),,           +GHSERAL+3*GFCCMN;,,          N 10Chi !
+$FCC 
+ FUNCTION U1FALMN   298.15  -6980+3.51*T;                              6000 N !
+ FUNCTION L0FALMN   298.15  0;                                         6000 N !
+ FUNCTION L1FALMN   298.15  0;                                         6000 N !
+ FUNCTION L2FALMN   298.15  0;                                         6000 N !
+ FUNCTION GFAL3MN   298.15  +3*U1FALMN+1666-4.01*T;                    6000 N !
+ FUNCTION GFAL2MN2  298.15  +4*U1FALMN;                                6000 N !
+ FUNCTION GFALMN3   298.15  +3*U1FALMN+9792-8.79*T;                    6000 N !
+ FUNCTION SFALMN    298.15  +U1FALMN;                                  6000 N !
+$FUNCTION LDF0ALMN  298.15  +GFAL3MN+1.5*GFAL2MN2+GFALMN3+1.5*SFALMN
+$      +4*L0FALMN;                                                     6000 N !
+$FUNCTION LDF1ALMN  298.15  -2*GFAL3MN+2*GFALMN3+4*L1FALMN;            6000 N !
+$FUNCTION LDF2ALMN  298.15  +GFAL3MN-1.5*GFAL2MN2+GFALMN3-1.5*SFALMN
+$      +4*L2FALMN;                                                     6000 N !
+$BCC_B2
+$ L1BALMN was set to zero in 13Lin
+ FUNCTION GB2ALMN   298.15  -3045-1.72*T;                              6000 N !
+$FUNCTION L1BALMN   298.15  -3000+2*T;                                 6000 N !
+ FUNCTION L1BALMN   298.15  +ZERO;                                     6000 N !
+ FUNCTION LALMN0AL  298.15  -GB2ALMN;                                  6000 N !
+ FUNCTION LALMN0MN  298.15  -GB2ALMN;                                  6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Ni
+$
+$ From Dupin et al. 2001 (included in LB Vol. 1).
+$
+$ N. Dupin, I. Ansara, B. Sundman, Calphad, 25, 279-98(2001).
+$
+$ This dataset contains a 4-sublattice model for the fcc phase using option F.
+$
+$ Checked against LB. Checked at 6000 K.
+$
+$ There is an inverse miscibility gap with a minimum at 5053 K.
+$
+$ With G(BCC_A2,VA:VA)=30*T the same amount must be subtracted from GB2ALVA
+$ and GB2NIVA. Then the phase diagram is identical. Equilibria at high
+$ temperature (e.g. 6000 K) that used to fail can now be calculated.
+$
+$ Al4Ni3 added from 16Wan.
+$
+ PAR  L(LIQUID,AL,NI;0),,               -207109.28+41.31501*T;,,      N 97Ans !
+ PAR  L(LIQUID,AL,NI;1),,               -10185.79+5.8714*T;,,         N 97Ans !
+ PAR  L(LIQUID,AL,NI;2),,               +81204.81-31.95713*T;,,       N 97Ans !
+ PAR  L(LIQUID,AL,NI;3),,               +4365.35-2.51632*T;,,         N 97Ans !
+ PAR  L(LIQUID,AL,NI;4),,               -22101.64+13.16341*T;,,       N 97Ans !
+$
+ PAR  L(FCC_A1,AL,NI:VA;0),,            -162407.75+16.212965*T;,,     N 97Ans !
+ PAR  L(FCC_A1,AL,NI:VA;1),,            +73417.798-34.914168*T;,,     N 97Ans !
+ PAR  L(FCC_A1,AL,NI:VA;2),,            +33471.014-9.8373558*T;,,     N 97Ans !
+ PAR  L(FCC_A1,AL,NI:VA;3),,            -30758.01+10.25267*T;,,       N 97Ans !
+ PAR  TC(FCC_A1,AL,NI:VA;0),,           -1112;,,                      N 01Dup !
+ PAR  TC(FCC_A1,AL,NI:VA;1),,           +1745;,,                      N 01Dup !
+$
+ PAR  L(A1_FCC,AL,NI:VA;0),,            -162407.75+16.212965*T;,,     N 97Ans !
+ PAR  L(A1_FCC,AL,NI:VA;1),,            +73417.798-34.914168*T;,,     N 97Ans !
+ PAR  L(A1_FCC,AL,NI:VA;2),,            +33471.014-9.8373558*T;,,     N 97Ans !
+ PAR  L(A1_FCC,AL,NI:VA;3),,            -30758.01+10.25267*T;,,       N 97Ans !
+ PAR  TC(A1_FCC,AL,NI:VA;0),,           -1112;,,                      N 01Dup !
+ PAR  TC(A1_FCC,AL,NI:VA;1),,           +1745;,,                      N 01Dup !
+$
+ PAR  G(FCC_4SL,AL:AL:AL:NI:VA),,       +GFAL3NI;,,                   N 01Dup !
+ PAR  G(FCC_4SL,AL:AL:NI:NI:VA),,       +GFAL2NI2;,,                  N 01Dup !
+ PAR  G(FCC_4SL,AL:NI:NI:NI:VA),,       +GFALNI3;,,                   N 01Dup !
+ PAR  L(FCC_4SL,AL,NI:*:*:*:VA;1),,     +L1FALNI;,,                   N 01Dup !
+$
+ PAR  L(BCC_A2,AL,NI:VA;0),,            +GB2ALNI+LB2ALNI;,,           N 99Dup1 !
+ PAR  L(A2_BCC,AL,NI:VA;0),,            +GB2ALNI+LB2ALNI;,,           N 99Dup1 !
+$
+ PAR  G(B2_BCC,NI:AL:VA),,              +0.5*GB2ALNI-0.5*LB2ALNI;,,   N 99Dup1 !
+ PAR  G(B2_BCC,AL:NI:VA),,              +0.5*GB2ALNI-0.5*LB2ALNI;,,   N 99Dup1 !
+$
+ PAR  G(AL3NI_D011,AL:NI;0),,           +0.75*GHSERAL+0.25*GHSERNI
+             -48483.73+12.29913*T;,,                                  N 97Ans !
+$
+ PAR  G(AL3NI2_D513,AL:AL:NI),,         +5*GBCCAL+GBCCNI
+             -39465.978+7.89525*T;,,                                  N 97Ans !
+ PAR  G(AL3NI2_D513,AL:NI:NI),,         +3*GBCCAL+3*GBCCNI
+             -427191.9+79.21725*T;,,                                  N 97Ans !
+ PAR  G(AL3NI2_D513,AL:NI:VA),,         +3*GBCCAL+2*GBCCNI
+             -357725.92+68.322*T;,,                                   N 97Ans !
+ PAR  L(AL3NI2_D513,AL:AL,NI:*;0),,     -193484.18+131.79*T;,,        N 97Ans !
+ PAR  L(AL3NI2_D513,AL:*:NI,VA;0),,     -22001.7+7.0332*T;,,          N 97Ans !
+$
+ PAR  G(AL4NI3,AL:NI;0),,               +4*GHSERAL+3*GHSERNI
+             -455326+74*T;,,                                          N 16Wan !
+ PAR  G(AL3NI5,AL:NI;0),,               +0.375*GHSERAL+0.625*GHSERNI
+             -55507.7594+7.2648103*T;,,                               N 97Ans !
+$
+$ metastable
+$
+ PAR  L(HCP_A3,AL,NI:VA;0),,            -162407.75+16.212965*T;,,     N 95Dup !
+ PAR  L(HCP_A3,AL,NI:VA;1),,            +73417.798-34.914168*T;,,     N 95Dup !
+ PAR  L(HCP_A3,AL,NI:VA;2),,            +33471.014-9.8373558*T;,,     N 95Dup !
+ PAR  L(HCP_A3,AL,NI:VA;3),,            -30758.01+10.25267*T;,,       N 95Dup !
+ PAR  TC(HCP_A3,AL,NI:VA;0),,           -1112;,,                      N 95Dup !
+ PAR  TC(HCP_A3,AL,NI:VA;1),,           +1745;,,                      N 95Dup !
+$
+ PAR  G(AL13FE4,AL:NI:AL),,             +0.765*GHSERAL+0.235*GHSERNI
+             -33048.45+0.9914*T;,,                                    N 09Zha2 !
+ PAR  G(AL13FE4,AL:NI:VA),,             +0.6275*GHSERAL+0.235*GHSERNI
+             -28901.41;,,                                             N 09Zha2 !
+$
+ PAR  G(AL5FE2,AL:NI),,                 +5*GHSERAL+2*GHSERNI
+             -36501.136+2.7496*T;,,                                   N 09Zha2 !
+ PAR  G(AL2FE,AL:NI),,                  +2*GHSERAL+GHSERNI
+             -97558.26;,,                                             N 09Zha2 !
+ PAR  G(AL9CO2,AL:NI),,                 +9*GHSERAL+2*GHSERNI
+             -298176.56+8.9386*T;,,                                   N 09Zha2 !
+ PAR  G(AL5CO2_D811,AL:NI),,            +5*GHSERAL+2*GHSERNI
+             -291746.21+30.6502*T;,,                                  N 09Zha2 !
+$
+ PAR  G(KAPPA_E21,AL:NI:VA),,           +GHSERAL+3*GHSERNI
+             -160000+36*T;,,                                          N 17Hal1 !
+$
+ FUNCTION U1FALNI   298.15  -14808.6+2.93047*T;                        6000 N !
+ FUNCTION GFALNI3   298.15  +3*U1FALNI;                                6000 N !
+ FUNCTION GFAL3NI   298.15  +3*U1FALNI;                                6000 N !
+ FUNCTION GFAL2NI2  298.15  +4*U1FALNI;                                6000 N !
+ FUNCTION L1FALNI   298.15  +7203.6-3.74273*T;                         6000 N !
+$
+ FUNCTION GB2ALNI   298.15  -152397.3+26.40575*T;                      6000 N !
+$ The first LB2ALNI is in the LB database and originates from 97Ans.
+$ (Half of) the second is in AlFeNiTi-bosse-0701.TDB and has apparently
+$ been reoptimised, but why, by whom and when?
+ FUNCTION LB2ALNI   298.15  -52440.88+11.30117*T;                      6000 N !
+$FUNCTION LB2ALNI   298.15  -62104+19.28*T;                            6000 N !
+$ ------------------------------------------------------------------------------
+$ Co-C
+$
+$ From A. Fernandez Guillermet 1987 (included in LB Vol. 2)
+$
+$ A. Fernandez Guillermet, Z. Metallkd., 78, 700-709(1987)
+$
+$ G(FCC_A1,CO:C) modified by 89Fer1.
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+ PAR  L(LIQUID,C,CO;0),,                -107940.6+24.956*T;,,         N 87Fer1 !
+ PAR  L(LIQUID,C,CO;1),,                -9805.5;,,                    N 87Fer1 !
+$
+ PAR  G(FCC_A1,CO:C),,                  +GHSERCO+GHSERCC
+             +50463.8-6.849*T;,,                                      N 89Fer1 !
+ PAR  G(A1_FCC,CO:C),,                  +GHSERCO+GHSERCC
+             +50463.8-6.849*T;,,                                      N 89Fer1 !
+$PAR  G(FCC_A1,CO:C),,                  +GHSERCO+GHSERCC
+$            +50036.2-6.234*T;,,                                      N 87Fer1 !
+$
+ PAR  G(HCP_A3,CO:C),,                  +GHSERCO+0.5*GHSERCC
+             +22916.5-2.855*T;,,                                      N 87Fer1 !
+$
+$ metastable
+$
+$ Origin of parameter below is unclear.
+$PAR  G(BCC_A2,CO:C),,                  +GHSERCO+3*GHSERCC
+$            +248203.6-31.271*T;,,                                    N 88Fer1 !
+$ Parameter below calculated from fcc parameter from 89Fer1 (multiply by 4.902).
+ PAR  G(BCC_A2,CO:C),,                  +GHSERCO+3*GHSERCC
+             +247373.5-33.574*T;,,                                    N 88Fer1 !
+ PAR  G(A2_BCC,CO:C),,                  +GHSERCO+3*GHSERCC
+             +247373.5-33.574*T;,,                                    N 88Fer1 !
+$ Parameter below calculated from fcc parameter from 87Fer1 (multiply by 4.902).
+$PAR  G(BCC_A2,CO:C),,                  +GHSERCO+3*GHSERCC
+$            +245277.5-30.559*T;,,                                    N 88Fer1 !
+$
+ PAR  G(CBCC_A12,CO:C),,                +UN_ASS;,,                    N !
+ PAR  G(CUB_A13,CO:C),,                 +UN_ASS;,,                    N !
+$
+ PAR  G(CEMENTITE_D011,CO:C),,          +3*GHSERCO+GHSERCC
+             -1567+3.963*T;,,                                         N 88Fer1 !
+ PAR  G(M23C6_D84,CO:CO:C),,            +GCOM23C6;,,                  N 97Kus !
+ PAR  G(M7C3_D101,CO:C),,               -5706.9+1408.9*T
+             -249.28*T*LN(T)+956820*T**(-1);,,                        N 06Mar !
+ PAR  G(CR3C2_D510,CO:C),,              +63920+794.135*T
+             -132.57*T*LN(T)-2.35E-05*T**2+1296100*T**(-1);,,         N 14Kap !
+$
+ FUNCTION GCOM23C6  298.15  +23*GHSERCO+6*GHSERCC+145000+116*T;        6000 N !
+$ ------------------------------------------------------------------------------
+$ Co-Cr
+$
+$ From A. Kusoffsky and B. Jansson 1997 (included in LB Vol. 2)
+$
+$ A. Kusoffsky, B. Jansson, Calphad, 21, 321-33(1997).
+$
+$ Checked against paper and LB. Checked at 6000 K.
+$
+$ The SIGMA_D8B phase field is more narrow than SIGMA_OLD and does not agree
+$ as well with experimental data. It is rather close to the sigma phase field
+$ in the later assessment from 16Liu though.
+$
+ PAR  L(LIQUID,CO,CR;0),,               -3034-5.624*T;,,              N 97Kus !
+ PAR  L(LIQUID,CO,CR;1),,               +909;,,                       N 97Kus !
+$
+ PAR  L(FCC_A1,CO,CR:VA;0),,            +1500-9.592*T;,,              N 97Kus !
+ PAR  TC(FCC_A1,CO,CR:VA;0),,           -1795.00;,,                   N 97Kus !
+$
+ PAR  L(A1_FCC,CO,CR:VA;0),,            +1500-9.592*T;,,              N 97Kus !
+ PAR  TC(A1_FCC,CO,CR:VA;0),,           -1795.00;,,                   N 97Kus !
+$
+ PAR  G(FCC_4SL,CO:CO:CO:CR:VA;0),,     +GFCO3CR;,,                   N 16Liu !
+ PAR  G(FCC_4SL,CO:CO:CR:CR:VA;0),,     +GFCO2CR2;,,                  N 16Liu !
+ PAR  G(FCC_4SL,CO:CR:CR:CR:VA;0),,     +GFCOCR3;,,                   N 16Liu !
+$
+ PAR  L(BCC_A2,CO,CR:VA;0),,            +17208-13.519*T;,,            N 97Kus !
+ PAR  L(BCC_A2,CO,CR:VA;1),,            -5470;,,                      N 97Kus !
+$
+ PAR  L(A2_BCC,CO,CR:VA;0),,            +17208-13.519*T;,,            N 97Kus !
+ PAR  L(A2_BCC,CO,CR:VA;1),,            -5470;,,                      N 97Kus !
+$
+ PAR  G(B2_BCC,CO:CR:VA),,              -3.074*T;,,                   N 16Liu !
+ PAR  G(B2_BCC,CR:CO:VA),,              -3.074*T;,,                   N 16Liu !
+$
+ PAR  L(HCP_A3,CO,CR:VA;0),,            -6436;,,                      N 97Kus !
+ PAR  TC(HCP_A3,CO,CR:VA;0),,           -1795.00;,,                   N 97Kus !
+$
+ PAR  G(SIGMA_D8B,CO:CR:CO),,           +10*GFCCCO+4*GHSERCR+16*GBCCCO
+             +1668+26.86*T;,,                                         N 00Wes !
+ PAR  G(SIGMA_D8B,CO:CR:CR),,           +10*GFCCCO+20*GHSERCR
+             -11113-128.54*T;,,                                       N 00Wes !
+$
+$ Metastable
+$
+$ Added 100 J to SIGMA_D8B
+ PAR  G(HIGH_SIGMA,CO:CR:CO),,          +10*GFCCCO+4*GHSERCR+16*GBCCCO
+             +1768+26.86*T;,,                                         N 00Wes !
+ PAR  G(HIGH_SIGMA,CO:CR:CR),,          +10*GFCCCO+20*GHSERCR
+             -11013-128.54*T;,,                                       N 00Wes !
+$
+ FUNCTION U1FCOCR   298.15  0.0;                                       6000 N !
+ FUNCTION U4FCOCR   298.15  0.0;                                       6000 N !
+ FUNCTION GFCOCR3   298.15  3*U1FCOCR;                                 6000 N !
+ FUNCTION GFCO2CR2  298.15  4*U1FCOCR;                                 6000 N !
+ FUNCTION GFCO3CR   298.15  3*U1FCOCR;                                 6000 N !
+$ ------------------------------------------------------------------------------
+$ Co-Fe
+$
+$ I. Ohnuma, H. Enoki, O. Ikeda, R. Kainuma, H. Ohtani, B. Sundman, K. Ishida,
+$ Acta Mater., 50, 379-93(2002).
+$
+$ Checked against paper. Checked at 6000 K.
+$
+$ In 02Ohn the magnetic properties of pure Co were changed somewhat. These
+$ changes are not included here. This does not visibly change the phase diagram.
+$
+ PAR  L(LIQUID,CO,FE;0),,               -9753.82;,,                   N 02Ohn !
+ PAR  L(LIQUID,CO,FE;2),,               +2757.96;,,                   N 02Ohn !
+$
+ PAR  L(FCC_A1,CO,FE:VA;0),,            -8968.75;,,                   N 02Ohn !
+ PAR  L(FCC_A1,CO,FE:VA;2),,            +3528.8;,,                    N 02Ohn !
+ PAR  TC(FCC_A1,CO,FE:VA;0),,            +283;,,                      N 87Fer2 !
+ PAR  TC(FCC_A1,CO,FE:VA;1),,            +879;,,                      N 87Fer2 !
+ PAR  BM(FCC_A1,CO,FE:VA;0),,              +8.407;,,                  N 02Ohn !
+ PAR  BM(FCC_A1,CO,FE:VA;1),,              -3.644;,,                  N 02Ohn !
+$
+ PAR  L(A1_FCC,CO,FE:VA;0),,            -8968.75;,,                   N 02Ohn !
+ PAR  L(A1_FCC,CO,FE:VA;2),,            +3528.8;,,                    N 02Ohn !
+ PAR  TC(A1_FCC,CO,FE:VA;0),,            +283;,,                      N 87Fer2 !
+ PAR  TC(A1_FCC,CO,FE:VA;1),,            +879;,,                      N 87Fer2 !
+ PAR  BM(A1_FCC,CO,FE:VA;0),,              +8.407;,,                  N 02Ohn !
+ PAR  BM(A1_FCC,CO,FE:VA;1),,              -3.644;,,                  N 02Ohn !
+$
+ PAR  L(BCC_A2,CO,FE:VA;0),,            -26222.7+125*T-15.502*T*LN(T)
+             +0.25*SBCOFE;,,                                          N 02Ohn !
+ PAR  L(BCC_A2,CO,FE:VA;2),,            +2686.79-0.25*SBCOFE;,,       N 02Ohn !
+ PAR  TC(BCC_A2,CO,FE:VA;0),,            +590;,,                      N 87Fer2 !
+ PAR  BM(BCC_A2,CO,FE:VA;0),,              +1.406;,,                  N 02Ohn !
+ PAR  BM(BCC_A2,CO,FE:VA;1),,              -0.6617;,,                 N 02Ohn !
+$
+ PAR  L(A2_BCC,CO,FE:VA;0),,            -26222.7+125*T-15.502*T*LN(T)
+             +0.25*SBCOFE;,,                                          N 02Ohn !
+ PAR  L(A2_BCC,CO,FE:VA;2),,            +2686.79-0.25*SBCOFE;,,       N 02Ohn !
+ PAR  TC(A2_BCC,CO,FE:VA;0),,            +590;,,                      N 87Fer2 !
+ PAR  BM(A2_BCC,CO,FE:VA;0),,              +1.406;,,                  N 02Ohn !
+ PAR  BM(A2_BCC,CO,FE:VA;1),,              -0.6617;,,                 N 02Ohn !
+$
+ PAR  G(B2_BCC,CO:FE:VA),,              -1621.23;,,                   N 02Ohn !
+ PAR  G(B2_BCC,FE:CO:VA),,              -1621.23;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO,FE:CO:VA;0),,         +1744.89;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO:CO,FE:VA;0),,         +1744.89;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO,FE:CO:VA;1),,         -123.653;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO:CO,FE:VA;1),,         -123.653;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO,FE:FE:VA;0),,         +1497.58;,,                   N 02Ohn !
+ PAR  L(B2_BCC,FE:CO,FE:VA;0),,         +1497.58;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO,FE:FE:VA;1),,         -123.653;,,                   N 02Ohn !
+ PAR  L(B2_BCC,FE:CO,FE:VA;1),,         -123.653;,,                   N 02Ohn !
+ PAR  L(B2_BCC,CO,FE:CO,FE:VA;0),,      +SBCOFE;,,                    N 02Ohn !
+ PAR  TC(B2_BCC,CO:FE:VA),,              +370;,,                      N 02Ohn !
+ PAR  TC(B2_BCC,FE:CO:VA),,              +370;,,                      N 02Ohn !
+ PAR  TC(B2_BCC,CO,FE:CO:VA;0),,         -370;,,                      N 02Ohn !
+ PAR  TC(B2_BCC,CO:CO,FE:VA;0),,         -370;,,                      N 02Ohn !
+ PAR  TC(B2_BCC,CO,FE:FE:VA;0),,         -370;,,                      N 02Ohn !
+ PAR  TC(B2_BCC,FE:CO,FE:VA;0),,         -370;,,                      N 02Ohn !
+ PAR  BM(B2_BCC,CO:FE:VA),,                +0.1;,,                    N 02Ohn !
+ PAR  BM(B2_BCC,FE:CO:VA),,                +0.1;,,                    N 02Ohn !
+ PAR  BM(B2_BCC,CO,FE:CO:VA;0),,           -0.1;,,                    N 02Ohn !
+ PAR  BM(B2_BCC,CO:CO,FE:VA;0),,           -0.1;,,                    N 02Ohn !
+ PAR  BM(B2_BCC,CO,FE:FE:VA;0),,           -0.1;,,                    N 02Ohn !
+ PAR  BM(B2_BCC,FE:CO,FE:VA;0),,           -0.1;,,                    N 02Ohn !
+$
+ PAR  L(HCP_A3,CO,FE:VA;0),,            +5000;,,                      N 02Ohn !
+ PAR  TC(HCP_A3,CO,FE:VA;0),,            -253;,,                      N 87Fer2 !
+ PAR  TC(HCP_A3,CO,FE:VA;1),,           +1494;,,                      N 87Fer2 !
+ PAR  BM(HCP_A3,CO,FE:VA;0),,              +5.41;,,                   N 87Fer2 !
+ PAR  BM(HCP_A3,CO,FE:VA;1),,              -0.24;,,                   N 87Fer2 !
+$
+$ Metastable
+$
+ PAR  L(CBCC_A12,CO,FE:VA;0),,          -10000;,,                     N 90Hua4 !
+ PAR  L(CUB_A13,CO,FE:VA;0),,           -10000;,,                     N 90Hua4 !
+$
+ FUNCTION SBCOFE    298.15  -2529000*T**(-1);                          6000 N !
+$ ------------------------------------------------------------------------------
+$ Co-Mn
+$
+$ From W. Huang 1989 (included in LB Vol. 2)
+$
+$ W. Huang, Calphad, 13, 231-42(1989).
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+ PAR  L(LIQUID,CO,MN;0),,               -29476;,,                     N 89Hua1 !
+$
+ PAR  L(FCC_A1,CO,MN:VA;0),,            -23756;,,                     N 89Hua1 !
+ PAR  L(FCC_A1,CO,MN:VA;1),,            -2343;,,                      N 89Hua1 !
+ PAR  TC(FCC_A1,CO,MN:VA;0),,           -2685;,,                      N 89Hua1 !
+ PAR  TC(FCC_A1,CO,MN:VA;1),,           +3657;,,                      N 89Hua1 !
+ PAR  BM(FCC_A1,CO,MN:VA;0),,              -1.07;,,                   N 89Hua1 !
+$
+ PAR  L(A1_FCC,CO,MN:VA;0),,            -23756;,,                     N 89Hua1 !
+ PAR  L(A1_FCC,CO,MN:VA;1),,            -2343;,,                      N 89Hua1 !
+ PAR  TC(A1_FCC,CO,MN:VA;0),,           -2685;,,                      N 89Hua1 !
+ PAR  TC(A1_FCC,CO,MN:VA;1),,           +3657;,,                      N 89Hua1 !
+ PAR  BM(A1_FCC,CO,MN:VA;0),,              -1.07;,,                   N 89Hua1 !
+$
+ PAR  L(BCC_A2,CO,MN:VA;0),,            -23945;,,                     N 89Hua1 !
+ PAR  L(A2_BCC,CO,MN:VA;0),,            -23945;,,                     N 89Hua1 !
+$
+ PAR  L(HCP_A3,CO,MN:VA;0),,            -21000;,,                     N 89Hua1 !
+ PAR  L(HCP_A3,CO,MN:VA;1),,            -4000;,,                      N 89Hua1 !
+ PAR  TC(HCP_A3,CO,MN:VA;0),,           -2685;,,                      N 89Hua1 !
+ PAR  TC(HCP_A3,CO,MN:VA;1),,           +3657;,,                      N 89Hua1 !
+ PAR  BM(HCP_A3,CO,MN:VA;0),,              -1.07;,,                   N 89Hua1 !
+$
+ PAR  L(CBCC_A12,CO,MN:VA;0),,          -18335;,,                     N 89Hua1 !
+$
+ PAR  L(CUB_A13,CO,MN:VA;0),,           -26772-2.39*T;,,              N 89Hua1 !
+ PAR  L(CUB_A13,CO,MN:VA;1),,           -3243;,,                      N 89Hua1 !
+$ ------------------------------------------------------------------------------
+$ Co-Ni
+$
+$ From A. Fernandez Guillermet 1987 (included in LB Vol. 2)
+$
+$ A. Fernandez Guillermet, Z. Metallkd., 78, 639-47(1987).
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+ PAR  L(LIQUID,CO,NI;0),,               +1331;,,                      N 87Fer3 !
+$
+ PAR  L(FCC_A1,CO,NI:VA;0),,            -800+1.2629*T;,,              N 87Fer3 !
+ PAR  TC(FCC_A1,CO,NI:VA;0),,            +411;,,                      N 87Fer3 !
+ PAR  TC(FCC_A1,CO,NI:VA;1),,             -99;,,                      N 87Fer3 !
+ PAR  BM(FCC_A1,CO,NI:VA;0),,              +1.046;,,                  N 87Fer3 !
+ PAR  BM(FCC_A1,CO,NI:VA;1),,              +0.165;,,                  N 87Fer3 !
+$
+ PAR  L(A1_FCC,CO,NI:VA;0),,            -800+1.2629*T;,,              N 87Fer3 !
+ PAR  TC(A1_FCC,CO,NI:VA;0),,            +411;,,                      N 87Fer3 !
+ PAR  TC(A1_FCC,CO,NI:VA;1),,             -99;,,                      N 87Fer3 !
+ PAR  BM(A1_FCC,CO,NI:VA;0),,              +1.046;,,                  N 87Fer3 !
+ PAR  BM(A1_FCC,CO,NI:VA;1),,              +0.165;,,                  N 87Fer3 !
+$
+ PAR  G(FCC_4SL,CO:CO:CO:NI:VA),,       +GFCO3NI;,,                   N 16Liu !
+ PAR  G(FCC_4SL,CO:CO:NI:NI:VA),,       +GFCO2NI2;,,                  N 16Liu !
+ PAR  G(FCC_4SL,CO:NI:NI:NI:VA),,       +GFCONI3;,,                   N 16Liu !
+$
+ PAR  L(HCP_A3,CO,NI:VA;0),,            -1620-0.385*T;,,              N 87Fer3 !
+ PAR  TC(HCP_A3,CO,NI:VA;0),,            +411;,,                      N 87Fer3 !
+ PAR  TC(HCP_A3,CO,NI:VA;1),,             -99;,,                      N 87Fer3 !
+ PAR  BM(HCP_A3,CO,NI:VA;0),,              +1.046;,,                  N 87Fer3 !
+ PAR  BM(HCP_A3,CO,NI:VA;1),,              +0.165;,,                  N 87Fer3 !
+$
+$ Metastable
+$
+ PAR  L(BCC_A2,CO,NI:VA;0),,            +2000;,,                      N 89Fer2 !
+ PAR  TC(BCC_A2,CO,NI:VA;0),,            +556;,,                      N 89Fer2 !
+ PAR  TC(BCC_A2,CO,NI:VA;1),,            -288;,,                      N 89Fer2 !
+ PAR  BM(BCC_A2,CO,NI:VA;0),,              +0.474;,,                  N 89Fer2 !
+$
+ PAR  L(A2_BCC,CO,NI:VA;0),,            +2000;,,                      N 89Fer2 !
+ PAR  TC(A2_BCC,CO,NI:VA;0),,            +556;,,                      N 89Fer2 !
+ PAR  TC(A2_BCC,CO,NI:VA;1),,            -288;,,                      N 89Fer2 !
+ PAR  BM(A2_BCC,CO,NI:VA;0),,              +0.474;,,                  N 89Fer2 !
+$
+ PAR  G(B2_BCC,CO:NI:VA),,              +3864-1.664*T;,,              N 16Liu !
+ PAR  G(B2_BCC,NI:CO:VA),,              +3864-1.664*T;,,              N 16Liu !
+$
+ FUNCTION U1FCONI   298.15  0.0;                                       6000 N !
+ FUNCTION GFCO3NI   298.15  +3*U1FCONI;                                6000 N !
+ FUNCTION GFCO2NI2  298.15  +4*U1FCONI;                                6000 N !
+ FUNCTION GFCONI3   298.15  +3*U1FCONI;                                6000 N !
+ FUNCTION U3FCONI   298.15  0.0;                                       6000 N !
+ FUNCTION L1FCONI   298.15  0.0;                                       6000 N !
+$ ------------------------------------------------------------------------------
+$ Cr-C
+$
+$ A.V. Khvan, B. Hallstedt, K. Chang, Calphad, 39, 54-61(2012).
+$
+$ Checked against paper. Checked at 6000 K.
+$
+$ The liquid interaction has been changed compared to 92Lee.
+$ There is still very nearly a stable miscibility gap on the C-rich side.
+$
+$ M7C3 and CR3C2 become stable again above 9000K. This is a result of the
+$ T**2 terms and is not important.
+$
+$ The enthalpies and Gibbs energies of formation compare well with recent
+$ data from Kleykamp (J. Alloys Compd., 321, 138-45(2001)) and
+$ Meschel and Kleppa on Cr7C3 (J. Alloys Compd., 257, 227-33(1997)).
+$ The standard entropies and cp at 298K are not quite as good as they
+$ could (or should) be, but it doesn't motivate a reassessment.
+$
+$ It would probably be desirable to use the G(FCC_A1,CR:C) parameter from 04Bra,
+$ but in order to do that it may be necessary to adjust L(FCC_A1,CR:C,VA) and
+$ ternary fcc parameters in the systems Cr-Fe-C, Cr-Mn-C, Cr-Ni-C and Co-Cr-C.
+$
+ PAR  L(LIQUID,C,CR;0),,                -69245-35*T;,,                N 12Khv1 !
+ PAR  L(LIQUID,C,CR;1),,                +83242;,,                     N 12Khv1 !
+ PAR  L(LIQUID,C,CR;2),,                +88000;,,                     N 12Khv1 !
+$
+ PAR  G(BCC_A2,CR:C),,                  +GHSERCR+3*GHSERCC+416000;,,  N 87And2 !
+ PAR  TC(BCC_A2,CR:C),,                  -311.50;,,                   N 90Kaj !
+ PAR  BM(BCC_A2,CR:C),,                    -0.008;,,                  N 90Kaj !
+ PAR  L(BCC_A2,CR:C,VA;0),,             -190*T;,,                     N 87And2 !
+$
+ PAR  G(A2_BCC,CR:C),,                  +GHSERCR+3*GHSERCC+416000;,,  N 87And2 !
+ PAR  TC(A2_BCC,CR:C),,                  -311.50;,,                   N 90Kaj !
+ PAR  BM(A2_BCC,CR:C),,                    -0.008;,,                  N 90Kaj !
+ PAR  L(A2_BCC,CR:C,VA;0),,             -190*T;,,                     N 87And2 !
+$
+ PAR  G(M23C6_D84,CR:CR:C),,            +GCRM23C6;,,                  N 87And2 !
+ PAR  G(M7C3_D101,CR:C),,               -201690+1103.128*T
+             -190.177*T*LN(T)-0.0578207*T**2;,,                       N 92Lee !
+ PAR  G(CR3C2_D510,CR:C),,              -100823.8+530.66989*T
+             -89.6694*T*LN(T)-0.0301188*T**2;,,                       N 92Lee !
+$
+$ metastable
+$
+ PAR  G(FCC_A1,CR:C),,                  +GHSERCR+GHSERCC
+             +1200-1.94*T;,,                                          N 92Lee !
+$ The parameter below gives a formation energy considerably more negative
+$ than the previous from 92Lee and is consistent with data in 92Fer.
+$PAR  G(FCC_A1,CR:C),,                  -32690+248.42*T
+$            -41.678*T*LN(T)-0.00301955*T**2;,,                       N 04Bra !
+ PAR  L(FCC_A1,CR:C,VA;0),,             -11977+6.8194*T;,,            N 92Lee !
+$
+ PAR  G(A1_FCC,CR:C),,                  +GHSERCR+GHSERCC
+             +1200-1.94*T;,,                                          N 92Lee !
+ PAR  L(A1_FCC,CR:C,VA;0),,             -11977+6.8194*T;,,            N 92Lee !
+$
+ PAR  G(HCP_A3,CR:C),,                  +GHSERCR+0.5*GHSERCC
+             -18504+9.4173*T-2.4997*T*LN(T)+0.001386*T**2;,,          N 92Lee !
+ PAR  L(HCP_A3,CR:C,VA;0),,             +4165;,,                      N 88Gus5 !
+$
+ PAR  G(CBCC_A12,CR:C),,                +GHSERCR+GHSERCC+5000;,,      N 93Lee2 !
+ PAR  G(CUB_A13,CR:C),,                 +GHSERCR+GHSERCC+5000;,,      N 93Lee2 !
+$
+ PAR  G(CEMENTITE_D011,CR:C),,          +3*GHSERCR+GHSERCC
+             -48000-9.2888*T;,,                                       N 92Fer !
+$
+ PAR  G(KSI_CARBIDE,CR:C),,             +3*GHSERCR+GHSERCC
+             +114060-47.2519*T;,,                                     N 92Qiu !
+$
+ FUNCTION GCRM23C6  298.15  -521983+3622.24*T-620.965*T*LN(T)-0.126431*T**2;
+      6000.00  N !
+$ ------------------------------------------------------------------------------
+$ Cr-Fe
+$
+$ From J.-O. Andersson and B. Sundman 1987 (included in LB Vol. 2)
+$ Liquid modified by B.-J. Lee 1993
+$
+$ J.-O. Andersson, B. Sundman, Calphad, 11, 83-92(1987).
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+$ Wrong sign for L(FCC_A1,CR,FE:VA;0) in the paper.
+$
+$ The SIGMA_D8B and SIGMA_OLD phase fields are very similar.
+$
+$PAR  L(LIQUID,CR,FE;0),,               -14550+6.65*T;,,              N 87And1 !
+ PAR  L(LIQUID,CR,FE;0),,               -17737+7.996546*T;,,          N 93Lee1 !
+ PAR  L(LIQUID,CR,FE;1),,               -1331;,,                      N 93Lee1 !
+$
+ PAR  L(BCC_A2,CR,FE:VA;0),,            +20500-9.68*T;,,              N 87And1 !
+ PAR  BM(BCC_A2,CR,FE:VA;0),,              -0.85;,,                   N 87And1 !
+ PAR  TC(BCC_A2,CR,FE:VA;0),,           +1650;,,                      N 87And1 !
+ PAR  TC(BCC_A2,CR,FE:VA;1),,            +550;,,                      N 87And1 !
+$
+ PAR  L(A2_BCC,CR,FE:VA;0),,            +20500-9.68*T;,,              N 87And1 !
+ PAR  TC(A2_BCC,CR,FE:VA;0),,           +1650;,,                      N 87And1 !
+ PAR  TC(A2_BCC,CR,FE:VA;1),,            +550;,,                      N 87And1 !
+ PAR  BM(A2_BCC,CR,FE:VA;0),,              -0.85;,,                   N 87And1 !
+$
+ PAR  L(FCC_A1,CR,FE:VA;0),,            +10833-7.477*T;,,             N 87And1 !
+ PAR  L(FCC_A1,CR,FE:VA;1),,            +1410;,,                      N 87And1 !
+$
+ PAR  L(A1_FCC,CR,FE:VA;0),,            +10833-7.477*T;,,             N 87And1 !
+ PAR  L(A1_FCC,CR,FE:VA;1),,            +1410;,,                      N 87And1 !
+$
+ PAR  G(SIGMA_D8B,FE:CR:CR),,           +10*GFCCFE+20*GHSERCR
+             +83844-111.32*T;,,                                       N 00Wes !
+ PAR  G(SIGMA_D8B,FE:CR:FE),,           +10*GFCCFE+4*GHSERCR
+             +16*GHSERFE+140515-111.32*T;,,                           N 00Wes !
+$
+$ metastable
+$
+ PAR  L(HCP_A3,CR,FE:VA;0),,            +10833-7.477*T;,,             N 90Fri1 !
+$
+$ Added 100 J to SIGMA_D8B
+ PAR  G(HIGH_SIGMA,FE:CR:CR),,          +10*GFCCFE+20*GHSERCR
+             +83944-111.32*T;,,                                       N 00Wes !
+ PAR  G(HIGH_SIGMA,FE:CR:FE),,          +10*GFCCFE+4*GHSERCR
+             +16*GHSERFE+140615-111.32*T;,,                           N 00Wes !
+$ ------------------------------------------------------------------------------
+$ Cr-Mn
+$
+$ From B.-J. Lee 1993 (Included in LB Vol. 2)
+$
+$ B.-J. Lee, Metall. Trans. A, 24, 1919-33(1993).
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+$ HIGH-SIGMA with 10:4:16 model added by B. Hallstedt, 2016.
+$
+$ The phase field of HIGH_SIGMA with 10:4:16 is slightly more narrow.
+$ Invariant temperatures are very nearly unchanged.
+$
+$ The CBCC_A12 interaction referred to as 98Lee is an old parameter from 1991.
+$ It is used by mistake in COST and LB.
+$
+$ L(FCC_4SL,CR,MN:*:*:*:VA;0) added for the Cr-Fe-Mn system.
+$
+ PAR  L(LIQUID,CR,MN;0),,               -15009+13.6587*T;,,           N 93Lee3 !
+ PAR  L(LIQUID,CR,MN;1),,               +504+0.9479*T;,,              N 93Lee3 !
+$
+ PAR  L(FCC_A1,CR,MN:VA;0),,            -19088+17.5423*T;,,           N 93Lee3 !
+ PAR  L(A1_FCC,CR,MN:VA;0),,            -19088+17.5423*T;,,           N 93Lee3 !
+$
+ PAR  L(FCC_4SL,CR,MN:*:*:*:VA;0),,     +2000;,,                      N 16Hal7 !
+$
+ PAR  L(BCC_A2,CR,MN:VA;0),,            -20328+18.7339*T;,,           N 93Lee3 !
+ PAR  L(BCC_A2,CR,MN:VA;1),,            -9162+4.4183*T;,,             N 93Lee3 !
+ PAR  TC(BCC_A2,CR,MN:VA;0),,           -1325;,,                      N 93Lee3 !
+ PAR  TC(BCC_A2,CR,MN:VA;2),,           -1133;,,                      N 93Lee3 !
+ PAR  TC(BCC_A2,CR,MN:VA;4),,           -10294;,,                     N 93Lee3 !
+ PAR  TC(BCC_A2,CR,MN:VA;6),,           +26706;,,                     N 93Lee3 !
+ PAR  TC(BCC_A2,CR,MN:VA;8),,           -28117;,,                     N 93Lee3 !
+ PAR  BM(BCC_A2,CR,MN:VA;0),,           +0.48643;,,                   N 93Lee3 !
+ PAR  BM(BCC_A2,CR,MN:VA;2),,           -0.72035;,,                   N 93Lee3 !
+ PAR  BM(BCC_A2,CR,MN:VA;4),,           -1.93265;,,                   N 93Lee3 !
+$
+ PAR  L(A2_BCC,CR,MN:VA;0),,            -20328+18.7339*T;,,           N 93Lee3 !
+ PAR  L(A2_BCC,CR,MN:VA;1),,            -9162+4.4183*T;,,             N 93Lee3 !
+ PAR  TC(A2_BCC,CR,MN:VA;0),,           -1325;,,                      N 93Lee3 !
+ PAR  TC(A2_BCC,CR,MN:VA;2),,           -1133;,,                      N 93Lee3 !
+ PAR  TC(A2_BCC,CR,MN:VA;4),,           -10294;,,                     N 93Lee3 !
+ PAR  TC(A2_BCC,CR,MN:VA;6),,           +26706;,,                     N 93Lee3 !
+ PAR  TC(A2_BCC,CR,MN:VA;8),,           -28117;,,                     N 93Lee3 !
+ PAR  BM(A2_BCC,CR,MN:VA;0),,           +0.48643;,,                   N 93Lee3 !
+ PAR  BM(A2_BCC,CR,MN:VA;2),,           -0.72035;,,                   N 93Lee3 !
+ PAR  BM(A2_BCC,CR,MN:VA;4),,           -1.93265;,,                   N 93Lee3 !
+$
+ PAR  L(CBCC_A12,CR,MN:VA;0),,          -38349+22.6925*T;,,           N 93Lee3 !
+$PAR  L(CBCC_A12,CR,MN:VA;0),,          -36796+20.385*T;,,            N 98Lee !
+ PAR  L(CUB_A13,CR,MN:VA;0),,           -31260+16.4919*T;,,           N 93Lee3 !
+$
+ PAR  G(SIGMA_D8B,MN:CR:CR),,           +10*GFCCMN+20*GHSERCR
+             +10000;,,                                                N 16Hal6 !
+ PAR  G(SIGMA_D8B,MN:CR:MN),,           +10*GFCCMN+4*GHSERCR
+             +16*GBCCMN-168613+65.6*T;,,                              N 16Hal6 !
+ PAR  L(SIGMA_D8B,MN:CR:CR,MN;0),,      -947617+762.6*T;,,            N 16Hal6 !
+$
+ PAR  G(HIGH_SIGMA,MN:CR:CR),,          +10*GFCCMN+20*GHSERCR
+             -105987+105*T;,,                                         N 16Hal6 !
+ PAR  G(HIGH_SIGMA,MN:CR:MN),,          +10*GFCCMN+4*GHSERCR
+             +16*GBCCMN-73252-10*T;,,                                 N 16Hal6 !
+$
+ PAR  G(CR3MN5,CR:MN),,                 +3*GHSERCR+5*GHSERMN
+             -72550+21.1732*T;,,                                      N 93Lee3 !
+$
+$ Metastable
+$
+$PAR  L(HCP_A3,CR,MN:VA;0),,            +60000;,,                     N 93Lee3 !
+ PAR  L(HCP_A3,CR,MN:VA;0),,            -19088+17.5423*T;,,           N 93Fri !
+$ ------------------------------------------------------------------------------
+$ Cr-Ni
+$
+$ F. Tang, B. Hallstedt, Calphad, in print, 2016.
+$
+$ Checked against paper. Checked at 6000 K.
+$
+$ Metastable ordering in fcc and bcc from N. Dupin. Changed to a 4SL fcc
+$ model with option F. Adding a reciprocal term makes CrNi3 (the only
+$ ordered state) less stable; max T decreases from 450 K to 235 K.
+$
+$ The hcp interaction is set 2kJ more positive than the fcc interaction
+$ to avoid having hcp stable in Cr-Ni-C.
+$
+ PAR  L(LIQUID,CR,NI;0),,               -13300+2.7*T;,,               N 16Tan !
+ PAR  L(LIQUID,CR,NI;1),,               +2900+1*T;,,                  N 16Tan !
+$
+ PAR  L(FCC_A1,CR,NI:VA;0),,            +4300-8.9*T;,,                N 16Tan !
+ PAR  L(FCC_A1,CR,NI:VA;1),,            +27000-13.8*T;,,              N 16Tan !
+ PAR  TC(FCC_A1,CR,NI:VA;0),,           -3605;,,                      N 86Din !
+ PAR  BM(FCC_A1,CR,NI:VA;0),,              -1.91;,,                   N 86Din !
+$
+ PAR  L(A1_FCC,CR,NI:VA;0),,            +4300-8.9*T;,,                N 16Tan !
+ PAR  L(A1_FCC,CR,NI:VA;1),,            +27000-13.8*T;,,              N 16Tan !
+ PAR  TC(A1_FCC,CR,NI:VA;0),,           -3605;,,                      N 86Din !
+ PAR  BM(A1_FCC,CR,NI:VA;0),,              -1.91;,,                   N 86Din !
+$
+ PAR  G(FCC_4SL,CR:CR:CR:NI:VA),,       +GFCR3NI;,,                   N 01Dup !
+ PAR  G(FCC_4SL,CR:CR:NI:NI:VA),,       +GFCR2NI2;,,                  N 01Dup !
+ PAR  G(FCC_4SL,CR:NI:NI:NI:VA),,       +GFCRNI3;,,                   N 01Dup !
+$PAR  L(FCC_4SL,CR,NI:CR,NI:*:*:VA),,   +SFCRNI;,,                    N 16Hal3 !
+$
+ PAR  L(BCC_A2,CR,NI:VA;0),,            +14500-9*T;,,                 N 16Tan !
+ PAR  L(BCC_A2,CR,NI:VA;1),,            +27500-7.6*T;,,               N 16Tan !
+ PAR  TC(BCC_A2,CR,NI:VA;0),,           +2373;,,                      N 86Din !
+ PAR  TC(BCC_A2,CR,NI:VA;1),,            +617;,,                      N 86Din !
+ PAR  BM(BCC_A2,CR,NI:VA;0),,              +4;,,                      N 86Din !
+$
+ PAR  L(A2_BCC,CR,NI:VA;0),,            +14500-9*T;,,                 N 16Tan !
+ PAR  L(A2_BCC,CR,NI:VA;1),,            +27500-7.6*T;,,               N 16Tan !
+ PAR  TC(A2_BCC,CR,NI:VA;0),,           +2373;,,                      N 86Din !
+ PAR  TC(A2_BCC,CR,NI:VA;1),,            +617;,,                      N 86Din !
+ PAR  BM(A2_BCC,CR,NI:VA;0),,              +4;,,                      N 86Din !
+$
+ PAR  G(B2_BCC,CR:NI:VA),,              +4000;,,                      N 01Dup !
+ PAR  G(B2_BCC,NI:CR:VA),,              +4000;,,                      N 01Dup !
+$
+ PAR  G(CRNI2,CR:NI),,                  +GHSERCR+2*GHSERNI
+             -6000-6.8*T;,,                                           N 16Tan !
+$
+$ Metastable
+$
+ PAR  L(HCP_A3,CR,NI:VA;0),,            +6300-8.9*T;,,                N Same !
+ PAR  L(HCP_A3,CR,NI:VA;1),,            +27000-13.8*T;,,              N Same !
+$PAR  L(HCP_A3,CR,NI:VA;0),,            +50000;,,                     N 95Dup !
+ PAR  TC(HCP_A3,CR,NI:VA;0),,           -3605;,,                      N 95Dup !
+ PAR  BM(HCP_A3,CR,NI:VA;0),,              -1.91;,,                   N 95Dup !
+$
+$PAR  G(SIGMA_D8B,NI:CR:CR),,           +10*GHSERNI+20*GHSERCR
+$            +258130-254.715*T;,,                                     N 93Lee4 !
+ PAR  G(SIGMA_D8B,NI:CR:CR),,           +10*GHSERNI+20*GHSERCR
+             +240000-254.715*T;,,                                     N 16Hal4 !
+ PAR  G(SIGMA_D8B,NI:CR:NI),,           +10*GHSERNI+4*GHSERCR+16*GBCCNI
+             +175400;,,                                               N 88Gus6 !
+$
+ PAR  G(HIGH_SIGMA,NI:CR:CR),,          +10*GHSERNI+20*GHSERCR
+             +240000-254.715*T;,,                                     N 16Hal4 !
+ PAR  G(HIGH_SIGMA,NI:CR:NI),,          +10*GHSERNI+4*GHSERCR+16*GBCCNI
+             +175400;,,                                               N 88Gus6 !
+$
+ FUNCTION U1FCRNI   298.15  -1980;                                     6000 N !
+ FUNCTION SFCRNI    298.15  +U1FCRNI;                                  6000 N !
+ FUNCTION GFCRNI3   298.15  +3*U1FCRNI;                                6000 N !
+ FUNCTION GFCR2NI2  298.15  +4*U1FCRNI;                                6000 N !
+ FUNCTION GFCR3NI   298.15  +3*U1FCRNI;                                6000 N !
+$ ------------------------------------------------------------------------------
+$ Fe-C
+$
+$ From P. Gustafson 1985 (included in LB Vol. 3)
+$
+$ P. Gustafson, Scand. J. Metall., 14, 259-67(1985).
+$
+$ Checked against paper and LB. All numbers are exactly reproduced, except
+$ for a rounding error in the paper of the temperature of the FCC + LIQ + CEM
+$ equilibrium (1421 K in the paper, 1421.51 K calculated).
+$
+$ Cementite changed to 10Hal.
+$ The eutectoid (bcc+fcc+cem) temperature changed from 999.78 to 999.68 K.
+$ The eutectic (fcc+liq+cem) temperature changed from 1421.51 to 1421.31 K.
+$ The congruent melting point of cementite changed from 1497.8 to 1497.1 K.
+$
+$ BCC_A2 is stable above 4000 K around x(C)=0.33.
+$ There is an inverse miscibility gap in the liquid with a minimum at
+$ 5559 K and x(C)=0.53.
+$
+ PAR  L(LIQUID,C,FE;0),,                -124320+28.5*T;,,             N 85Gus !
+ PAR  L(LIQUID,C,FE;1),,                +19300;,,                     N 85Gus !
+ PAR  L(LIQUID,C,FE;2),,                +49260-19*T;,,                N 85Gus !
+$
+ PAR  G(BCC_A2,FE:C),,                  +GHSERFE+3*GHSERCC
+             +322050+75.667*T;,,                                      N 85Gus !
+ PAR  TC(BCC_A2,FE:C),,                  1043.00;,,                   N 85Gus !
+ PAR  BM(BCC_A2,FE:C),,                     2.22;,,                   N 85Gus !
+ PAR  L(BCC_A2,FE:C,VA;0),,             -190*T;,,                     N 85Gus !
+$
+ PAR  G(A2_BCC,FE:C),,                  +GHSERFE+3*GHSERCC
+             +322050+75.667*T;,,                                      N 85Gus !
+ PAR  TC(A2_BCC,FE:C),,                  1043.00;,,                   N 85Gus !
+ PAR  BM(A2_BCC,FE:C),,                     2.22;,,                   N 85Gus !
+ PAR  L(A2_BCC,FE:C,VA;0),,             -190*T;,,                     N 85Gus !
+$
+ PAR  G(B2_BCC,FE:FE:C),,               +ZERO;,,                      N 08Con !
+ PAR  G(B2_BCC,FE:VA:C),,               +ZERO;,,                      N 08Con !
+ PAR  G(B2_BCC,VA:FE:C),,               +ZERO;,,                      N 08Con !
+$
+ PAR  G(FCC_A1,FE:C),,                  +GFCCFE+GHSERCC
+             +77207-15.877*T;,,                                       N 85Gus !
+ PAR  TC(FCC_A1,FE:C),,                  -201.00;,,                   N 85Gus !
+ PAR  BM(FCC_A1,FE:C),,                    -2.10;,,                   N 85Gus !
+ PAR  L(FCC_A1,FE:C,VA;0),,             -34671;,,                     N 85Gus !
+$
+ PAR  G(A1_FCC,FE:C),,                  +GFCCFE+GHSERCC
+             +77207-15.877*T;,,                                       N 85Gus !
+ PAR  TC(A1_FCC,FE:C),,                  -201.00;,,                   N 85Gus !
+ PAR  BM(A1_FCC,FE:C),,                    -2.10;,,                   N 85Gus !
+ PAR  L(A1_FCC,FE:C,VA;0),,             -34671;,,                     N 85Gus !
+$
+ PAR  G(CEMENTITE_D011,FE:C) 0.01       +GFECEM;,,                    N 10Hal !
+ PAR  TC(CEMENTITE_D011,FE:C) 0.01        485.00;,,                   N 10Hal !
+ PAR  BM(CEMENTITE_D011,FE:C) 0.01          1.008;,,                  N 10Hal !
+$
+$ metastable
+$
+ PAR  G(HCP_A3,FE:C),,                  +GFCCFE+0.5*GHSERCC
+             +52905-11.9075*T;,,                                      N 88And2 !
+ PAR  L(HCP_A3,FE:C,VA;0),,             -17335;,,                     N 88And2 !
+$
+ PAR  G(CBCC_A12,FE:C),,                +GHSERFE+GHSERCC+80000;,,     N 90Hua2 !
+ PAR  L(CBCC_A12,FE:C,VA;0),,           -34671;,,                     N 90Hua2 !
+$
+ PAR  G(CUB_A13,FE:C),,                 +GHSERFE+GHSERCC+90000;,,     N 90Hua2 !
+ PAR  L(CUB_A13,FE:C,VA;0),,            -34671;,,                     N 90Hua2 !
+$
+ PAR  G(M7C3_D101,FE:C),,               +2.333333*GFECEM
+             +0.666667*GHSERCC+13200;,,                               N 11Dju !
+ PAR  G(M23C6_D84,FE:FE:C),,            +GFEM23C6;,,                  N 11Dju !
+ PAR  G(M5C2,FE:C),,                    +1.666667*GFECEM
+             +0.333333*GHSERCC+6200;,,                                N 11Dju !
+ PAR  G(FE4N_L1,FE:C),,                 +4*GHSERFE+GHSERCC+23224;,,   N 91Du !
+ PAR  G(FECN_CHI,FE:C),,                +2.2*GHSERFE+GHSERCC
+             +9131-4.539*T;,,                                         N 91Du !
+ PAR  G(KSI_CARBIDE,FE:C),,             +3*GHSERFE+GHSERCC
+             +14540+20*T;,,                                           N 88And2 !
+ PAR  G(V3C2,FE:C),,                    +7250+741.566*T
+             -125.833*T*LN(T)+779485*T**(-1);,,                       N 91Hua4 !
+$
+ FUNCTION GFECEM      0.01  +11369.937746-5.641259263*T-8.333E-6*T**4;
+        43.00  Y  +11622.647246-59.537709263*T+15.74232*T*LN(T)
+       -0.27565*T**2;
+       163.00  Y  -10195.860754+690.949887637*T-118.47637*T*LN(T)
+                  -0.0007*T**2+590527*T**(-1);
+      6000.00  N !
+ FUNCTION GFEM23C6  298.15  +7.666667*GFECEM-1.666667*GHSERCC+15000;   6000 N !
+$ ------------------------------------------------------------------------------
+$ Fe-Mn
+$
+$ From W. Huang 1989 (included in LB Vol. 3)
+$
+$ W. Huang, Calphad, 13, 243-52(1989).
+$
+$ Checked against LB and paper. Checked at 6000 K.
+$
+$ HCP_A3 interaction slightly modified by 11Dju.
+$
+$ The Neel temperature (fcc) is well described, but there is an uncertainty
+$ concerning the magnetic moments. A value BM(FCC_A1,FE,MN:VA;0)=1 seems to
+$ fit M_s data best.
+$
+$ Fcc ordering energies (approximately) from Alexey Dick 2008.
+$
+ PAR  L(LIQUID,FE,MN;0),,               -3950+0.489*T;,,              N 89Hua2 !
+ PAR  L(LIQUID,FE,MN;1),,               +1145;,,                      N 89Hua2 !
+$
+ PAR  L(FCC_A1,FE,MN:VA;0),,            -7762+3.865*T;,,              N 89Hua2 !
+ PAR  L(FCC_A1,FE,MN:VA;1),,            -259;,,                       N 89Hua2 !
+ PAR  TC(FCC_A1,FE,MN:VA;0),,           -2282;,,                      N 89Hua2 !
+ PAR  TC(FCC_A1,FE,MN:VA;1),,           -2068;,,                      N 89Hua2 !
+$ New value below (old value was zero)
+ PAR  BM(FCC_A1,FE,MN:VA;0),,              +1;,,                      N 12Hal !
+$
+ PAR  L(A1_FCC,FE,MN:VA;0),,            -7762+3.865*T;,,              N 89Hua2 !
+ PAR  L(A1_FCC,FE,MN:VA;1),,            -259;,,                       N 89Hua2 !
+ PAR  TC(A1_FCC,FE,MN:VA;0),,           -2282;,,                      N 89Hua2 !
+ PAR  TC(A1_FCC,FE,MN:VA;1),,           -2068;,,                      N 89Hua2 !
+ PAR  BM(A1_FCC,FE,MN:VA;0),,              +1;,,                      N 12Hal !
+$
+ PAR  G(FCC_4SL,FE:FE:FE:MN:VA),,       +GFFE3MN;,,                   N 08Hal !
+ PAR  G(FCC_4SL,FE:FE:MN:MN:VA),,       +GFFE2MN2;,,                  N 08Hal !
+ PAR  G(FCC_4SL,FE:MN:MN:MN:VA),,       +GFFEMN3;,,                   N 08Hal !
+ PAR  L(FCC_4SL,FE,MN:FE,MN:*:*:VA;0),, +SFFEMN;,,                    N 08Hal !
+$
+ PAR  L(BCC_A2,FE,MN:VA;0),,            -2759+1.237*T;,,              N 89Hua2 !
+ PAR  TC(BCC_A2,FE,MN:VA;0),,            +123;,,                      N 89Hua2 !
+$
+ PAR  L(A2_BCC,FE,MN:VA;0),,            -2759+1.237*T;,,              N 89Hua2 !
+ PAR  TC(A2_BCC,FE,MN:VA;0),,            +123;,,                      N 89Hua2 !
+$
+ PAR  L(HCP_A3,FE,MN:VA;0),,            -5748+3.865*T;,,              N 11Dju !
+ PAR  L(HCP_A3,FE,MN:VA;1),,            +273;,,                       N 11Dju !
+$PAR  L(HCP_A3,FE,MN:VA;0),,            -5582+3.865*T;,,              N 89Hua2 !
+$PAR  L(HCP_A3,FE,MN:VA;1),,            +273;,,                       N 89Hua2 !
+$
+ PAR  L(CBCC_A12,FE,MN:VA;0),,          -10184;,,                     N 89Hua2 !
+ PAR  L(CUB_A13,FE,MN:VA;0),,           -11518+2.819*T;,,             N 89Hua2 !
+$
+ FUNCTION U1FFEMN   298.15  -700;                                      6000 N !
+ FUNCTION GFFE3MN   298.15  +3*U1FFEMN-90;                             6000 N !
+ FUNCTION GFFE2MN2  298.15  +4*U1FFEMN;                                6000 N !
+ FUNCTION GFFEMN3   298.15  +3*U1FFEMN+90;                             6000 N !
+ FUNCTION SFFEMN    298.15  +U1FFEMN;                                  6000 N !
+$ ------------------------------------------------------------------------------
+$ Fe-Ni
+$
+$ N. Dupin, B. Sundman, March 2003 at JEEP.
+$
+$ Checked against LB. Checked at 6000 K.
+$
+$ This dataset is modified from the LB dataset by changing the ordering
+$ parameter to have a much weaker temperature dependence. A strongly positive
+$ ordering contribution causes ordering at high temperature (in this case)
+$ in the Cr-Fe-Ni and Fe-Mn-Ni systems. Compared to the LB dataset the critical
+$ temperature for ordering (FeNi3) is the same, but the FeNi3 phase field
+$ becomes wider at lower temperature and the bcc+fcc+FeNi3 equilibrium
+$ temperature decreases.
+$
+$ There are several different descriptions of the fcc ordering floating around.
+$ All are referred to I. Ansara. This one is taken from LBall-v7+fun.tdb and
+$ cited there as I. Ansara 1995. However, the description in FeNi-95Ans-CK.tdb
+$ is different. Therefore I assume that the complete present description
+$ (and not just the SRO contribution) is from N. Dupin 2003.
+$
+$ Bcc ordering added by B. Sundman 2003
+$ Liquid changed by B.-J. Lee 1993
+$ U1FFENI changed by B. Hallstedt 2016
+$
+$ I have not seen the original 85Xin report, but it is consistently cited
+$ by both AFG and B.-J. Lee, so I believe it is correctly cited.
+$
+$ The diagram in LB is calculated using the original 85Xin parameters for
+$ the liquid.
+$
+$PAR  L(LIQUID,FE,NI;0),,               -18378.86+6.03912*T;,,        N 85Xin !
+$PAR  L(LIQUID,FE,NI;1),,               +9228.1-3.54642*T;,,          N 85Xin !
+ PAR  L(LIQUID,FE,NI;0),,               -16911+5.1622*T;,,            N 93Lee1 !
+ PAR  L(LIQUID,FE,NI;1),,               +10180-4.146656*T;,,          N 93Lee1 !
+$
+ PAR  L(FCC_A1,FE,NI:VA;0),,            -12054.355+3.27413*T;,,       N 85Xin !
+ PAR  L(FCC_A1,FE,NI:VA;1),,            +11082.1315-4.45077*T;,,      N 85Xin !
+ PAR  L(FCC_A1,FE,NI:VA;2),,            -725.805174;,,                N 85Xin !
+ PAR  TC(FCC_A1,FE,NI:VA;0),,           +2133;,,                      N 85Xin !
+ PAR  TC(FCC_A1,FE,NI:VA;1),,            -682;,,                      N 85Xin !
+ PAR  BM(FCC_A1,FE,NI:VA;0),,              +9.55;,,                   N 85Xin !
+ PAR  BM(FCC_A1,FE,NI:VA;1),,              +7.23;,,                   N 85Xin !
+ PAR  BM(FCC_A1,FE,NI:VA;2),,              +5.93;,,                   N 85Xin !
+ PAR  BM(FCC_A1,FE,NI:VA;3),,              +6.18;,,                   N 85Xin !
+$
+ PAR  L(A1_FCC,FE,NI:VA;0),,            -12054.355+3.27413*T;,,       N 85Xin !
+ PAR  L(A1_FCC,FE,NI:VA;1),,            +11082.1315-4.45077*T;,,      N 85Xin !
+ PAR  L(A1_FCC,FE,NI:VA;2),,            -725.805174;,,                N 85Xin !
+ PAR  TC(A1_FCC,FE,NI:VA;0),,           +2133;,,                      N 85Xin !
+ PAR  TC(A1_FCC,FE,NI:VA;1),,            -682;,,                      N 85Xin !
+ PAR  BM(A1_FCC,FE,NI:VA;0),,              +9.55;,,                   N 85Xin !
+ PAR  BM(A1_FCC,FE,NI:VA;1),,              +7.23;,,                   N 85Xin !
+ PAR  BM(A1_FCC,FE,NI:VA;2),,              +5.93;,,                   N 85Xin !
+ PAR  BM(A1_FCC,FE,NI:VA;3),,              +6.18;,,                   N 85Xin !
+$
+ PAR  G(FCC_4SL,FE:FE:FE:NI:VA),,       +GFFE3NI;,,                   N 16Hal5 !
+ PAR  G(FCC_4SL,FE:FE:NI:NI:VA),,       +GFFE2NI2;,,                  N 16Hal5 !
+ PAR  G(FCC_4SL,FE:NI:NI:NI:VA),,       +GFFENI3;,,                   N 16Hal5 !
+ PAR  L(FCC_4SL,FE,NI:*:*:*:VA;0),,     +U3FFENI;,,                   N 03Dup !
+ PAR  L(FCC_4SL,FE,NI:FE,NI:*:*:VA;0),, +SFFENI;,,                    N 16Hal5 !
+$
+ PAR  L(BCC_A2,FE,NI:VA;0),,            -956.63-1.28726*T;,,          N 85Xin !
+ PAR  L(BCC_A2,FE,NI:VA;1),,            +1789.03-1.92912*T;,,         N 85Xin !
+$
+ PAR  L(A2_BCC,FE,NI:VA;0),,            -956.63-1.28726*T;,,          N 85Xin !
+ PAR  L(A2_BCC,FE,NI:VA;1),,            +1789.03-1.92912*T;,,         N 85Xin !
+$
+ PAR  G(B2_BCC,FE:NI:VA),,              -2083.274;,,                  N 09Zha2 !
+ PAR  G(B2_BCC,NI:FE:VA),,              -2083.274;,,                  N 09Zha2 !
+$
+$ metastable
+$
+ PAR  L(HCP_A3,FE,NI:VA;0),,            -12054.355+3.27413*T;,,       N 85Xin !
+ PAR  L(HCP_A3,FE,NI:VA;1),,            +11082.1315-4.45077*T;,,      N 85Xin !
+ PAR  L(HCP_A3,FE,NI:VA;2),,            -725.805174;,,                N 85Xin !
+$
+ PAR  L(CBCC_A12,FE,NI:VA;0),,          +ZERO;,,                      N 09Zha1 !
+ PAR  L(CUB_A13,FE,NI:VA;0),,           -7000;,,                      N 09Zha1 ! 
+$
+$ Function below from 03Dup
+$FUNCTION U1FFENI   298.15  -7500+13.7*T;                              6000 N !
+$ Half T dependence (below) is not sufficient.
+$FUNCTION U1FFENI   298.15  -1906+6.5*T;                               6000 N !
+ FUNCTION U1FFENI   298.15  +814+3*T;                                  6000 N !
+ FUNCTION SFFENI    298.15  +U1FFENI;                                  6000 N !
+ FUNCTION U3FFENI   298.15  +1200;                                     6000 N !
+ FUNCTION GFFENI3   298.15  +3*U1FFENI-6315;                           6000 N !
+ FUNCTION GFFE3NI   298.15  +3*U1FFENI+6000;                           6000 N !
+ FUNCTION GFFE2NI2  298.15  +4*U1FFENI;                                6000 N !
+$ ------------------------------------------------------------------------------
+$ Mn-C
+$
+$ D. Djurovic, B. Hallstedt, J. von Appen, R. Dronskowski,
+$ Calphad, 34, 279-85(2010).
+$
+$ Checked against paper. Checked at 6000 K.
+$
+ PAR  L(LIQUID,C,MN;0),,                -179183+43.8449*T;,,          N 10Dju !
+ PAR  L(LIQUID,C,MN;1),,                +6313;,,                      N 10Dju !
+ PAR  L(LIQUID,C,MN;2),,                +23281;,,                     N 10Dju !
+$
+ PAR  G(FCC_A1,MN:C),,                  +GHSERMN+GHSERCC+13.659*T;,,  N 10Dju !
+ PAR  L(FCC_A1,MN:C,VA;0),,             -41333;,,                     N 10Dju !
+$
+ PAR  G(A1_FCC,MN:C),,                  +GHSERMN+GHSERCC+13.659*T;,,  N 10Dju !
+ PAR  L(A1_FCC,MN:C,VA;0),,             -41333;,,                     N 10Dju !
+$
+ PAR  G(BCC_A2,MN:C),,                  +GHSERMN+3*GHSERCC
+             +10000+30*T;,,                                           N 90Hua1 !
+ PAR  G(A2_BCC,MN:C),,                  +GHSERMN+3*GHSERCC
+             +10000+30*T;,,                                           N 90Hua1 !
+$
+ PAR  G(HCP_A3,MN:C),,                  +GHSERMN+0.5*GHSERCC
+             -9000-1.0651*T;,,                                        N 10Dju !
+ PAR  L(HCP_A3,MN:C,VA;0),,             -5006;,,                      N 10Dju !
+$
+ PAR  G(CBCC_A12,MN:C),,                +GHSERMN+GHSERCC
+             +27.46525*T;,,                                           N 10Dju !
+ PAR  L(CBCC_A12,MN:C,VA;0),,           -52204;,,                     N 10Dju !
+$
+ PAR  G(CUB_A13,MN:C),,                 +GHSERMN+GHSERCC+2607;,,      N 10Dju !
+ PAR  L(CUB_A13,MN:C,VA;0),,            -10175;,,                     N 10Dju !
+$
+ PAR  G(M23C6_D84,MN:MN:C),,            +GMN23C6;,,                   N 10Dju !
+ PAR  G(CEMENTITE_D011,MN:C),,          +GMN3C;,,                     N 10Dju !
+ PAR  G(M5C2,MN:C),,                    +GMN5C2;,,                    N 10Dju !
+ PAR  G(M7C3_D101,MN:C),,               +GMN7C3;,,                    N 10Dju !
+$
+$ metastable
+$
+ PAR  G(V3C2,MN:C),,                    -76135+750.415*T
+             -125.589*T*LN(T)+922711*T**(-1);,,                       N 91Fer !
+$
+ FUNCTION GMN23C6   298.15  +23*GHSERMN+6*GHSERCC-310473+53.86*T;      6000 N !
+ FUNCTION GMN3C     298.15  +3*GHSERMN+GHSERCC-39644+3.04*T;           6000 N !
+ FUNCTION GMN5C2    298.15  +5*GHSERMN+2*GHSERCC-73954+6.36*T;         6000 N !
+ FUNCTION GMN7C3    298.15  +7*GHSERMN+3*GHSERCC-106695+9.36*T;        6000 N !
+$ ------------------------------------------------------------------------------
+$ Mn-Ni
+$
+$ P. Franke, Int. J. Mater. Res., 98, 954-60(2007).
+$
+$ Checked against paper. Checked at 6000 K.
+$
+$ 4SL model for fcc using option F.
+$
+$ The parameters for the disordered phases (except bcc) are kept from 
+$ Guo and Du 2005.
+$
+$ There seems to be a magnetic miscibility gap (with Nishizawa horn) in the
+$ fcc phase on the Ni-rich side below about 500 K. For some reason it
+$ continues as a very thin miscibility gap up to the solidus.
+$
+ PAR  L(LIQUID,MN,NI;0),,               -45032.1+2.7764*T;,,          N 05Guo !
+ PAR  L(LIQUID,MN,NI;1),,               +11665.5-7.6061*T;,,          N 05Guo !
+$
+ PAR  L(FCC_A1,MN,NI:VA;0),,            -27996.5-1.2275*T;,,          N 05Guo !
+ PAR  L(FCC_A1,MN,NI:VA;1),,            +19266.4-12.2853*T;,,         N 05Guo !
+ PAR  TC(FCC_A1,MN,NI:VA;0),,           -3171.20;,,                   N 05Guo !
+ PAR  TC(FCC_A1,MN,NI:VA;1),,           -4317.73;,,                   N 05Guo !
+ PAR  BM(FCC_A1,MN,NI:VA;0),,              -1.3947;,,                 N 05Guo !
+ PAR  BM(FCC_A1,MN,NI:VA;1),,              +3.9050;,,                 N 05Guo !
+$
+ PAR  L(A1_FCC,MN,NI:VA;0),,            -27996.5-1.2275*T;,,          N 05Guo !
+ PAR  L(A1_FCC,MN,NI:VA;1),,            +19266.4-12.2853*T;,,         N 05Guo !
+ PAR  TC(A1_FCC,MN,NI:VA;0),,           -3171.20;,,                   N 05Guo !
+ PAR  TC(A1_FCC,MN,NI:VA;1),,           -4317.73;,,                   N 05Guo !
+ PAR  BM(A1_FCC,MN,NI:VA;0),,              -1.3947;,,                 N 05Guo !
+ PAR  BM(A1_FCC,MN,NI:VA;1),,              +3.9050;,,                 N 05Guo !
+$
+ PAR  G(FCC_4SL,MN:MN:MN:NI:VA),,       +GFMN3NI;,,                   N 07Fra !
+ PAR  G(FCC_4SL,MN:MN:NI:NI:VA),,       +GFMN2NI2;,,                  N 07Fra !
+ PAR  G(FCC_4SL,MN:NI:NI:NI:VA),,       +GFMNNI3;,,                   N 07Fra !
+ PAR  G(FCC_4SL,MN,NI:MN,NI:*:*:VA;0),, +SFMNNI;,,                    N 07Fra !
+$
+ PAR  L(BCC_A2,MN,NI:VA;0),,            -11466-14*T;,,                N 07Fra !
+ PAR  L(A2_BCC,MN,NI:VA;0),,            -11466-14*T;,,                N 07Fra !
+$
+ PAR  G(B2_BCC,MN:NI:VA),,              -23774+4.5*T;,,               N 07Fra !
+ PAR  G(B2_BCC,NI:MN:VA),,              -23774+4.5*T;,,               N 07Fra !
+$
+ PAR  L(CBCC_A12,MN,NI:VA;0),,          -27797.3-0.4267*T;,,          N 05Guo !
+ PAR  L(CBCC_A12,MN,NI:VA;1),,          +36529.6-30.5162*T;,,         N 05Guo !
+$
+ PAR  L(CUB_A13,MN,NI:VA;0),,           -28815.2+0.1795*T;,,          N 05Guo !
+ PAR  L(CUB_A13,MN,NI:VA;1),,           +24317.8-16.8271*T;,,         N 05Guo !
+$
+$ metastable
+$
+ PAR  L(HCP_A3,MN,NI:VA;0),,            -27996.5-1.2275*T;,,          N Same !
+ PAR  L(HCP_A3,MN,NI:VA;1),,            +19266.4-12.2853*T;,,         N Same !
+$
+ FUNCTION U1FMNNI   298.15  -7050;                                     6000 N !
+ FUNCTION SFMNNI    298.15  -5500;                                     6000 N !
+ FUNCTION GFMN3NI   298.15  +3*U1FMNNI+2200;                           6000 N !
+ FUNCTION GFMN2NI2  298.15  +4*U1FMNNI;                                6000 N !
+ FUNCTION GFMNNI3   298.15  +3*U1FMNNI+1550;                           6000 N !
+$ ------------------------------------------------------------------------------
+$ Ni-C
+$
+$ B. Hallstedt, unpublished, 2006
+$
+$ Checked at 6000 K.
+$
+$ Liquid interaction adjusted to exp. data from Oden and Gokcen 1997.
+$
+$ The parameter G(BCC_A2,NI:C) was set temperature independent to
+$ avoid inverse stability of bcc (equal to 87Gab at about 1273K).
+$
+ PAR  L(LIQUID,C,NI;0),,                -93450+24*T;,,                N 06Hal2 !
+$
+ PAR  G(FCC_A1,NI:C),,                  +GHSERNI+GHSERCC
+             +62000-7.6*T;,,                                          N 92Fer !
+ PAR  TC(FCC_A1,NI:C),,                   633.00;,,                   N 87Gab !
+ PAR  BM(FCC_A1,NI:C),,                     0.52;,,                   N 87Gab !
+ PAR  L(FCC_A1,NI:C,VA;0),,             -14902+7.5*T;,,               N 92Lee !
+$
+ PAR  G(A1_FCC,NI:C),,                  +GHSERNI+GHSERCC
+             +62000-7.6*T;,,                                          N 92Fer !
+ PAR  TC(A1_FCC,NI:C),,                   633.00;,,                   N 87Gab !
+ PAR  BM(A1_FCC,NI:C),,                     0.52;,,                   N 87Gab !
+ PAR  L(A1_FCC,NI:C,VA;0),,             -14902+7.5*T;,,               N 92Lee !
+$
+$ Metastable
+$
+ PAR  G(BCC_A2,NI:C),,                  +GHSERNI+3*GHSERCC
+             +270000;,,                                               N 06Hal2 !
+ PAR  TC(BCC_A2,NI:C),,                   575.00;,,                   N 87Gab !
+ PAR  BM(BCC_A2,NI:C),,                     0.85;,,                   N 87Gab !
+$
+ PAR  G(A2_BCC,NI:C),,                  +GHSERNI+3*GHSERCC
+             +270000;,,                                               N 06Hal2 !
+ PAR  TC(A2_BCC,NI:C),,                   575.00;,,                   N 87Gab !
+ PAR  BM(A2_BCC,NI:C),,                     0.85;,,                   N 87Gab !
+$
+ PAR  G(HCP_A3,NI:C),,                  +GHSERNI+0.5*GHSERCC
+             +34796+2.665*T;,,                                        N 88Fer2 !
+ PAR  TC(HCP_A3,NI:C),,                   633.00;,,                   N 88Fer2 !
+ PAR  BM(HCP_A3,NI:C),,                     0.52;,,                   N 88Fer2 !
+$
+ PAR  G(CEMENTITE_D011,NI:C),,          +3*GHSERNI+GHSERCC
+             +34700-20*T;,,                                           N 87Gab !
+ PAR  G(M7C3_D101,NI:C),,               +7*GHSERNI+3*GHSERCC
+             +198000-37*T;,,                                          N 06Hal3 !
+ PAR  G(M23C6_D84,NI:NI:C),,            +GNIM23C6;,,                  N 06Hal3 !
+$
+ FUNCTION GNIM23C6  298.15  +23*GHSERNI+6*GHSERCC+350000-85*T;         6000 N !
+$ ------------------------------------------------------------------------------
+$ Ternary systems
+$ ------------------------------------------------------------------------------
+$ Al-Co-C
+$
+$ H. Ohtani, M. Yamano, M. Hasebe, Calphad, 28, 177-90(2004).
+$
+$ This dataset is based on the evaluation from 04Oht, but all binaries have
+$ been changed. They used a common model for Co3Al and kappa, but here Co3Al
+$ (which is not a stable phase) is described as an fcc ordered phase and
+$ kappa is described with a separate model.
+$
+$ It was necessary to reduce the stability of the kappa phase compared to 04Oht.
+$
+$ Results are now fairly reasonable, but more work is needed for this system.
+$
+ PAR  L(LIQUID,AL,C,CO;0),,             +ZERO;,,                      N 04Oht !
+ PAR  L(LIQUID,AL,C,CO;1),,             +ZERO;,,                      N 04Oht !
+ PAR  L(LIQUID,AL,C,CO;2),,             -260000;,,                    N 04Oht !
+$
+$PAR  G(KAPPA_E21,AL:CO:C),,            +GHSERAL+3*GHSERCO+GHSERCC
+$            -178750+31.5*T;,,                                        N 04Oht !
+ PAR  G(KAPPA_E21,AL:CO:C),,            +GHSERAL+3*GHSERCO+GHSERCC
+             -158750+31.5*T;,,                                        N 17Hal1 !
+$ ------------------------------------------------------------------------------
+$ Al-Co-Cr
+$
+$ X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu, Calphad, 52, 125-42(2016).
+$
+$ Checked against paper and author's tdb.
+$
+$ Ternary and Al-Cr hcp interaction used in 15Liu have been removed by 16Liu.
+$ They are reintroduced here.
+$
+$ Fcc changed from 2SL to 4SL. SIGMA_OLD changed to SIGMA_D8B (using the same
+$ Al-Cr and Al-Co-Cr parameters). The Al solubility in sigma increases
+$ and the shape of the sigma field changes.
+$
+ PAR  L(LIQUID,AL,CO,CR;0),,            +30000;,,                     N 15Liu !
+$
+ PAR  L(FCC_A1,AL,CO,CR:VA;0),,         +990+8.278*T;,,               N 16Liu !
+ PAR  L(A1_FCC,AL,CO,CR:VA;0),,         +990+8.278*T;,,               N 16Liu !
+$
+ PAR  G(FCC_4SL,AL:AL:CO:CR:VA),,       +FAL2COCR;,,                  N 16Liu !
+ PAR  G(FCC_4SL,CO:CO:AL:CR:VA),,       +FALCO2CR;,,                  N 16Liu !
+ PAR  G(FCC_4SL,CR:CR:AL:CO:VA),,       +FALCOCR2;,,                  N 16Liu !
+$
+ PAR  L(BCC_A2,AL,CO,CR:VA;0),,         -28128;,,                     N 16Liu !
+ PAR  L(BCC_A2,AL,CO,CR:VA;1),,         +123468-61.879*T;,,           N 16Liu !
+ PAR  L(BCC_A2,AL,CO,CR:VA;2),,         -12107-32.267*T;,,            N 16Liu !
+$
+ PAR  L(A2_BCC,AL,CO,CR:VA;0),,         -28128;,,                     N 16Liu !
+ PAR  L(A2_BCC,AL,CO,CR:VA;1),,         +123468-61.879*T;,,           N 16Liu !
+ PAR  L(A2_BCC,AL,CO,CR:VA;2),,         -12107-32.267*T;,,            N 16Liu !
+$
+ PAR  L(B2_BCC,AL,CO:CR:VA;0),,         -30895;,,                     N 16Liu !
+ PAR  L(B2_BCC,CR:AL,CO:VA;0),,         -30895;,,                     N 16Liu !
+ PAR  L(B2_BCC,CO,CR:AL:VA;0),,         -11069;,,                     N 16Liu !
+ PAR  L(B2_BCC,AL:CO,CR:VA;0),,         -11069;,,                     N 16Liu !
+$
+ PAR  L(HCP_A3,AL,CO,CR:VA;0),,         +25000;,,                     N 15Liu !
+$
+ PAR  G(SIGMA_D8B,AL:CR:CO),,           +10*GHSERAL+4*GHSERCR
+             +16*GBCCCO-617537;,,                                     N 15Liu !
+ PAR  G(SIGMA_D8B,CO:CR:AL),,           +10*GFCCCO+4*GHSERCR
+             +16*GBCCAL-931862;,,                                     N 15Liu !
+ PAR  L(SIGMA_D8B,CO:CR:AL,CR;0),,      -200000;,,                    N 16Liu !
+$
+ FUNCTION U1ALCOCR  298.15  0.0;                                       6000 N !
+ FUNCTION U2ALCOCR  298.15  0.0;                                       6000 N !
+ FUNCTION U3ALCOCR  298.15  0.0;                                       6000 N !
+ FUNCTION FALCOCR2  298.15  +U1FALCO+2*U1FALCR+2*U1FCOCR+U1ALCOCR;     6000 N !
+ FUNCTION FALCO2CR  298.15  +2*U1FALCO+U1FALCR+2*U1FCOCR+U2ALCOCR;     6000 N !
+ FUNCTION FAL2COCR  298.15  +2*U1FALCO+2*U1FALCR+U1FCOCR+U3ALCOCR;     6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Co-Fe
+$
+$ Not yet modelled.
+$
+$ ------------------------------------------------------------------------------
+$ Al-Co-Mn
+$
+$ Not yet modelled.
+$
+$ ------------------------------------------------------------------------------
+$ Al-Co-Ni
+$
+$ X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu, Calphad, 52, 125-42(2016).
+$
+$ Checked against paper and author's tdb.
+$
+$ AlCo-B2 partially changed back to 98Dup. Fcc changed from 2SL to 4SL.
+$
+$ Hcp interaction for Al-Ni restored.
+$
+ PAR  L(LIQUID,AL,CO,NI;0),,            +20000;,,                     N 16Liu !
+$
+ PAR  L(FCC_A1,AL,CO,NI:VA;0),,         +ZERO;,,                      N 16Liu !
+ PAR  L(A1_FCC,AL,CO,NI:VA;0),,         +ZERO;,,                      N 16Liu !
+$
+ PAR  G(FCC_4SL,AL:AL:CO:NI:VA),,       +FAL2CONI;,,                  N 16Liu !
+ PAR  G(FCC_4SL,CO:CO:AL:NI:VA),,       +FALCO2NI;,,                  N 16Liu !
+ PAR  G(FCC_4SL,NI:NI:AL:CO:VA),,       +FALCONI2;,,                  N 16Liu !
+$
+ PAR  L(BCC_A2,AL,CO,NI:VA;0),,         -15483;,,                     N 16Liu !
+ PAR  L(A2_BCC,AL,CO,NI:VA;0),,         -15483;,,                     N 16Liu !
+$
+ PAR  L(B2_BCC,AL,CO:NI:VA;0),,         -21769;,,                     N 16Liu !
+ PAR  L(B2_BCC,NI:AL,CO:VA;0),,         -21769;,,                     N 16Liu !
+$
+ FUNCTION U1ALCONI  298.15  0.0;                                       6000 N !
+ FUNCTION U2ALCONI  298.15  0.0;                                       6000 N !
+ FUNCTION U3ALCONI  298.15  0.0;                                       6000 N !
+ FUNCTION FALCONI2  298.15  +U1FALCO+2*U1FALNI+2*U1FCONI+U1ALCONI;     6000 N !
+ FUNCTION FALCO2NI  298.15  +2*U1FALCO+U1FALNI+2*U1FCONI+U2ALCONI;     6000 N !
+ FUNCTION FAL2CONI  298.15  +2*U1FALCO+2*U1FALNI+U1FCONI+U3ALCONI;     6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Cr-C
+$
+$ B. Hallstedt, D. Music, Z. Sun, Int. J. Mater. Res., 97, 539-42(2006).
+$
+$ Using the parameters from 08Con for bcc Al-C leads to some increase of the
+$ C solubility in the Al-Cr bcc solid solution, but it remains very small
+$ and is not visible in normal plots. The result is very reasonable.
+$
+$ Cr-C changed from 92Lee to 12Khv (only liquid changed).
+$
+$
+ PAR  G(MAX_PHASE,CR:AL:C),,            +GHSERAL+GHSERCC+2*GHSERCR
+             -86600;,,                                                N 06Hal1 !
+$ ------------------------------------------------------------------------------
+$ Al-Cr-Fe
+$
+$ Not yet modelled.
+$
+$ ------------------------------------------------------------------------------
+$ Al-Cr-Mn
+$
+$ See Senlin Cui, MMTA 2016/17. MQM liquid needs to be changed to RKM.
+$
+$ ------------------------------------------------------------------------------
+$ Al-Cr-Ni
+$
+$ N. Dupin, I. Ansara, B. Sundman, Calphad, 25, 279-98(2001).
+$
+$ Only claimed to be valid for the AlNi-Ni-Cr subsystem.
+$
+$ Cr-Ni from 92Lee changed to 16Tan. Fcc changed from 2SL to 4SL.
+$
+ PAR  L(LIQUID,AL,CR,NI;0),,            +16000;,,                     N 01Dup !
+$
+ PAR  G(FCC_A1,AL,CR,NI:VA;0),,         +30300;,,                     N 01Dup !
+ PAR  G(A1_FCC,AL,CR,NI:VA;0),,         +30300;,,                     N 01Dup !
+$
+ PAR  G(BCC_A2,AL,CR,NI:VA;0),,         +42500;,,                     N 01Dup !
+ PAR  G(A2_BCC,AL,CR,NI:VA;0),,         +42500;,,                     N 01Dup !
+$
+ PAR  G(FCC_4SL,AL:AL:CR:NI:VA),,       +FAL2CRNI;,,                  N 01Dup !
+ PAR  G(FCC_4SL,CR:CR:AL:NI:VA),,       +FALCR2NI;,,                  N 01Dup !
+ PAR  G(FCC_4SL,NI:NI:AL:CR:VA),,       +FALCRNI2;,,                  N 01Dup !
+$
+ FUNCTION FALCRNI2  298.15  +U1FALCR+2*U1FALNI+2*U1FCRNI+6650;         6000 N !
+ FUNCTION FALCR2NI  298.15  +2*U1FALCR+U1FALNI+2*U1FCRNI;              6000 N !
+ FUNCTION FAL2CRNI  298.15  +2*U1FALCR+2*U1FALNI+U1FCRNI;              6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Fe-C
+$
+$ D. Connetable, J. Lacaze, P. Maugis, B. Sundman, Calphad, 32, 361-70(2008).
+$
+$ Modified by K.-G. Chin et al. 2010
+$
+$ This is a simplified version modified by K.-G. Chin et al 2010.
+$ KAPPA_E21 is described as a separate phase and not as ordered fcc.
+$ The figures in the manuscript are reproduced when disordered bcc is used.
+$ Including B2_BCC only leads to small changes.
+$
+$ The Al-Fe system from Seiersten et al. 1993 has been
+$ replaced with the new Al-Fe dataset from Sundman et al. 2009.
+$ In the 1473 K section this leads to shift of the fcc + bcc + kappa
+$ equilibrium to somewhat lower Al content in fcc and bcc.
+$ At 1273 K this difference is very small, but the change of kappa from
+$ 10Chi has the same effect, but more pronounced at 1273 K.
+$
+ PAR  L(LIQUID,AL,C,FE;0),,             -49000;,,                     N 08Con !
+$
+ PAR  L(FCC_A1,AL,FE:C;0),,             -104000+80*T;,,               N 08Con !
+ PAR  L(FCC_A1,AL,FE:C;1),,             +81000;,,                     N 08Con !
+$
+ PAR  L(A1_FCC,AL,FE:C;0),,             -104000+80*T;,,               N 08Con !
+ PAR  L(A1_FCC,AL,FE:C;1),,             +81000;,,                     N 08Con !
+$
+ PAR  G(FCC_4SL,AL:AL:AL:FE:C),,        +ZERO;,,                      N 08Con !
+ PAR  G(FCC_4SL,AL:AL:FE:FE:C),,        +ZERO;,,                      N 08Con !
+ PAR  G(FCC_4SL,AL:FE:FE:FE:C),,        +ZERO;,,                      N 08Con !
+$
+ PAR  G(B2_BCC,FE:AL:C),,               +ZERO;,,                      N 08Con !
+ PAR  G(B2_BCC,AL:FE:C),,               +ZERO;,,                      N 08Con !
+$
+ PAR  G(KAPPA_E21,AL:FE:C),,            +GHSERAL+3*GFCCFE+GHSERCC
+             -115000+25.2*T;,,                                        N 10Chi !
+ PAR  G(KAPPA_E21,AL:FE:C,VA;0),,       +13752-24*T;,,                N 10Chi !
+$ ------------------------------------------------------------------------------
+$ Al-Fe-Mn
+$
+$ B.B. Lindahl, M. Selleby, Calphad, 43, 86-93(2013).
+$
+$ In the tdb from 13Lin the Al-Mn fcc interaction from 07Du is used, but the
+$ ordering parameters are from 12Dju.
+$
+ PAR  L(LIQUID,AL,FE,MN;0),,            +ZERO;,,                      N 13Lin !
+$
+ PAR  L(FCC_A1,AL,FE,MN:VA;0),,         -42500;,,                     N 13Lin !
+ PAR  L(FCC_A1,AL,FE,MN:VA;1),,         +ZERO;,,                      N 13Lin !
+ PAR  L(FCC_A1,AL,FE,MN:VA;2),,         -31800;,,                     N 13Lin !
+$
+ PAR  L(A1_FCC,AL,FE,MN:VA;0),,         -42500;,,                     N 13Lin !
+ PAR  L(A1_FCC,AL,FE,MN:VA;1),,         +ZERO;,,                      N 13Lin !
+ PAR  L(A1_FCC,AL,FE,MN:VA;2),,         -31800;,,                     N 13Lin !
+$
+ PAR  L(BCC_A2,AL,FE,MN:VA;0),,         +ZERO;,,                      N 13Lin !
+ PAR  L(A2_BCC,AL,FE,MN:VA;0),,         +ZERO;,,                      N 13Lin !
+$
+ PAR  L(HCP_A3,AL,FE,MN:VA;0),,         +ZERO;,,                      N 13Lin !
+$
+ PAR  L(CBCC_A12,AL,FE,MN:VA;0),,       +ZERO;,,                      N 13Lin !
+$
+ PAR  L(CUB_A13,AL,FE,MN:VA;0),,        -45000;,,                     N 13Lin !
+ PAR  L(CUB_A13,AL,FE,MN:VA;1),,        +24000;,,                     N 13Lin !
+ PAR  L(CUB_A13,AL,FE,MN:VA;2),,        +ZERO;,,                      N 13Lin !
+$
+ PAR  L(AL13FE4,AL:FE,MN:AL;0),,        -624;,,                       N 13Lin !
+ PAR  L(AL13FE4,AL:FE,MN:VA;0),,        +ZERO;,,                      N 13Lin !
+$
+ PAR  L(AL5FE2,AL:FE,MN;0),,            +ZERO;,,                      N 13Lin !
+ PAR  L(AL2FE,AL:FE,MN;0),,             +ZERO;,,                      N 13Lin !
+ PAR  L(AL12MN,AL:FE,MN;0),,            +ZERO;,,                      N 13Lin !
+ PAR  L(AL6MN_D2H,AL:FE,MN;0),,         -18270;,,                     N 13Lin !
+ PAR  L(AL4MN_MU,AL:FE,MN;0),,          -27200;,,                     N 13Lin !
+$
+ PAR  G(AL8MN5_D810,AL:MN:FE),,         +12*GHSERAL+5*GHSERMN
+             +9*GHSERFE-468000;,,                                     N 13Lin !
+ PAR  L(AL8MN5_D810,AL:MN:AL,FE;0),,    -202800;,,                    N 13Lin !
+ PAR  L(AL8MN5_D810,AL:MN:FE,MN;0),,    -525200;,,                    N 13Lin !
+$ ------------------------------------------------------------------------------
+$ Al-Fe-Ni
+$
+$ L. Zhang, J. Wang, Y. Du, R. Hu, P. Nash, X.-G. Lu, C. Jiang,
+$ Acta Mater., 57, 5324-41(2009).
+$
+$ Checked against paper.
+$
+$ The fcc interaction is brutal.
+$
+$ Al-Fe changed from 93Sei to 09Sun.
+$
+$ Fcc changed from 2SL to 4SL.
+$
+$ There are substantial changes among the fcc, bcc, B2 and L1_2 phases in the
+$ Al-poor part of the system. There are small changes in the Al-rich part.
+$ This system will need to be refitted.
+$
+ PAR  L(LIQUID,AL,FE,NI;0),,            -62066.21+11.7632*T;,,        N 09Zha2 !
+ PAR  L(LIQUID,AL,FE,NI;1),,            +57195;,,                     N 09Zha2 !
+ PAR  L(LIQUID,AL,FE,NI;2),,            -8440.93;,,                   N 09Zha2 !
+$
+ PAR  L(FCC_A1,AL,FE,NI:VA;0),,         +ZERO;,,                      N 09Zha2 !
+ PAR  L(FCC_A1,AL,FE,NI:VA;1),,         -178140.69+96.0612*T;,,       N 09Zha2 !
+ PAR  L(FCC_A1,AL,FE,NI:VA;2),,         -207403.88+117.74*T;,,        N 09Zha2 !
+$
+ PAR  L(A1_FCC,AL,FE,NI:VA;0),,         +ZERO;,,                      N 09Zha2 !
+ PAR  L(A1_FCC,AL,FE,NI:VA;1),,         -178140.69+96.0612*T;,,       N 09Zha2 !
+ PAR  L(A1_FCC,AL,FE,NI:VA;2),,         -207403.88+117.74*T;,,        N 09Zha2 !
+$
+ PAR  G(FCC_4SL,AL:AL:FE:NI:VA),,       +FAL2FENI;,,                  N 09Zha2 !
+ PAR  G(FCC_4SL,FE:FE:AL:NI:VA),,       +FALFE2NI;,,                  N 09Zha2 !
+ PAR  G(FCC_4SL,NI:NI:AL:FE:VA),,       +FALFENI2;,,                  N 09Zha2 !
+$
+ PAR  L(BCC_A2,AL,FE,NI:VA;0),,         -85763.63;,,                  N 09Zha2 !
+ PAR  L(BCC_A2,AL,FE,NI:VA;1),,         -23327.05;,,                  N 09Zha2 !
+ PAR  L(BCC_A2,AL,FE,NI:VA;2),,         -63420.34;,,                  N 09Zha2 !
+$
+ PAR  L(A2_BCC,AL,FE,NI:VA;0),,         -85763.63;,,                  N 09Zha2 !
+ PAR  L(A2_BCC,AL,FE,NI:VA;1),,         -23327.05;,,                  N 09Zha2 !
+ PAR  L(A2_BCC,AL,FE,NI:VA;2),,         -63420.34;,,                  N 09Zha2 !
+$
+ PAR  L(B2_BCC,AL,FE:NI:VA;0),,         -29728.16;,,                  N 09Zha2 !
+ PAR  L(B2_BCC,NI:AL,FE:VA;0),,         -29728.16;,,                  N 09Zha2 !
+ PAR  L(B2_BCC,AL,NI:FE:VA;0),,         -57636.58;,,                  N 09Zha2 !
+ PAR  L(B2_BCC,FE:AL,NI:VA;0),,         -57636.58;,,                  N 09Zha2 !
+ PAR  L(B2_BCC,FE,NI:AL:VA;0),,         -26029.79;,,                  N 09Zha2 !
+ PAR  L(B2_BCC,AL:FE,NI:VA;0),,         -26029.79;,,                  N 09Zha2 !
+$
+ PAR  L(AL5CO2_D811,AL:FE,NI;0),,       -19092.108;,,                 N 09Zha2 !
+ PAR  L(AL5FE2,AL:FE,NI;0),,            -239686.86;,,                 N 09Zha2 !
+ PAR  G(AL71FE5NI24,AL:FE:NI),,         +0.71*GHSERAL+0.05*GHSERFE
+             +0.24*GHSERNI-41075.33+3.0113*T;,,                       N 09Zha2 !
+$
+ PAR  G(AL3NI2_D513,AL:FE:NI),,         +3*GHSERAL+2*GHSERFE
+             +GHSERNI;,,                                              N 09Zha2 !
+ PAR  L(AL3NI2_D513,AL:FE,NI:NI;0),,    +888.5628-55*T;,,             N 09Zha2 !
+ PAR  L(AL3NI2_D513,AL:FE,NI:VA;0),,    +888.5628-55*T;,,             N 09Zha2 !
+$
+$ The U1F functions are different from those used by 09Zha2, and their alpha
+$ functions are therefore not included here. Instead they should be refitted.
+ FUNCTION FALFENI2  298.15  +U1FALFE+2*U1FALNI+2*U1FFENI;              6000 N !
+ FUNCTION FALFE2NI  298.15  +2*U1FALFE+U1FALNI+2*U1FFENI;              6000 N !
+ FUNCTION FAL2FENI  298.15  +2*U1FALFE+2*U1FALNI+U1FFENI;              6000 N !
+$ ------------------------------------------------------------------------------
+$ Al-Mn-C
+$
+$ K.-G. Chin, H.-J. Lee, J.-H. Kwak, J.-Y. Kang, B.-J. Lee,
+$ J. Alloys Compd., 505, 217-23(2010).
+$
+$ Needs to be checked.
+$
+ PAR  L(FCC_A1,AL,MN:C,VA;0),,          -50000;,,                     N 10Chi !
+ PAR  L(A1_FCC,AL,MN:C,VA;0),,          -50000;,,                     N 10Chi !
+$
+$PAR  G(KAPPA_E21,AL:MN:C),,            +GHSERAL+3*GFCCMN+GHSERCC
+$            -96000;,,                                                N 10Chi !
+$ Parameter below used in PrecHiMn-4
+ PAR  G(KAPPA_E21,AL:MN:C),,            +GHSERAL+3*GFCCMN+GHSERCC
+             -150920+40*T;,,                                          N 10Chi !
+$ ------------------------------------------------------------------------------
+$ Al-Mn-Ni
+$
+$ Not yet modelled.
+$
+$ ------------------------------------------------------------------------------
+$ Al-Ni-C
+$
+$ H. Ohtani, M. Yamano, M. Hasebe, Calphad, 28, 177-90(2004).
+$
+$ This dataset is based on the evaluation from 04Oht, but all binaries have
+$ been changed. They used a common model for Ni3Al and kappa, but here Ni3Al
+$ is described as an fcc ordered phase and kappa is described with a separate
+$ model. Note that kappa is not a stable phase in this system.
+$
+$ The liquid interaction was taken from 14Wan.
+$
+$ The C solubility in Ni3Al is very low and no attempt was made to increase it
+$ at this time. The kappa parameter G(KAPPA_E21,AL:NI:VA) was adjusted so that
+$ kappa does not become stable at 1273 K.
+$
+ PAR  L(LIQUID,AL,C,NI;0),,             +100000;,,                    N 14Wan !
+ PAR  L(LIQUID,AL,C,NI;1),,             +ZERO;,,                      N 14Wan !
+ PAR  L(LIQUID,AL,C,NI;2),,             -50000;,,                     N 14Wan !
+$
+ PAR  G(KAPPA_E21,AL:NI:C),,            +GHSERAL+3*GHSERNI+GHSERCC
+             -141000;,,                                               N 04Oht !
+$ ------------------------------------------------------------------------------
+$ Co-Cr-C
+$
+$ B. Kaplan, A. Markstrom, A. Blomqvist, S. Norgren, M. Selleby,
+$ Calphad, 46, 226-36(2014).
+$
+$ Checked against paper, author's tdb and CoCrC-14Kap-orig.tdb.
+$
+$ Cr-C is changed from 92Lee to 12Khv1. This only concerns the liquid.
+$ The G(FCC_A1,CR:C) parameter is taken from 92Lee instead of 04Bra.
+$ This makes the fcc and liquid slightly less stable.
+$
+$ Cementite is given a positive interaction to avoid stable cementite. The
+$ size of the interaction is similar to that of M7C3 and M23C6, but
+$ without a subregular term.
+$
+ PAR  L(LIQUID,C,CO,CR;0),,             -258600;,,                    N 14Kap !
+ PAR  L(LIQUID,C,CO,CR;1),,             +8060;,,                      N 14Kap !
+ PAR  L(LIQUID,C,CO,CR;2),,             +33500;,,                     N 14Kap !
+$
+ PAR  L(BCC_A2,CO,CR:C;0),,             +17208-13.519*T;,,            N 97Kus !
+ PAR  L(BCC_A2,CO,CR:C;0),,             -5470;,,                      N 97Kus !
+$
+ PAR  L(A2_BCC,CO,CR:C;0),,             +17208-13.519*T;,,            N 97Kus !
+ PAR  L(A2_BCC,CO,CR:C;0),,             -5470;,,                      N 97Kus !
+$
+ PAR  L(FCC_A1,CO,CR:C;0),,             +ZERO;,,                      N 14Kap !
+ PAR  L(A1_FCC,CO,CR:C;0),,             +ZERO;,,                      N 14Kap !
+ PAR  L(HCP_A3,CO,CR:C;0),,             -6436;,,                      N 97Kus !
+$
+ PAR  G(M23C6_D84,CO:CR:C),,            +0.869565*GCOM23C6
+             +0.130435*GCRM23C6+0.113422*L0COCR23
+             +0.083833*L1COCR23;,,                                    N 14Kap !
+ PAR  G(M23C6_D84,CR:CO:C),,            +0.869565*GCRM23C6
+             +0.130435*GCOM23C6+0.113422*L0COCR23
+             -0.083833*L1COCR23;,,                                    N 14Kap !
+ PAR  L(M23C6_D84,CO,CR:CO:C;0),,       +0.756144*L0COCR23
+             +0.295881*L1COCR23;,,                                    N 14Kap !
+ PAR  L(M23C6_D84,CO,CR:CR:C;0),,       +0.756144*L0COCR23
+             -0.295881*L1COCR23;,,                                    N 14Kap !
+ PAR  L(M23C6_D84,CO:CO,CR:C;0),,       +0.017013*L0COCR23
+             +0.044382*L1COCR23;,,                                    N 14Kap !
+ PAR  L(M23C6_D84,CR:CO,CR:C;0),,       +0.017013*L0COCR23
+             -0.044382*L1COCR23;,,                                    N 14Kap !
+ PAR  L(M23C6_D84,CO,CR:CO:C;1),,       +0.657516*L1COCR23;,,         N 14Kap !
+ PAR  L(M23C6_D84,CO,CR:CR:C;1),,       +0.657516*L1COCR23;,,         N 14Kap !
+ PAR  L(M23C6_D84,CO:CO,CR:C;1),,       +0.002219*L1COCR23;,,         N 14Kap !
+ PAR  L(M23C6_D84,CR:CO,CR:C;1),,       +0.002219*L1COCR23;,,         N 14Kap !
+$
+ PAR  L(M7C3_D101,CO,CR:C;0),,          +339880-192*T;,,              N 14Kap !
+ PAR  L(M7C3_D101,CO,CR:C;1),,          +230500-117*T;,,              N 14Kap !
+$
+ PAR  G(CR3C2_D510,CO,CR:C),,           -4.3*T;,,                     N 14Kap !
+$
+$ metastable
+$
+ PAR  L(CEMENTITE_D011,CO,CR:C;0),,     +160000-80*T;,,               N 17Hal3 !
+$
+ FUNCTION L0COCR23  298.15  +1822000-1282*T;                           6000 N !
+ FUNCTION L1COCR23  298.15  +391000;                                   6000 N !
+$ ------------------------------------------------------------------------------
+$ Co-Cr-Fe
+$
+$ B. Hallstedt, unpublished, 2016.
+$
+$ No ternary parameters.
+$
+ PAR  G(SIGMA_D8B,CO:CR:FE),,           +10*GFCCCO+4*GHSERCR
+             +16*GHSERFE;,,                                           N Lin !
+ PAR  G(SIGMA_D8B,FE:CR:CO),,           +10*GFCCFE+4*GHSERCR
+             +16*GBCCCO;,,                                            N Lin !
+$
+$ metastable
+$
+ PAR  G(HIGH_SIGMA,CO:CR:FE),,          +10*GFCCCO+4*GHSERCR
+             +16*GHSERFE;,,                                           N Lin !
+ PAR  G(HIGH_SIGMA,FE:CR:CO),,          +10*GFCCFE+4*GHSERCR
+             +16*GBCCCO;,,                                            N Lin !
+$ ------------------------------------------------------------------------------
+$ Co-Cr-Mn
+$
+$ B. Hallstedt, unpublished, 2016.
+$
+$ No ternary parameters.
+$
+$ This dataset is speculative since there are no experimental data to
+$ compare with.
+$
+ PAR  G(SIGMA_D8B,CO:CR:MN),,           +10*GFCCCO+4*GHSERCR
+             +16*GBCCMN;,,                                            N Lin !
+ PAR  G(SIGMA_D8B,MN:CR:CO),,           +10*GFCCMN+4*GHSERCR
+             +16*GBCCCO;,,                                            N Lin !
+$
+ PAR  G(HIGH_SIGMA,CO:CR:MN),,          +10*GFCCCO+4*GHSERCR
+             +16*GBCCMN;,,                                            N Lin !
+ PAR  G(HIGH_SIGMA,MN:CR:CO),,          +10*GFCCMN+4*GHSERCR
+             +16*GBCCCO;,,                                            N Lin !
+$ ------------------------------------------------------------------------------
+$ Co-Cr-Ni
+$
+$ X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu, Calphad, 52, 125-142(2016).
+$
+$ Checked against paper.
+$
+$ This dataset contains Cr-Ni from 16Tan instead of 92Lee. It also contains
+$ a 10:4:16 model for sigma instead of 8:4:18.
+$
+$ Sigma and hcp interactions have been added to approximately reproduce the
+$ isothermal section at 1073 K shown in S. Yang et al. 2012.
+$
+ PAR  L(LIQUID,CO,CR,NI;0),,            -16000;,,                     N 16Liu !
+$
+ PAR  L(FCC_A1,CO,CR,NI:VA;0),,         -40710+13.533*T;,,            N 16Liu !
+ PAR  L(A1_FCC,CO,CR,NI:VA;0),,         -40710+13.533*T;,,            N 16Liu !
+$
+ PAR  L(BCC_A2,CO,CR,NI:VA;0),,         -60134+17.7*T;,,              N 16Liu !
+ PAR  L(A2_BCC,CO,CR,NI:VA;0),,         -60134+17.7*T;,,              N 16Liu !
+$
+ PAR  L(HCP_A3,CO,CR,NI:VA;0),,         -10000;,,                     N 16Hal8 !
+$
+ PAR  G(SIGMA_D8B,CO:CR:NI),,           +10*GHSERCO+4*GHSERCR
+             +16*GBCCNI;,,                                            N 16Liu !
+ PAR  G(SIGMA_D8B,NI:CR:CO),,           +10*GHSERNI+4*GHSERCR
+             +16*GBCCCO;,,                                            N 16Liu !
+ PAR  L(SIGMA_D8B,CO,NI:CR:CR;0),,      -140000+100*T;,,              N 16Hal8 !
+$
+$ metastable
+$
+ PAR  G(HIGH_SIGMA,CO:CR:NI),,          +10*GHSERCO+4*GHSERCR
+             +16*GBCCNI;,,                                            N 16Liu !
+ PAR  G(HIGH_SIGMA,NI:CR:CO),,          +10*GHSERNI+4*GHSERCR
+             +16*GBCCCO;,,                                            N 16Liu !
+ PAR  L(HIGH_SIGMA,CO,NI:CR:CR;0),,     -140000+100*T;,,              N 16Hal8 !
+$ ------------------------------------------------------------------------------
+$ Co-Fe-C
+$
+$ A. Fernandez Guillermet, Z. Metallkd., 79, 317-29(1988).
+$
+$ Checked against paper.
+$
+$ Changed Co-Fe from 87Fer to 02Ohn.
+$
+ PAR  L(LIQUID,C,CO,FE;0),,             +11646-5.657*T;,,             N 88Fer1 !
+$
+ PAR  L(FCC_A1,CO,FE:C;0),,             +313;,,                       N 88Fer1 !
+ PAR  L(FCC_A1,CO,FE:C;1),,             -1063;,,                      N 88Fer1 !
+$
+ PAR  L(A1_FCC,CO,FE:C;0),,             +313;,,                       N 88Fer1 !
+ PAR  L(A1_FCC,CO,FE:C;1),,             -1063;,,                      N 88Fer1 !
+$ ------------------------------------------------------------------------------
+$ Co-Fe-Mn
+$
+$ W. Huang, Calphad, 14, 11-22(1990).
+$
+$ No ternary parameters.
+$
+$ The Co-Fe dataset from 87Fer2 is replaced with the dataset from 02Ohn.
+$
+$ Checked against paper and CoFeMn-90Hua-orig.tdb.
+$
+$ At high temperature the differences are small between this version and the
+$ original version. At low temperature (673 K and lower) the appearance
+$ of the B2 phase causes some differences. Even at 873 K where the B2
+$ is present (in this dataset) differences are very small.
+$ ------------------------------------------------------------------------------
+$ Co-Fe-Ni
+$
+$ A. Fernandez Guillermet, Calphad, 13, 1-22(1989).
+$
+$ No ternary parameters.
+$
+$ The Co-Fe dataset from 87Fer2 is replaced with the dataset from 02Ohn and
+$ the Fe-Ni dataset from 85Xin is replaced with the dataset from 03Dup.
+$
+$ Checked against paper and CoFeNi-89Fer-orig.tdb.
+$
+$ At high temperature the differences in fcc-bcc between the original and this
+$ dataset are very small. The changes in the fcc liquidus surface are a bit
+$ larger. No experimental ternary liquidus data are shown in 89Fer2.
+$ At 873 K B2 ordering in the Co-Fe system has a small, but visible
+$ influence on the phase diagram. At 773 K the influence is slightly larger,
+$ but still close to the disordered state.
+$ ------------------------------------------------------------------------------
+$ Co-Mn-C
+$
+$ Not yet modelled.
+$
+$ ------------------------------------------------------------------------------
+$ Co-Mn-Ni
+$
+$ B. Hallstedt, unpublished, 2016.
+$
+$ No ternary parameters.
+$ ------------------------------------------------------------------------------
+$ Co-Ni-C
+$
+$ A. Fernandez Guillermet, Z. Metallkd., 79, 524-36(1988).
+$
+$ Checked against paper and CoNiC-88Fer-orig.tdb.
+$
+$ Changed Ni-C from 87Gab to 06Hal.
+$
+ PAR  L(LIQUID,C,CO,NI;0),,             +50462-27.562*T;,,            N 88Fer2 !
+$
+ PAR  L(FCC_A1,CO,NI:C;0),,             +18289;,,                     N 88Fer2 !
+ PAR  L(FCC_A1,CO,NI:C;1),,             -9924;,,                      N 88Fer2 !
+$
+ PAR  L(A1_FCC,CO,NI:C;0),,             +18289;,,                     N 88Fer2 !
+ PAR  L(A1_FCC,CO,NI:C;1),,             -9924;,,                      N 88Fer2 !
+$
+ PAR  L(HCP_A3,CO,NI:C;0),,             +6000;,,                      N 88Fer2 !
+$
+$ Metastable
+$
+ PAR  L(BCC_A2,CO,NI:C;0),,             +6000;,,                      N 88Fer2 !
+ PAR  L(A2_BCC,CO,NI:C;0),,             +6000;,,                      N 88Fer2 !
+$ ------------------------------------------------------------------------------
+$ Cr-Fe-C
+$
+$ A.V. Khvan, B. Hallstedt, C. Broeckmann, Calphad, 46, 24-33(2014).
+$
+ PAR  L(LIQUID,C,CR,FE;0),,             -528500;,,                    N 14Khv !
+ PAR  L(LIQUID,C,CR,FE;1),,             +57150;,,                     N 14Khv !
+ PAR  L(LIQUID,C,CR,FE;2),,             +62630;,,                     N 14Khv !
+$
+ PAR  L(BCC_A2,CR,FE:C;0),,             -1320000+667.7*T;,,           N 14Khv !
+ PAR  BM(BCC_A2,CR,FE:C;0),,               -0.85;,,                   N 88And3 !
+ PAR  TC(BCC_A2,CR,FE:C;0),,            +1650;,,                      N 88And3 !
+ PAR  TC(BCC_A2,CR,FE:C;1),,             +550;,,                      N 88And3 !
+$
+ PAR  L(A2_BCC,CR,FE:C;0),,             -1320000+667.7*T;,,           N 14Khv !
+ PAR  BM(A2_BCC,CR,FE:C;0),,               -0.85;,,                   N 88And3 !
+ PAR  TC(A2_BCC,CR,FE:C;0),,            +1650;,,                      N 88And3 !
+ PAR  TC(A2_BCC,CR,FE:C;1),,             +550;,,                      N 88And3 !
+$
+ PAR  L(FCC_A1,CR,FE:C;0),,             -69534+3.2353*T;,,            N 14Khv !
+ PAR  L(A1_FCC,CR,FE:C;0),,             -69534+3.2353*T;,,            N 14Khv !
+$
+ PAR  L(CEMENTITE_D011,CR,FE:C;0),,     +14586-9.18*T;,,              N 14Khv !
+$
+ PAR  G(M23C6_D84,FE:CR:C),,            +0.130435*GCRM23C6
+             +0.869565*GFEM23C6;,,                                    N 14Khv !
+ PAR  G(M23C6_D84,CR:FE:C),,            +0.869565*GCRM23C6
+             +0.130435*GFEM23C6;,,                                    N 14Khv !
+ PAR  L(M23C6_D84,CR,FE:CR:C;0),,       +6609;,,                      N 14Khv !
+ PAR  L(M23C6_D84,CR,FE:FE:C;0),,       +6609;,,                      N 14Khv !
+ PAR  L(M23C6_D84,CR:CR,FE:C;0),,       +991;,,                       N 14Khv !
+ PAR  L(M23C6_D84,FE:CR,FE:C;0),,       +991;,,                       N 14Khv !
+ PAR  L(M23C6_D84,CR,FE:CR:C;1),,       -43600;,,                     N 14Khv !
+ PAR  L(M23C6_D84,CR,FE:FE:C;1),,       -43600;,,                     N 14Khv !
+ PAR  L(M23C6_D84,CR:CR,FE:C;1),,       -6540;,,                      N 14Khv !
+ PAR  L(M23C6_D84,FE:CR,FE:C;1),,       -6540;,,                      N 14Khv !
+$
+ PAR  L(M23C6_S,CR,FE:C;0),,            +7600;,,                      N 14Khv !
+ PAR  L(M23C6_S,CR,FE:C;1),,            -50140;,,                     N 14Khv !
+$
+ PAR  L(M7C3_D101,CR,FE:C;0),,          +81940-61.86*T;,,             N 14Khv !
+ PAR  L(M7C3_D101,CR,FE:C;1),,          -7310;,,                      N 14Khv !
+ PAR  L(M7C3_D101,CR,FE:C;2),,          +27050;,,                     N 14Khv !
+$ ------------------------------------------------------------------------------
+$ Cr-Fe-Mn
+$
+$ B.-J. Lee, Metall. Trans. A, 24A, 1919-33(1993).
+$
+$ Checked against paper.
+$
+$ Changed model for sigma and high-sigma from 8:4:18 to 10:4:16.
+$ Ternary parameters were recalculated using the scheme in 93Lee3 with a
+$ modified correction term; -135000 J for sigma and -140000 J for high-sigma
+$ instead of -123570 J for both.
+$ B. Hallstedt, Nov. 2016.
+$
+$ The sigma phase field is very close to that in 93Lee3, but the high-sigma
+$ field extends less far into the ternary. There are no experimental data
+$ to support one version or the other.
+$
+ PAR  L(LIQUID,CR,FE,MN;0),,            +2378;,,                      N 93Lee3 !
+$
+ PAR  L(FCC_A1,CR,FE,MN:VA;0),,         +6715-10.3933*T;,,            N 93Lee3 !
+ PAR  L(A1_FCC,CR,FE,MN:VA;0),,         +6715-10.3933*T;,,            N 93Lee3 !
+$
+ PAR  L(BCC_A2,CR,FE,MN:VA;0),,         -5996;,,                      N 93Lee3 !
+ PAR  L(A2_BCC,CR,FE,MN:VA;0),,         -5996;,,                      N 93Lee3 !
+$
+ PAR  G(SIGMA_D8B,FE:CR:MN),,           +10*GFCCFE+4*GHSERCR
+             +16*GBCCMN-49718-2.446*T;,,                              N 16Hal6 !
+ PAR  G(SIGMA_D8B,MN:CR:FE),,           +10*GFCCMN+4*GHSERCR
+             +16*GHSERFE-113380-43.274*T;,,                           N 16Hal6 !
+ PAR  L(SIGMA_D8B,FE:CR:CR,MN;0),,      -947617+762.6*T;,,            N 16Hal6 !
+$
+ PAR  G(HIGH_SIGMA,FE:CR:MN),,          +10*GFCCFE+4*GHSERCR
+             +16*GBCCMN+9350-48.969*T;,,                              N 16Hal6 !
+ PAR  G(HIGH_SIGMA,MN:CR:FE),,          +10*GFCCMN+4*GHSERCR
+             +16*GHSERFE-81088-72.351*T;,,                            N 16Hal6 !
+$
+$ metastable
+$
+ PAR  L(HCP_A3,CR,FE,MN:VA;0),,         +34600;,,                     N 93Qiu !
+$ ------------------------------------------------------------------------------
+$ Cr-Fe-Ni
+$
+$ B.-J. Lee, J. Korean Inst. Met. Mater., 31, 480-89(1993).
+$
+$ Checked against paper (93Lee4 and 90Hil).
+$
+$ Cr-Ni is changed from 92Lee to 16Tan.
+$
+$ Sigma phase model is changed from 8:4:18 to 10:4:16.
+$ Ni:Cr:Cr parameter adjusted for better fit in Cr-Fe-Ni.
+$
+$ Results are very similar to those of 93Lee4, including the 74 wt.% Fe
+$ isopleth. There are small shifts in fcc, bcc, liquid and sigma phase
+$ boundaries.
+$
+$ Fcc and bcc ordering is added; 4SL fcc and 2SL bcc with Va.
+$ Fcc ordering was also added by P. Franke 2011 (based on Fe-Ni from 03Dup).
+$
+$ Ordering does not behave well at high temperature (similar to the
+$ Fe-Mn-Ni system). At 1673 K L1_2 is stable as (Fe,Ni)3Cr, from around
+$ Fe2NiCr to FeNi2Cr. The 823 K isothermal section is correctly reproduced
+$ with no ordered phases. Results at 773 and 673 K are similar to the
+$ the results P. Franke 2011. The high temperature problem was solved by
+$ changing the UFFENI parameter in the Fe-Ni system.
+$
+ PAR  L(LIQUID,CR,FE,NI;0),,            +36583;,,                     N 93Lee1 !
+ PAR  L(LIQUID,CR,FE,NI;1),,            +13254;,,                     N 93Lee1 !
+ PAR  L(LIQUID,CR,FE,NI;2),,            -10018;,,                     N 93Lee1 !
+$
+ PAR  L(FCC_A1,CR,FE,NI:VA;0),,         +16580-9.7835*T;,,            N 93Lee1 !
+ PAR  L(A1_FCC,CR,FE,NI:VA;0),,         +16580-9.7835*T;,,            N 93Lee1 !
+$
+ PAR  L(BCC_A2,CR,FE,NI:VA;0),,         -2673+2.04145*T;,,            N 93Lee1 !
+ PAR  L(A2_BCC,CR,FE,NI:VA;0),,         -2673+2.04145*T;,,            N 93Lee1 !
+$
+ PAR  G(SIGMA_D8B,FE:CR:NI),,           +10*GFCCFE+4*GHSERCR
+             +16*GBCCNI;,,                                            N Lin !
+ PAR  G(SIGMA_D8B,NI:CR:FE),,           +10*GHSERNI+4*GHSERCR
+             +16*GHSERFE;,,                                           N Lin !
+$
+$ metastable
+$
+ PAR  G(HIGH_SIGMA,FE:CR:NI),,          +10*GFCCFE+4*GHSERCR
+             +16*GBCCNI;,,                                            N Lin !
+ PAR  G(HIGH_SIGMA,NI:CR:FE),,          +10*GHSERNI+4*GHSERCR
+             +16*GHSERFE;,,                                           N Lin !
+$ ------------------------------------------------------------------------------
+$ Cr-Mn-C
+$
+$ B.-J. Lee, Metall. Trans. A, 24A, 1017-25 (1993).
+$
+$ Checked against paper.
+$
+$ Cr-C modified by 12Khv.
+$ Sigma and high-sigma changed from 8:4:18 to 10:4:16 in Cr-Mn.
+$ New Mn-C from 10Dju.
+$
+$ The BCC_A2 interaction is the same as without C. This is either without
+$ influence on anything or wrong. The same applies for FCC_A1, HCP_A3,
+$ CBCC_A12 and CUB_A13.
+$
+$ The HCP_A3 interaction is necessary, but is now different from the one
+$ without C.
+$
+ PAR  L(BCC_A2,CR,MN:C;0),,             -20328+18.7339*T;,,           N 93Lee2 !
+ PAR  L(BCC_A2,CR,MN:C;1),,             -9162+4.4183*T;,,             N 93Lee2 !
+$
+ PAR  L(A2_BCC,CR,MN:C;0),,             -20328+18.7339*T;,,           N 93Lee2 !
+ PAR  L(A2_BCC,CR,MN:C;1),,             -9162+4.4183*T;,,             N 93Lee2 !
+$
+ PAR  L(FCC_A1,CR,MN:C;0),,             -19088+17.5423*T;,,           N 93Lee2 !
+ PAR  L(A1_FCC,CR,MN:C;0),,             -19088+17.5423*T;,,           N 93Lee2 !
+$
+ PAR  L(HCP_A3,CR,MN:C;0),,             +60000;,,                     N 93Lee2 !
+$
+ PAR  L(CBCC_A12,CR,MN:C;0),,           -38349+22.6925*T;,,           N 93Lee2 !
+$PAR  L(CBCC_A12,CR,MN:C;0),,           -36796+20.385*T;,,            N 98Lee !
+$
+ PAR  L(CUB_A13,CR,MN:C;0),,            -31260+16.4919*T;,,           N 93Lee2 !
+$
+ PAR  L(CEMENTITE_D011,CR,MN:C),,       +9000;,,                      N 93Lee2 !
+$
+ PAR  G(M23C6_D84,CR:MN:C),,            +0.869565*GCRM23C6
+             +0.130435*GMN23C6;,,                                     N 93Lee2 !
+ PAR  G(M23C6_D84,MN:CR:C),,            +0.869565*GMN23C6
+             +0.130435*GCRM23C6;,,                                    N 93Lee2 !
+ PAR  L(M23C6_D84,CR,MN:CR:C;0),,       -173680+160*T;,,              N 93Lee2 !
+ PAR  L(M23C6_D84,CR,MN:CR:C;1),,       -286614;,,                    N 93Lee2 !
+ PAR  L(M23C6_D84,CR,MN:MN:C;0),,       -173680+160*T;,,              N 93Lee2 !
+ PAR  L(M23C6_D84,CR,MN:MN:C;1),,       -286614;,,                    N 93Lee2 !
+$
+ PAR  L(M7C3_D101,CR,MN:C),,            +72737-56.4964*T;,,           N 93Lee2 !
+$ ------------------------------------------------------------------------------
+$ Cr-Mn-Ni
+$
+$ B. Hallstedt, unpublished, 2016.
+$
+$ Added ternary parameters to, very roughly, reproduce isothermal sections
+$ at 1223 K from E.M. Slyusarenko et al., J. Alloys Compd. 1997 and at 923 K
+$ from M. Majdic and K. Fritscher, Z. Werkstofftechnik, 1987.
+$
+$ The parameter L(FCC_4SL,CR,MN:*:*:*:VA) was given a positive value to
+$ partially suppress an L1_2 field ((Cr,Mn)Ni3) in the Ni corner at 923 K.
+$
+ PAR  L(LIQUID,CR,MN,NI;0),,            +30000;,,                     N 16Hal7 !
+$
+ PAR  L(FCC_A1,CR,MN,NI:VA;0),,         +30000;,,                     N 16Hal7 !
+ PAR  L(A1_FCC,CR,MN,NI:VA;0),,         +30000;,,                     N 16Hal7 !
+$
+ PAR  L(BCC_A2,CR,MN,NI:VA;0),,         +40000;,,                     N 16Hal7 !
+ PAR  L(A2_BCC,CR,MN,NI:VA;0),,         +40000;,,                     N 16Hal7 !
+$
+ PAR  L(CBCC_A12,CR,MN,NI:VA;0),,       +60000;,,                     N 16Hal7 !
+ PAR  L(CUB_A13,CR,MN,NI:VA;0),,        +40000;,,                     N 16Hal7 !
+$
+ PAR  G(SIGMA_D8B,MN:CR:NI),,           +10*GFCCMN+4*GHSERCR
+             +16*GBCCNI;,,                                            N 16Hal7 !
+ PAR  G(SIGMA_D8B,NI:CR:MN),,           +10*GHSERNI+4*GHSERCR
+             +16*GBCCMN-190000;,,                                     N 16Hal7 !
+$
+ PAR  G(HIGH_SIGMA,MN:CR:NI),,          +10*GFCCMN+4*GHSERCR
+             +16*GBCCNI;,,                                            N 16Hal7 !
+ PAR  G(HIGH_SIGMA,NI:CR:MN),,          +10*GHSERNI+4*GHSERCR
+             +16*GBCCMN-190000;,,                                     N 16Hal7 !
+$
+$ metastable
+$
+ PAR  L(HCP_A3,CR,MN,NI:VA;0),,         +30000;,,                     N 16Hal7 !
+$ ------------------------------------------------------------------------------
+$ Cr-Ni-C
+$
+$ B.-J. Lee, Calphad, 16, 121-49(1992).
+$
+$ Cr-C modified by 12Khv.
+$ New Cr-Ni from 16Tan.
+$ Ni-C modified by 06Hal1.
+$ Cr-Ni-C modified by 06Hal2.
+$
+ PAR  L(FCC_A1,CR,NI:C;0),,             +ZERO;,,                      N 06Hal3 !
+ PAR  TC(FCC_A1,CR,NI:C;0),,            -3605;,,                      N Null !
+ PAR  BM(FCC_A1,CR,NI:C;0),,               -1.91;,,                   N Null !
+$
+ PAR  L(A1_FCC,CR,NI:C;0),,             +ZERO;,,                      N 06Hal3 !
+ PAR  TC(A1_FCC,CR,NI:C;0),,            -3605;,,                      N Null !
+ PAR  BM(A1_FCC,CR,NI:C;0),,               -1.91;,,                   N Null !
+$
+ PAR  TC(BCC_A2,CR,NI:C;0),,            +2373;,,                      N Null !
+ PAR  TC(BCC_A2,CR,NI:C;1),,             +617;,,                      N Null !
+ PAR  BM(BCC_A2,CR,NI:C;0),,               +4;,,                      N Null !
+$
+ PAR  TC(A2_BCC,CR,NI:C;0),,            +2373;,,                      N Null !
+ PAR  TC(A2_BCC,CR,NI:C;1),,             +617;,,                      N Null !
+ PAR  BM(A2_BCC,CR,NI:C;0),,               +4;,,                      N Null !
+$
+ PAR  G(M23C6_D84,CR:NI:C),,            +0.8695652*GCRM23C6
+             +0.1304348*GNIM23C6;,,                                   N 92Lee !
+ PAR  G(M23C6_D84,NI:CR:C),,            +0.8695652*GNIM23C6
+             +0.1304348*GCRM23C6;,,                                   N 92Lee !
+ PAR  L(M23C6_D84,CR,NI:CR:C;0),,       +ZERO;,,                      N 06Hal3 !
+ PAR  L(M23C6_D84,CR,NI:NI:C;0),,       +ZERO;,,                      N 06Hal3 !
+$
+ PAR  L(M7C3_D101,CR,NI:C;0),,          +ZERO;,,                      N 06Hal3 !
+$
+$ Metastable
+$
+ PAR  L(CEMENTITE_D011,CR,NI:C;0),,     +27898;,,                     N Null !
+$ ------------------------------------------------------------------------------
+$ Fe-Mn-C
+$
+$ D. Djurovic, B. Hallstedt, J. von Appen, R. Dronskowski,
+$ Calphad, 35, 479-91(2011).
+$
+ PAR  L(LIQUID,C,FE,MN;0),,             -71514-11.3063*T;,,           N 11Dju !
+ PAR  L(LIQUID,C,FE,MN;1),,             +19817;,,                     N 11Dju !
+ PAR  L(LIQUID,C,FE,MN;2),,             +27885;,,                     N 11Dju !
+$
+ PAR  L(FCC_A1,FE,MN:C;0),,             +20082-11.6312*T;,,           N 11Dju !
+ PAR  L(A1_FCC,FE,MN:C;0),,             +20082-11.6312*T;,,           N 11Dju !
+$
+ PAR  L(HCP_A3,FE,MN:C;0),,             +21742-50.2703*T;,,           N 11Dju !
+ PAR  L(HCP_A3,FE,MN:C;1),,             -32608;,,                     N 11Dju !
+$
+ PAR  L(CBCC_A12,FE,MN:C;0),,           -36732;,,                     N 11Dju !
+ PAR  L(CUB_A13,FE,MN:C;0),,            -36732;,,                     N 11Dju !
+$
+ PAR  L(CEMENTITE_D011,FE,MN:C;0),,     -7715+1.3687*T;,,             N 11Dju !
+ PAR  L(M5C2,FE,MN:C;0),,               +8743-15.1917*T;,,            N 11Dju !
+ PAR  L(M7C3_D101,FE,MN:C;0),,          +20157-24.7104*T;,,           N 11Dju !
+$
+ PAR  G(M23C6_D84,FE:MN:C),,            +0.869565*GFEM23C6
+             +0.130435*GMN23C6;,,                                     N 11Dju !
+ PAR  G(M23C6_D84,MN:FE:C),,            +0.130435*GFEM23C6
+             +0.869565*GMN23C6;,,                                     N 11Dju !
+ PAR  L(M23C6_D84,FE,MN:FE,MN:C;0),,    -95000;,,                     N 11Dju !
+$ ------------------------------------------------------------------------------
+$ Fe-Mn-Ni
+$
+$ L. Zhang, Y. Du, H. Xu, S. Liu, Y. Liu, F. Zheng, N. Dupin, H. Zhou, C. Tang,
+$ Int. J. Mater. Res., 100, 160-75(2009).
+$
+$ The only parameter coming from 09Zha1 is L(CUB_A13,FE,NI:VA;0). We refer to
+$ 09Zha1 for comparison with their calculations. They used separate 2SL models
+$ for L1_2 (MnNi3 and FeNi3) and L1_0 (MnNi). Here a 4SL fcc model is used.
+$
+$ This dataset nicely reproduces phase diagrams and experimental data shown in
+$ 09Zha1 (as long as ordered fcc is excluded at high temperature), which
+$ is not quite the case with TCFE8 or steel11h (SGTE).
+$
+$ Using option F for FCC_4SL.
+$
+$ The high temperature problem with FCC_4SL was solved by
+$ changing the UFFENI parameter in the Fe-Ni system. It was then necessary
+$ to add a ternary order parameter to avoid an L1_2 field at 873 K in the
+$ Mn-rich corner.
+$
+$ Using ternary ordering energies reults in L1_0 and L1_2 extending
+$ far into the ternary. When not using option F the extension is considerably
+$ larger.
+$
+$ The problems described below have been solved (by changing UFFENI).
+$
+$ At high temperature (from below solidus up to quite far above liquidus)
+$ L1_2 becomes stable as (Fe,Ni)3Mn from about Fe2.5Ni0.5Mn to FeNi2Mn.
+$ This could be prevented by making FE:FE:MN:NI and NI:NI:FE:MN positive.
+$ The same thing happens when no wildcards are used.
+$
+$ By adding positive values to the ternary compounds the L1_0 and L1_2 phases
+$ near the Mn-Ni edge and, in particular at the Mn corner are stabilised at
+$ low temperature.
+$
+$PAR  G(FCC_4SL,FE:FE:MN:NI:VA),,       +FFE2MNNI;,,                  N 16Hal1 !
+$PAR  G(FCC_4SL,MN:MN:FE:NI:VA),,       +FFEMN2NI;,,                  N 16Hal1 !
+$PAR  G(FCC_4SL,NI:NI:FE:MN:VA),,       +FFEMNNI2;,,                  N 16Hal1 !
+$PAR  G(FCC_4SL,FE:FE:MN:NI:VA),,       +10*T;,,                      N 16Hal1 !
+$PAR  G(FCC_4SL,MN:MN:FE:NI:VA),,       +ZERO;,,                      N 16Hal1 !
+$PAR  G(FCC_4SL,NI:NI:FE:MN:VA),,       +10*T;,,                      N 16Hal1 !
+ PAR  G(FCC_4SL,MN:MN:FE:NI:VA),,       -3000;,,                      N 16Hal1 !
+$
+ FUNCTION FFE2MNNI  298.15  +2*U1FFEMN+2*U1FFENI+U1FMNNI;              6000 N !
+ FUNCTION FFEMN2NI  298.15  +2*U1FFEMN+U1FFENI+2*U1FMNNI;              6000 N !
+ FUNCTION FFEMNNI2  298.15  +U1FFEMN+2*U1FFENI+2*U1FMNNI;              6000 N !
+$ ------------------------------------------------------------------------------
+$ Fe-Ni-C
+$
+$ A. Gabriel, P. Gustafson, I. Ansara, Calphad, 11, 203-18(1987).
+$
+$ Checked against paper. Wrong sign for L(BCC_A2,FE,NI:C;0) in paper.
+$
+$ The hcp interaction should probably not be the same as the fcc interaction.
+$
+$ New cementite in Fe-C from 10Hal.
+$ Fe-Ni liquid modified by 93Lee1 and fcc ordering added by 03Dup.
+$ Ni-C modified by 06Hal2.
+$
+ PAR  L(LIQUID,C,FE,NI;0),,             +122200-58.8*T;,,             N 87Gab !
+ PAR  L(LIQUID,C,FE,NI;1),,             +92200-58.8*T;,,              N 87Gab !
+ PAR  L(LIQUID,C,FE,NI;2),,             +152200-58.8*T;,,             N 87Gab !
+$
+ PAR  L(FCC_A1,FE,NI:C;0),,             +49074-7.32*T;,,              N 87Gab !
+ PAR  L(FCC_A1,FE,NI:C;1),,             -25800;,,                     N 87Gab !
+$
+ PAR  L(A1_FCC,FE,NI:C;0),,             +49074-7.32*T;,,              N 87Gab !
+ PAR  L(A1_FCC,FE,NI:C;1),,             -25800;,,                     N 87Gab !
+$
+ PAR  L(BCC_A2,FE,NI:C;0),,             -956.63-1.28726*T;,,          N 87Gab !
+ PAR  L(BCC_A2,FE,NI:C;1),,             +1789.03-1.92912*T;,,         N 87Gab !
+$
+ PAR  L(A2_BCC,FE,NI:C;0),,             -956.63-1.28726*T;,,          N 87Gab !
+ PAR  L(A2_BCC,FE,NI:C;1),,             +1789.03-1.92912*T;,,         N 87Gab !
+$
+ PAR  L(CEMENTITE_D011,FE,NI:C;0),,     +29400;,,                     N 87Gab !
+$
+$ Metastable
+$
+$PAR  L(HCP_A3,FE,NI:C;0),,             +49074-7.32*T;,,              N Same !
+$PAR  L(HCP_A3,FE,NI:C;1),,             -25800;,,                     N Same !
+$
+ PAR  G(M23C6_D84,FE:NI:C),,            +0.869565*GFEM23C6
+             +0.130435*GNIM23C6;,,                                    N 91Lee !
+ PAR  G(M23C6_D84,NI:FE:C),,            +0.869565*GNIM23C6
+             +0.130435*GFEM23C6;,,                                    N 91Lee !
+ PAR  L(M23C6_D84,FE,NI:FE:C;0),,       +196000;,,                    N 91Lee !
+ PAR  L(M23C6_D84,FE,NI:NI:C;0),,       +196000;,,                    N 91Lee !
+$
+ PAR  L(M7C3_D101,FE,NI:C;0),,          +68600;,,                     N 91Lee !
+$ ------------------------------------------------------------------------------
+$ Mn-Ni-C
+$
+$ Not yet modelled.
+$
+$ ------------------------------------------------------------------------------
+$ Higher-order systems
+$ ------------------------------------------------------------------------------
+$ Al-Co-Cr-Ni
+$
+$ X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu, Calphad, 52, 125-42(2016).
+$
+$ Checked against author's tdb.
+$
+ PAR  G(FCC_4SL,AL:CO:CR:NI:VA),,       +U1FALCO+U1FALCR+U1FALNI
+             +U1FCOCR+U1FCONI+U1FCRNI+ALCOCRNI;,,                     N 17Hal2 !
+$
+ FUNCTION ALCOCRNI  298.15  0.0;                                       6000 N ! 
+$ ------------------------------------------------------------------------------
+$ Al-Fe-Mn-C
+$
+$ K.-G. Chin, H.-J. Lee, J.-H. Kwak, J.-Y. Kang, B.-J. Lee,
+$ J. Alloys Compd., 505, 217-23(2010).
+$
+ PAR  L(FCC_A1,AL,FE,MN:C;0),,          -679200+400*T;,,              N 10Chi !
+ PAR  L(A1_FCC,AL,FE,MN:C;0),,          -679200+400*T;,,              N 10Chi !
+$
+ PAR  G(KAPPA_E21,AL:FE,MN:C),,         +9600;,,                      N 10Chi !
+$ ------------------------------------------------------------------------------
+$ Co-Fe-Ni-C
+$
+$ A. Fernandez Guillermet, Z. Metallkd., 79, 524-36(1988).
+$
+ PAR  L(FCC_A1,CO,FE,NI:C;0),,          -61862;,,                     N 88Fer2 !
+ PAR  L(A1_FCC,CO,FE,NI:C;0),,          -61862;,,                     N 88Fer2 !
+$ ------------------------------------------------------------------------------
+$
+$
+ LIST-OF-REFERENCE
+ NUMBER  SOURCE
+  Null   'Unknown source'
+  Lin    'Linear combination of lattice stabilities'
+  Same   'Same or similar interaction as in the corresponding stable phase'
+  REFLAV 'Laves phase convention: G(LAVES,X:X)=+3*GHSERXX+15000'
+  COST   'COST 507 database, 1998'
+  SGCOST 'COST 507 database, SGTE unary database V.3.0, 1996; Al, B, Nd, Ti, Zn'
+  85Gus  'P. Gustafson, Scand. J. Metall., 14, 259-67(1985); Fe-C'
+  85Xin  'Z.S. Xing, D.D. Gohil, A.T. Dinsdale, T. Chart,
+          DMA(A) 103, National Physical Laboratory, London, 1985; Fe-Ni'
+  86Din  'A.T. Dinsdale, T.G. Chart, NPL, unpublished, 1986; Cr-Ni'
+  87And1 'J.-O. Andersson, B. Sundman, Calphad, 11, 83-92(1987); Cr-Fe'
+  87And2 'J.-O. Andersson, Calphad, 11, 271-76(1987); Cr-C'
+  87Fer1 'A. Fernandez Guillermet, Z. Metallkd., 78, 700-709(1987); Co-C'
+  87Fer2 'A. Fernandez Guillermet,
+          High Temp. High Press., 19, 477-99(1987); Co-Fe'
+  87Fer3 'A. Fernandez Guillermet, Z. Metallkd., 78, 639-47(1987); Co-Ni' 
+  87Gab  'A. Gabriel, P. Gustafson, I. Ansara,
+          Calphad, 11, 203-18(1987); Ni-C, Fe-Ni-C'
+  88And2 'J.-O. Andersson, Calphad, 12, 9-23(1988); Fe-Mo-C'
+  88And3 'J.-O. Andersson, Metall. Trans A, 19A, 627-36(1988); Cr-Fe-C'
+  88Gus5 'P. Gustafson, Metall. Trans. A, 19A, 2547-54(1988); Cr-Fe-W-C'
+  88Gus6 'P. Gustafson, Calphad, 11, 277-92(1987); Cr-Ni-W'
+  88Fer1 'A. Fernandez Guillermet, Z. Metallkd., 79, 317-29(1988); Co-Fe-C'
+  88Fer2 'A. Fernandez Guillermet, Z. Metallkd., 79, 524-36(1988);
+          Co-Ni-C, Co-Fe-Ni-C'
+  89Fer1 'A. Fernandez Guillermet, Metall. Trans. A, 20A, 935-56(1989); Co-W-C'
+  89Fer2 'A. Fernandez Guillermet, Calphad, 13, 1-22(1989); Co-Fe-Ni'
+  89Hua1 'W. Huang, Calphad, 13, 231-42(1989); Co-Mn'
+  89Hua2 'W. Huang, Calphad, 13, 243-52(1989); Fe-Mn'
+  90Fri1 'K. Frisk, Metall. Trans. A, 21A, 2477-88(1990); Cr-Fe-N' 
+  90Hil  'M. Hillert, C. Qiu, Metall. Trans. A, 21A, 1673-80(1990); Cr-Fe-Ni'
+  90Hua1 'W. Huang, Scand. J. Metall., 19, 26-32(1990); Mn-C,'
+  90Hua2 'W. Huang, Metall. Trans. A, 21A, 2115-23(1990); Fe-Mn-C'
+  90Hua4 'W. Huang, Calphad, 14, 11-22(1990); Co-Fe-Mn'
+  90Kaj  'M. Kajihara, M. Hillert,
+          Metall. Mater. Trans. A, 21A, 2777-87(1990); Cr-C'
+  91Din  'A.T. Dinsdale, Calphad, 15, 317-425(1991).'
+  91Du   'H. Du, M. Hillert, Z. Metallkd., 82, 310-16(1991); Fe-C-N'
+  91Fer  'A. Fernandez Guillermet, W. Huang,
+          Int. J. Thermophys., 12, 1077-1102(1991); Mn-V-C'
+  91Hua4 'W. Huang, Metall. Trans. A, 22A, 1911-20(1991); Fe-Mn-V-C'
+  91Lee  'B.-J. Lee, unpublished, 1991; Cr-Fe-Ni-C'
+  92Fer  'A. Fernandez-Guillermet, G. Grimvall,
+          J. Phys. Chem. Solids, 53, 105-25(1992); Cr-C, Ni-C'
+  92Lee  'B.-J. Lee, Calphad, 16, 121-49(1992); Cr-C, Ni-C, Cr-Fe-C, Cr-Ni-C'
+  92Qiu  'C. Qiu, ISIJ Int., 32, 1117-27(1992); Cr-Fe-Mo-C'
+  93Fri  'K. Frisk, Calphad, 17, 335-49(1993); Cr-Mn-N'
+  93Lee1 'B.-J. Lee, Calphad, 17, 251-68(1993); Cr-Fe'
+  93Lee2 'B.-J. Lee, Metall. Trans. A, 24A, 1017-25 (1993); Cr-Mn-C, Cr-Fe-Mn-C'
+  93Lee3 'B.-J. Lee, Metall. Trans. A, 24, 1919-33(1993); Cr-Mn'
+  93Lee4 'B.-J. Lee, Taehan Kumsok Hakhoechi, 31, 480-89(1993); Cr-Fe-Ni'
+  93Qiu  'C. Qiu, Metall. Trans. A, 24A, 2393-2409(1993); Cr-Fe-Mn-N'
+  93Sei  'M. Seiersten, COST 507, Final report round 2, 1998; Al-Fe'
+  95Dup  'N. Dupin, Thesis, LTPCM, France, 1995; Al-Cr-Ni, Al-Ni-Ti'
+  95Gro  'J. Groebner, H.L. Lukas, F. Aldinger,
+          J. Alloys Compd., 220, 8-14(1995); Al-C'
+  96Gro  'J. Groebner, H.L. Lukas, F. Aldinger,
+          Calphad, 20, 247-54(1996); Al-Si-C'
+  97Ans  'I. Ansara, N. Dupin, H.L. Lukas, B. Sundman,
+          J. Alloys Compd., 247, 20-30(1997); Al-Ni'
+  97Jan  'A. Jansson, PhD Thesis, Stockholm 1997; Al-Fe-Mn'
+  97Kus  'A. Kusoffsky, B. Jansson, Calphad, 21, 321-33(1997); Co-Cr, Co-Cr-C'
+  98Dup  'N. Dupin, I. Ansara, Rev. Metall. CIT, 95, 1121-29(1998); Al-Co'
+  98Lee  'B.-J. Lee, COST 507, Final report round 2, 1998; Cr-Mn'
+  98Sau1 'N. Saunders, COST 507, Final report round 2, 1998; Al-Cr'
+  99Dup1 'N. Dupin, I. Ansara, Z. Metallkd., 90, 76-85(1999); Al-Ni'
+  99Dup2 'N. Dupin, unpublished revision, 1999; Al-Co'
+  99Gho  'G. Ghosh, Metall. Mater. Trans. A, 30A, 1481-94(1999),
+          SGTE unary database V.5.0, 2009; Ni'
+  99SGUN 'SGTE unary database V.4.1, 1999.'
+  00Sub  'N. Subasic, Licentiate Thesis, Stockholm, 2000; Al-Cr'
+  00Wes  'S. Westman, unpublished, 2000; Co-Cr, Cr-Fe'
+  01Dup  'N. Dupin, I. Ansara, B. Sundman, Calphad, 25, 279-98(2001); Al-Cr-Ni'
+  01Sun  'B Sundman, fix to avoid BCC with just Va (in LB1-v2).'
+  02Ohn  'I. Ohnuma, H. Enoki, O. Ikeda, R. Kainuma, H. Ohtani, B. Sundman,
+          K. Ishida, Acta Mater., 50, 379-93(2002); Co-Fe'
+  02Sun  'B. Sundman, default vacancy interaction in BCC, 2002'
+  03Dup  'N. Dupin, B. Sundman, March 2003 at JEEP,
+          including SRO in Al-Ni and Fe-Ni'
+  04Bra  'J. Bratberg, K. Frisk, Metall. Mater. Trans. A,
+          35A, 3649-63(2004); Cr-Fe-V-C'
+  04Oht  'H. Ohtani, M. Yamano, M. Hasebe, Calphad, 28, 177-90(2004);
+          Al-Co-C, Al-Ni-C'
+  05Guo  'C. Guo, Z. Du, Intermetallics, 13, 525-34(2005); Mn-Ni'
+  06Hal1 'B. Hallstedt, D. Music, Z. Sun,
+          Int. J. Mater. Res., 97, 539-42(2006); Al-Cr-C'
+  06Hal2 'B. Hallstedt, unpublished, 2006; Ni-C'
+  06Hal3 'B. Hallstedt, unpublished, 2006; Cr-Ni-C'
+  06Mar  'A. Markstrom, S. Norgren, K. Frisk, B. Jansson, T. Sterneland,
+          Int. J. Mater. Res., 97, 1243-50(2006); Co-Cr-C'
+  07Du   'Y. Du, J. Wang, J. Zhao, J.C. Schuster, F. Weitzer, R. Schmid-Fetzer,
+          M. Ohno, H. Xu, Z.-K. Liu, S. Shang, W. Zhang,
+          Int. J. Mater. Res., 98, 855-71(2007); Al-Mn'
+  07Fra  'P. Franke, Int. J. Mater. Res., 98, 954-60(2007); Mn-Ni'
+  07Zha  'L. Zhang, Y. Du, Calphad, 31, 529-40(2007); Al-Fe-Ni'
+  08Con  'D. Connetable, J. Lacaze, P. Maugis, B. Sundman,
+          Calphad, 32, 361-70(2008); Al-Fe, Al-Fe-C'
+  08Hal  'B. Hallstedt, fcc ordering parameters, 2008; Fe-Mn'
+  09Sun  'B. Sundman, I. Ohnuma, N. Dupin, U.R. Kattner, S.G. Fries,
+          Acta Mater., 57, 2896-2908(2009); Al-Fe'
+  09Zha1 'L. Zhang, Y. Du, H. Xu, S. Liu, Y. Liu, F. Zheng, N. Dupin, H. Zhou,
+          C. Tang, Int. J. Mater. Res., 100, 160-75(2009); Fe-Mn-Ni'
+  09Zha2 'L. Zhang, J. Wang, Y. Du, R. Hu, P. Nash, X.-G. Lu, C. Jiang,
+          Acta Mater., 57, 5324-41(2009); Al-Fe-Ni'
+  10Chi  'K.-G. Chin, H.-J. Lee, J.-H. Kwak, J.-Y. Kang, B.-J. Lee,
+          J. Alloys Compd., 505, 217-23(2010); Al-Mn-C, Al-Fe-Mn-C'
+  10Dju  'D. Djurovic, B. Hallstedt, J. von Appen, R. Dronskowski,
+          Calphad, 34, 279-85(2010); Mn-C'
+  10Hal  'B. Hallstedt, D. Djurovic, J. von Appen, R. Dronskowski, A. Dick,
+          F. Koermann, T. Hickel, J. Neugebauer,
+          Calphad, 34, 129-33(2010); Fe-C'
+  11Dju  'D. Djurovic, B. Hallstedt, J. von Appen, R. Dronskowski,
+          Calphad, 35, 479-91(2011); Fe-Mn, Fe-Mn-C'
+  12Dju  'D. Djurovic, fcc and bcc ordering, modified Al11Mn4-ht, 2012; Al-Mn'
+  12Hal  'B. Hallstedt, adjusted magnetic parameters, 2012; Fe-Mn, Fe-Mn-C'
+  12Khv1 'A.V. Khvan, B. Hallstedt, K. Chang, Calphad, 39, 54-61(2012); Cr-C'
+  13Lin  'B.B. Lindahl, M. Selleby, Calphad, 43, 86-93(2013); Al-Fe-Mn'
+  14Kap  'B. Kaplan, A. Markstrom, A. Blomqvist, S. Norgren, M. Selleby,
+          Calphad, 46, 226-36(2014); Co-Cr-C'
+  14Khv  'A.V. Khvan, B. Hallstedt, C. Broeckmann,
+          Calphad, 46, 24-33(2014); Cr-Fe-C'
+  14Wan  'Y. Wang, C. Chen, Z. Zhang, J. Long, T. Xu, X. Liu, L. Zhang, Y. Peng,
+          P. Zhou, Y. Du, Int. J. Refract. Met. Hard Mater., 46, 43-51(2014);
+          Al-Ni-C'
+  15Liu  'X.L. Liu, T. Gheno, B.B. Lindahl, G. Lindwall, B. Gleeson, Z.-K. Liu,
+          PLoS ONE, 10, e0121386(2015); Al-Co, Al-Co-Cr'
+  16Liu  'X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu,
+          Calphad, 52, 125-142(2016); Al-Co, Al-Co-Cr, Co-Cr-Ni'
+  16Hal1 'B. Hallstedt, ternary fcc ordering parameter, 2016; Fe-Mn-Ni'
+  16Hal2 'B. Hallstedt, parameter to destabilise Va in B2_BCC, 2016'
+  16Hal3 'B. Hallstedt, added reciprocal to fcc-ordering, 2016; Cr-Ni'
+  16Hal4 'B. Hallstedt, Cr-Ni sigma phase parameter adjusted, 2016; Cr-Fe-Ni'
+  16Hal5 'B. Hallstedt, changed U1FFENI, 2016'
+  16Hal6 'B. Hallstedt, refitted sigma parameters, 2016; Cr-Mn, Cr-Fe-Mn'
+  16Hal7 'B. Hallstedt, unpublished, 2016; Cr-Mn-Ni'
+  16Hal8 'B. Hallstedt, Co-Cr-Ni sigma and hcp interactions, 2016; Co-Cr-Ni'
+  16Liu  'X.L. Liu, G. Lindwall, T. Gheno, Z.-K. Liu, 
+          Calphad, 52, 125-142(2016); Al-Co, Al-Co-Cr, Al-Co-Ni, Co-Cr-Ni
+          Al-Co-Cr-Ni'
+  16Tan  'F. Tang, B. Hallstedt, Calphad, 55, 260-69(2016); Cr-Ni'
+  16Wan  'Y. Wang, G. Cacciamani, J. Alloys Compd., 688, 422-35(2016); Al-Ni'
+  17Hal1 'B. Hallstedt, estimated kappa parameter, 2017; Al-Co-C, Al-Ni-C'
+  17Hal2 'B. Hallstedt, default ternary fcc ordering parameters, 2017'
+  17Hal3 'B. Hallstedt, destabilising cementite in Co-Cr-C, 2017'
+!

@@ -1,23 +1,13 @@
-name: example-environment
-
+name: calphad
+channels:
+  - conda-forge
+  - nodefaults
 dependencies:
-  - python=3.6
-  - numpy
-  - matplotlib
-  - cython
-  - matplotlib
-  - pyparsing
-  - sphinx
-  - jupyter
-  - notebook
-  - numpy
-  - scipy
-  - nose
-  - pandas
-  - sympy
-  - dask
-  - dill
-  - distributed
-  - xarray
+  - python>=3
+  - pycalphad==0.8.2
+  - scheil
+  - espei
+  - pip
   - pip:
-    - git+https://github.com/pycalphad/pycalphad.git@develop
+    - jupyter_offlinenotebook
+
