@@ -7,3 +7,4 @@ dependencies:
   - pycalphad==0.8.2
   - scheil
   - espei
+  - voila

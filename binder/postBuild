@@ -1,5 +1,7 @@
 #!/bin/bash
 
+jupyter labextension install @jupyter-voila/jupyterlab-preview
+
 # Import the workspace into JupyterLab
 jupyter lab workspaces import binder/workspace.json
 
