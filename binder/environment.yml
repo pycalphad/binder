@@ -8,3 +8,6 @@ dependencies:
   - scheil
   - espei
   - voila
+  - pip
+  - pip:
+      - ipyvuetify

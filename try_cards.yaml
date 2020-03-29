@@ -1,0 +1,37 @@
+- title: Binary Phase Diagrams
+  description: |
+    Several examples of binary phase diagram calculation
+    with plotting of Gibbs energy surfaces.
+  hero_image: https://pycalphad.org/docs/latest/_images/BinaryExamples_9_1.png
+  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=lab%2Ftree%2FBinaryExamples.ipynb
+
+- title: Ternary Phase Diagrams
+  description: |
+    A tutorial introducing basic features of ternary phase diagram calculation
+    and property heat maps.
+  hero_image: https://pycalphad.org/docs/latest/_images/TernaryExamples_2_1.png
+  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=lab%2Ftree%2FTernaryExamples.ipynb
+
+- title: Multi-Component Step Diagrams
+  description: |
+    Compute phase amounts, compositions, and other properties of multi-component systems.
+  hero_image: https://pycalphad.org/docs/latest/_images/EquilibriumWithOrdering_16_1.png
+  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=lab%2Ftree%2FEquilibriumWithOrdering.ipynb
+
+- title: Try the Graphical Interface!
+  description: |
+    A basic example of using pycalphad with a user-specified database. Give it a try!
+  hero_image: https://upload.wikimedia.org/wikipedia/commons/2/2e/Simple_Periodic_Table_Chart-en.svg
+  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=voila%2Frender%2FBuilder.ipynb
+
+- title: Scheil Solidification
+  description: |
+    A simple example of computing a Scheil-Gulliver solidification profile.
+  hero_image: https://raw.githubusercontent.com/pycalphad/scheil/master/docs/_static/Al-30Zn_Scheil_simulation.png
+  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=lab%2Ftree%2Fscheil.ipynb
+
+- title: Custom Property Models
+  description : |
+   User-specified property models enable more material properties to be computed with Calphad.
+  hero_image: https://pycalphad.org/docs/latest/_images/ViscosityModel_14_0.png
+  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=lab%2Ftree%2FViscosityModel.ipynb

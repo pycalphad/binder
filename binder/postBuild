@@ -1,8 +1,8 @@
 #!/bin/bash
 
-jupyter labextension install @jupyter-voila/jupyterlab-preview
+#jupyter labextension install @jupyter-voila/jupyterlab-preview
 jupyter serverextension enable voila --sys-prefix
-jupyter lab build
+jupyter labextension install jupyter-vuetify
 
 # Import the workspace into JupyterLab
 jupyter lab workspaces import binder/workspace.json
@@ -10,3 +10,4 @@ jupyter lab workspaces import binder/workspace.json
 # jupyter-offlinenotebook is automatically installed by repo2docker.
 # Uninstall to avoid conflicts
 jupyter labextension uninstall --no-build jupyter-offlinenotebook
+jupyter lab build

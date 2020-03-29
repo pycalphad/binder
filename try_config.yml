@@ -1,0 +1,5 @@
+app_bar_links:
+    'install': 'https://pycalphad.org/docs/latest/INSTALLING.html'
+    'docs': 'https://pycalphad.org/docs/latest'
+    'github': 'https://github.com/pycalphad/pycalphad'
+    
