@@ -3,7 +3,7 @@
     Several examples of binary phase diagram calculation
     with plotting of Gibbs energy surfaces.
   hero_image: https://pycalphad.org/docs/latest/_images/BinaryExamples_9_1.png
-  url: https://mybinder.org/v2/gh/pycalphad/binder/builder_test?urlpath=lab%2Ftree%2FBinaryExamples.ipynb
+  url: /lab/tree/BinaryExamples.ipynb
 
 - title: Ternary Phase Diagrams
   description: |
