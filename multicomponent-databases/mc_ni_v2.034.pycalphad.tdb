@@ -1,8 +1,11 @@
-$ Changes by Brandon Bocklund (2021-04-15):
-$ - Re-encoded to UTF-8
-$ - Fixed invalid reference format in PARAMETER L(BCC_A2,CR,V:VA;1)
-$ - Fixed invalid reference format in PARAMETER G(ALN,AL:N;0)
-
+$ Changes by Brandon Bocklund
+$ 2021-04-15:
+$   - Re-encoded to UTF-8
+$   - Fixed invalid reference format in PARAMETER L(BCC_A2,CR,V:VA;1)
+$   - Fixed invalid reference format in PARAMETER G(ALN,AL:N;0)
+$ 2021-05-21:
+$   - Fixed invalid reference format in G(ALN,AL:N;0)
+$   - Explictly make L(LIQUID,NB,NI,TI;0) = 0 according to REF:164
 $**************************************************************************
 $
 $ mc_ni_v2.034.tdb
@@ -1977,6 +1980,8 @@ PARAMETER L(LIQUID,FE,S,TI;0) 273.00 -750000; 6000.00  N
 REF:12 !
 PARAMETER L(LIQUID,FE,S,V;0) 273.00 -120000; 6000.00  N
 REF:12 !
+PARAMETER L(LIQUID,NB,NI,TI;0) 273.00 0; 6000.00  N
+REF:164 !
 PARAMETER L(LIQUID,NB,NI,TI;1) 273.00 -45000; 6000.00  N
 REF:164 !
 PARAMETER L(LIQUID,NB,NI,TI;2) 273.00 +160000; 6000.00  N
@@ -8669,7 +8674,7 @@ $
  PHASE ALN  %  2 1   1  !
     CONSTITUENT ALN  : AL : N :  !
 PARAMETER G(ALN,AL:N;0) 273.00 -262982+63*T+GHSERAL#+GHSERNN#; 6000.00  N
-REF:Kozeschni/kRadis2008 !
+REF:Kozeschni-kRadis2008 !
 $
 $###########################################################################
 $                   THERMODYNAMIC PARAMETERS: ALN_EQU

@@ -1,5 +1,6 @@
-$ Changes by Brandon Bocklund on 2021-04-15:
-$ - Re-encoded to UTF-8
+$ Changes by Brandon Bocklund:
+$ - Re-encoded to UTF-8 (2021-04-15)
+$ - Fix whitespace in reference `REF:test koze`
 
 $**************************************************************************
 $
@@ -4108,14 +4109,14 @@ $>> 2 !
 $
 
 PARAMETER G(BCC_DISL,*:C,VA;1) 273.00 +500000-450*T; 1273.16  N
-REF:test koze10 !
+REF:testkoze10 !
 PARAMETER G(BCC_DISL,*:N,VA;1) 273.00 +350000-280*T; 1273.16  N
-REF:test koze10 !
+REF:testkoze10 !
 
 PARAMETER G(BCC_DISL,FE:C,VA;1) 273.00 +500000-450*T; 1273.16  N
-REF:test koze10 !
+REF:testkoze10 !
 PARAMETER G(BCC_DISL,FE:N,VA;1) 273.00 +350000-280*T; 1273.16  N
-REF:test koze10 !
+REF:testkoze10 !
 $
 $###########################################################################
 $                   THERMODYNAMIC PARAMETERS: HCP_A3
